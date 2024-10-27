@@ -1,21 +1,50 @@
-// /src/styles/theme.ts
 export const theme = {
   colors: {
-    primary: '#3498db',
-    secondary: '#2ecc71',
-    background: '#f5f5f5',
-    text: '#333',
+    primary: '#5D5FEF',
+    secondary: '#81B1FF',
+    background: '#F9FAFB',
+    textBlack: '#151D48',
+    textBlue: '#4079ED',
+    textGray: '#737791',
+    textNavy: '#444A6D',
+    lineGray: '#EDF2F6',
+    white: '#FFFFFF',
+    lightGray: '#F6F6F6',
+    green: '#00B69B',
+    red: '#FF0000',
+    pastelRed: '#FFE2E5',
+    pastelYellow: '#FFF4DE',
+    pastelGreen: '#DCFCE7',
+    pastelPurple: '#F3E8FF',
   },
-  fontSizes: {
-    small: '0.8rem',
-    medium: '1rem',
-    large: '1.2rem',
+
+  typography: {
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: {
+      xLarge: '2.25rem', // 36px
+      large: '1.875rem', // 30px
+      mediumLarge: '1.5rem', // 24px
+      medium: '1.125rem', // 18px
+      default: '1rem', // 16px
+      small: '0.875rem', // 14px
+      xSmall: '0.75rem', // 12px
+    },
+    fontWeight: {
+      semibold: 600,
+      medium: 500,
+      regular: 400,
+    },
   },
-  spacing: {
+
+  borderRadius: {
     small: '8px',
     medium: '16px',
-    large: '24px',
+    large: '20px',
+  },
+
+  shadows: {
+    section: '0px 4px 20px rgba(238, 238, 238, 0.5)',
+    card: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+    button: '0px 2px 8px rgba(0, 0, 0, 0.15)',
   },
 };
-
-export type ThemeType = typeof theme;

@@ -43,7 +43,7 @@ export const GlobalStyles = () => (
 
       body {
         background-color: ${theme.colors.background};
-        color: ${theme.colors.text};
+        color: ${theme.colors.textBlack};
       }
     `}
   />
