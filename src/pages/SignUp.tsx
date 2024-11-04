@@ -18,28 +18,11 @@ const Container = styled.div`
   transform: translateY(-120px); /* 컨테이너 전체를 위로 올림 */
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 100px;
-`;
-
-const Icon = styled.img`
-  width: 80px;
-  height: 80px;
-  margin-right: 10px;
-`;
-
-const ServiceName = styled.h2`
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.primary};
-`;
-
 const Title = styled.h1`
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 20px;
+  align-self: flex-start; /* 텍스트를 왼쪽에 정렬 */
 `;
 
 const Input = styled.input`
@@ -58,18 +41,6 @@ const Input = styled.input`
   }
 `;
 
-const SignUpButton = styled.button`
-  align-self: flex-middle; /* 오른쪽 정렬 */  
-  font-size: 0.8rem;
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.colors.primary};
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const Button = styled.button`
   width: 100%;
   padding: 10px;
@@ -82,17 +53,17 @@ const Button = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
   }
+    &:disabled {
+    background-color: ${({ theme }) => theme.colors.lightGray};
+    cursor: not-allowed;
+  }
 `;
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    console.log('로그인 정보', { email, password });
-    navigate('/');
-  };
+  const [confirmpassword, setConfirmPassword] = useState('');
 
   const handleSignUp = () => {
     navigate('/signup');
@@ -100,11 +71,7 @@ const Login = () => {
 
   return (
     <Container>
-      <Header>
-        <Icon src={logo} alt="A-Meet logo" />
-        <ServiceName>A-Meet</ServiceName>
-      </Header>
-      
+      <Title>Sign Up</Title>
       <Input
         type="email"
         placeholder="Email"
@@ -113,15 +80,20 @@ const Login = () => {
       />
       <Input
         type="password"
-        placeholder="Password"
+        placeholder="Password (4~10자리)"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      <Input
+        type="password"
+        placeholder="Password (비밀번호 확인)"
+        value={confirmpassword}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <Spacer height={30} />
-      <Button onClick={handleLogin}>Log In</Button>
-      <SignUpButton onClick={handleSignUp}>sign up with e-mail</SignUpButton>
+      <Button onClick={handleSignUp}>Sign Up!</Button>
     </Container>
   );
 };
 
-export default Login;
+export default SignUp;
