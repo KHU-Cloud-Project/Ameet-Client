@@ -77,11 +77,33 @@ const LoginLink = styled.span`
   }
 `;
 
+const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  text-align: center;
+`;
+
+const ModalText = styled.p`
+  font-size: 1rem;
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 1.5; /* 줄 간격 조정 */
+  word-break: keep-all; /* 긴 단어가 있을 때 줄이 자연스럽게 나눠지도록 */
+`;
+
 const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
+  const [showmodal, setShowModal] = useState(false);
 
   const isEmailValid = email.includes('@');
 
@@ -92,9 +114,13 @@ const SignUp = () => {
 
   const handleSignUp = () => {
     if (isFormValid) {
-        // 실제 Sign Up 로직 수행
-        navigate('/signup');
+        setShowModal(true);
       }
+  };
+
+  const handleModalConfirm = () => {
+    setShowModal(false);
+    navigate('/login'); // 로그인 페이지로 이동
   };
 
   const handleNavigateToLogin = () => {
@@ -128,6 +154,12 @@ const SignUp = () => {
       <Spacer height={30} />
       <Button onClick={handleSignUp} disabled={!isFormValid}>Sign Up!</Button>
       <LoginLink onClick={handleNavigateToLogin}>Already have an account? Login</LoginLink>
+      {showmodal && (
+          <Modal>
+            <ModalText>회원가입이 완료되었습니다!</ModalText>
+            <Button onClick={handleModalConfirm}>확인</Button>
+          </Modal>
+      )}
     </Container>
   );
 };
