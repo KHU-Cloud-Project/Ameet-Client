@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
-import logo from '../assets/dummy logo.png';
+// import logo from '../assets/dummy logo.png';
 
 const Container = styled.div`
   display: flex;
@@ -54,8 +54,26 @@ const Button = styled.button`
     background-color: ${({ theme }) => theme.colors.secondary};
   }
     &:disabled {
-    background-color: ${({ theme }) => theme.colors.lightGray};
+    background-color: ${({ theme }) => theme.colors.textGray};
     cursor: not-allowed;
+  }
+`;
+
+const ErrorMessage = styled.span`
+  color: red;
+  font-size: 0.8rem;
+  align-self: flex-start; /* 오류 메시지를 왼쪽에 정렬 */
+  margin-bottom: 5px;
+`;
+
+const LoginLink = styled.span`
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.colors.primary};
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -65,33 +83,51 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
 
+  const isEmailValid = email.includes('@');
+
+  const isPasswordLengthValid = password.length >= 4 && password.length <= 10;
+
+  const doPasswordsMatch =  password === confirmpassword;
+  const isFormValid = isEmailValid && isPasswordLengthValid && password && confirmpassword && doPasswordsMatch;
+
   const handleSignUp = () => {
-    navigate('/signup');
+    if (isFormValid) {
+        // 실제 Sign Up 로직 수행
+        navigate('/signup');
+      }
+  };
+
+  const handleNavigateToLogin = () => {
+    navigate('/login');
   };
 
   return (
     <Container>
-      <Title>Sign Up</Title>
+      <Title>Create an Account</Title>
       <Input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+      {!isEmailValid && email && <ErrorMessage>유효한 이메일 주소를 입력하세요.</ErrorMessage>}
       <Input
         type="password"
         placeholder="Password (4~10자리)"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+        {!isPasswordLengthValid && password && <ErrorMessage>비밀번호는 4~10자리여야 합니다.</ErrorMessage>}
       <Input
         type="password"
         placeholder="Password (비밀번호 확인)"
         value={confirmpassword}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => setConfirmPassword(e.target.value)}
       />
+      {!doPasswordsMatch && confirmpassword && <ErrorMessage>비밀번호가 일치하지 않습니다!</ErrorMessage>}
       <Spacer height={30} />
-      <Button onClick={handleSignUp}>Sign Up!</Button>
+      <Button onClick={handleSignUp} disabled={!isFormValid}>Sign Up!</Button>
+      <LoginLink onClick={handleNavigateToLogin}>Already have an account? Login</LoginLink>
     </Container>
   );
 };
