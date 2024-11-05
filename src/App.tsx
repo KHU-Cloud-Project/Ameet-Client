@@ -1,11 +1,11 @@
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './styles/theme';
-import { GlobalStyles } from './styles/globalStyles';
 import { Route, Routes } from 'react-router';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { GlobalStyles } from './styles/GlobalStyles';
 
 const AppContainer = styled.div`
   display: flex;
