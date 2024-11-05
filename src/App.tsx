@@ -2,7 +2,7 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from './styles/theme';
 import { Route, Routes } from 'react-router';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/DashboardPage';
 import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/GlobalStyles';

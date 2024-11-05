@@ -1,25 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
+import LeftPanel from './leftPanel/LeftPanel';
+// Import other dashboard-specific components
 
 const DashboardContainer = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
-  // overflow: hidden;
-  background-color: ${(props) => props.theme.colors.background};
-`;
-
-const LeftPanel = styled.div`
-  width: clamp(220px, 18vw, 260px);
-  background-color: ${(props) => props.theme.colors.white};
-  padding: 50px 0px 100px;
 `;
 
 const ContentWrapper = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
 `;
+
+// 추후 Modularize
 
 const Header = styled.div`
   height: 60px;
@@ -79,7 +75,7 @@ const Block3 = styled.div`
 function Dashboard() {
   return (
     <DashboardContainer>
-      <LeftPanel>Dashboard Left Panel (fixed open)</LeftPanel>
+      <LeftPanel />
       <ContentWrapper>
         <Header>Dashboard Header</Header>
         <DashboardBody>
