@@ -1,108 +1,99 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-function Dashboard() {
-  return (
-    <div css={dashboardContainer}>
-      <aside css={leftPanel}>Dashboard Left Panel (fixed open)</aside>
-      <header css={header}>Dashboard Header</header>
-      <main css={mainContent}>
-        <section css={block1}>Block 1 (horizontally scrollable)</section>
-        <section css={block2}>Block 2</section>
-        <section css={block3}>Block 3</section>
-      </main>
-    </div>
-  );
-}
-
-export default Dashboard;
-
-const dashboardContainer = css`
+const DashboardContainer = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
   // overflow: hidden;
-  background-color: #e0e0e0; /* Light gray background */
+  background-color: ${(props) => props.theme.colors.background};
 `;
 
-const leftPanel = css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 200px;
-  background-color: #ff8a80; /* Pink color for the left panel */
-  padding: 16px;
-  box-sizing: border-box;
+const LeftPanel = styled.div`
+  width: clamp(220px, 18vw, 260px);
+  background-color: ${(props) => props.theme.colors.white};
+  padding: 50px 0px 100px;
 `;
 
-const header = css`
-  position: fixed;
-  top: 0;
-  left: 200px; /* Aligns with left panel width */
-  right: 0;
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const Header = styled.div`
   height: 60px;
-  background-color: #66bb6a; /* Green color for the header */
+  background-color: ${(props) => props.theme.colors.green};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+  font-size: ${(props) => props.theme.typography.fontSize.medium};
+  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
+  color: ${(props) => props.theme.colors.white};
+  box-shadow: ${(props) => props.theme.shadows.section};
 `;
 
-const mainContent = css`
-  margin-left: 200px; /* Offset for the left panel */
-  margin-top: 60px; /* Offset for the header */
-  padding: 16px;
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  grid-template-rows: auto 1fr;
-  gap: 16px;
-  height: calc(100vh - 60px); /* Fill the remaining height */
-  overflow: auto;
+const DashboardBody = styled.div`
+  display: flex;
+  flex: 1;
+  padding: 28px 38px 34px 28px; // TRBL
+  overflow: hidden;
 `;
 
-const block1 = css`
-  background-color: #fff59d; /* Yellow color */
+const BlockWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  gap: 26px;
+`;
+
+const BlockColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 2.9;
+  gap: 18px;
+`;
+
+const Block1 = styled.div`
+  background-color: ${(props) => props.theme.colors.pastelYellow};
   padding: 16px;
-  border-radius: 8px;
-  grid-column: span 2;
+  border-radius: ${(props) => props.theme.borderRadius.small};
   overflow-x: auto;
   white-space: nowrap;
+  flex: 1;
 `;
 
-const block2 = css`
-  background-color: #80deea; /* Light blue color */
+const Block2 = styled.div`
+  background-color: ${(props) => props.theme.colors.pastelGreen};
   padding: 16px;
-  border-radius: 8px;
+  border-radius: ${(props) => props.theme.borderRadius.small};
+  flex: 2;
 `;
 
-const block3 = css`
-  background-color: #b39ddb; /* Purple color */
+const Block3 = styled.div`
+  background-color: ${(props) => props.theme.colors.pastelPurple};
   padding: 16px;
-  border-radius: 8px;
+  border-radius: ${(props) => props.theme.borderRadius.small};
+  flex: 1;
 `;
 
-// import { useNavigate } from 'react-router';
-// import { Spacer } from '../components/common/Spacer';
+function Dashboard() {
+  return (
+    <DashboardContainer>
+      <LeftPanel>Dashboard Left Panel (fixed open)</LeftPanel>
+      <ContentWrapper>
+        <Header>Dashboard Header</Header>
+        <DashboardBody>
+          <BlockWrapper>
+            <BlockColumn>
+              <Block1>Block 1 (horizontally scrollable)</Block1>
+              <Block2>Block 2</Block2>
+            </BlockColumn>
+            <Block3>Block 3</Block3>
+          </BlockWrapper>
+        </DashboardBody>
+      </ContentWrapper>
+    </DashboardContainer>
+  );
+}
 
-// const Dashboard = () => {
-//   const navigate = useNavigate();
-
-//   const handleBtnClick = () => {
-//     navigate('/login');
-//   };
-
-//   return (
-//     <div style={{ padding: '20px', textAlign: 'center' }}>
-//       <h2>Dashboard Page</h2>
-//       <Spacer height={30} />
-//       <button onClick={handleBtnClick}>로그인 페이지로 이동</button>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
+export default Dashboard;
