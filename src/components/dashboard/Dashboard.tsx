@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import LeftPanel from './leftPanel/LeftPanel';
+import Header from './header/Header';
 // Import other dashboard-specific components
 
 const DashboardContainer = styled.div`
@@ -16,18 +17,6 @@ const ContentWrapper = styled.div`
 `;
 
 // 추후 Modularize
-
-const Header = styled.div`
-  height: 60px;
-  background-color: ${(props) => props.theme.colors.green};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: ${(props) => props.theme.typography.fontSize.medium};
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.white};
-  box-shadow: ${(props) => props.theme.shadows.section};
-`;
 
 const DashboardBody = styled.div`
   display: flex;
@@ -73,11 +62,23 @@ const Block3 = styled.div`
 `;
 
 function Dashboard() {
+  const dummyTitle = 'Space 1';
+  const hasSearchbar = true;
+  const dummyUser = {
+    name: 'Cherrie',
+    role: 'Member',
+    profileImage: 'https://picsum.photos/200',
+  };
+
   return (
     <DashboardContainer>
       <LeftPanel />
       <ContentWrapper>
-        <Header>Dashboard Header</Header>
+        <Header
+          title={dummyTitle}
+          hasSearchbar={hasSearchbar}
+          user={dummyUser}
+        />
         <DashboardBody>
           <BlockWrapper>
             <BlockColumn>

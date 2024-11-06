@@ -15,6 +15,7 @@ const Panel = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  border-right: 1px solid ${(props) => props.theme.colors.lightGray};
 `;
 
 function LeftPanel() {
