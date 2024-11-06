@@ -3,8 +3,20 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
-import logo from '../assets/dummy logo.png';
+import logo from '../assets/images/dummy logo.png';
+import backgroundImg from '../assets/images/login bg.png';
 import { useEffect } from 'react';
+
+const BackgroundWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(${backgroundImg});
+  background-size: cover;
+  background-position: center;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -16,13 +28,15 @@ const Container = styled.div`
   padding: 20px;
   background-color: ${({ theme }) => theme.colors.background};
   box-sizing: border-box;
-  transform: translateY(-120px); /* 컨테이너 전체를 위로 올림 */
+  border-radius: 12px; /* 모서리를 둥글게 설정 */
+  transform: translateY(-60px); /* 컨테이너 전체를 위로 올림 */
 `;
 
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `;
 
 const Icon = styled.img`
@@ -57,6 +71,13 @@ const Input = styled.input`
     outline: none;
     border-color: ${({ theme }) => theme.colors.green};
   }
+`;
+
+const ErrorMessage = styled.span`
+  color: red;
+  font-size: 0.8rem;
+  align-self: flex-start;
+  margin-bottom: 5px;
 `;
 
 const RememberMeContainer = styled.div`
@@ -137,6 +158,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
     // 컴포넌트가 마운트될 때 로컬스토리지에서 데이터를 가져옴
     useEffect(() => {
@@ -150,15 +173,32 @@ const Login = () => {
     }, []);
 
   const handleLogin = () => {
-    if (rememberMe) {
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
+    let valid = true;
+
+    if (!email.includes('@')) {
+      setEmailError('이메일을 확인해주세요');
+      valid = false;
     } else {
-      localStorage.removeItem('email');
-      localStorage.removeItem('password');
+      setEmailError('');
     }
-    console.log('로그인 정보', { email, password });
-    navigate('/');
+
+    if (password.length < 4 || password.length > 10) {
+      setPasswordError('비밀번호는 4~10자 입니다');
+      valid = false;
+    } else {
+      setPasswordError('');
+    }
+    if (valid) {
+      if (rememberMe) {
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+      } else {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+      }
+      console.log('로그인 정보', { email, password });
+      navigate('/');
+    }
   };
 
   const handleSignUp = () => {
@@ -166,7 +206,8 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <BackgroundWrapper>
+      <Container>
       <Header>
         <Icon src={logo} alt="A-Meet logo" />
         <ServiceName>A-Meet</ServiceName>
@@ -178,12 +219,14 @@ const Login = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+      {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
       <Input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
 
       <RememberMeContainer>
         <RememberMeLabel>
@@ -201,6 +244,7 @@ const Login = () => {
       <Button onClick={handleLogin}>Log In</Button>
       <SignUpButton onClick={handleSignUp}>sign up with e-mail</SignUpButton>
     </Container>
+    </BackgroundWrapper>
   );
 };
 
