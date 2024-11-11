@@ -15,10 +15,15 @@ export const theme = {
     lightGray: '#F6F6F6',
     green: '#00B69B',
     red: '#FF0000',
-    pastelRed: '#FFE2E5',
+    pastelPink: '#FFE2E5',
+    pastelDarkPink: '#FF90A6',
     pastelYellow: '#FFF4DE',
+    pastelDarkYellow: '#F0B37E',
     pastelGreen: '#DCFCE7',
+    pastelDarkGreen: '#7AD7A7',
     pastelPurple: '#F3E8FF',
+    pastelDarkPurple: '#BE82FF',
+    pastelBlue: '#F0F9FF',
   },
 
   typography: {

@@ -6,23 +6,10 @@ export const GlobalStyles = () => (
     styles={(theme: Theme) => css`
       ${reset}
 
-      /* 기본 폰트 설정 */
       html, body, textarea {
         padding: 0;
         margin: 0;
-        font-family:
-          'Poppins',
-          -apple-system,
-          BlinkMacSystemFont,
-          'Segoe UI',
-          Roboto,
-          Oxygen,
-          Ubuntu,
-          Cantarell,
-          'Fira Sans',
-          'Droid Sans',
-          'Helvetica Neue',
-          sans-serif;
+        font-family: ${theme.typography.fontFamily};
       }
 
       * {
@@ -33,7 +20,7 @@ export const GlobalStyles = () => (
         cursor: pointer;
         text-decoration: none;
         transition: 0.25s;
-        color: #000;
+        color: ${theme.colors.textBlack};
       }
 
       ol,
@@ -44,6 +31,7 @@ export const GlobalStyles = () => (
       body {
         background-color: ${theme.colors.background};
         color: ${theme.colors.textBlack};
+        font-size: ${theme.typography.fontSize.default};
       }
     `}
   />
