@@ -6,7 +6,17 @@ export const GlobalStyles = () => (
     styles={(theme: Theme) => css`
       ${reset}
 
-      html, body, textarea {
+      @font-face {
+        font-family: 'DigitalNumbers';
+        src: url('/src/assets/fonts/DigitalNumbers-Regular.ttf')
+          format('truetype');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      html,
+      body,
+      textarea {
         padding: 0;
         margin: 0;
         font-family: ${theme.typography.fontFamily};
