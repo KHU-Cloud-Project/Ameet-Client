@@ -3,6 +3,7 @@ import { theme } from './styles/theme';
 import { GlobalStyles } from './styles/globalStyles';
 import { Route, Routes } from 'react-router';
 import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -23,6 +24,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </BrowserRouter>
