@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import LeftPanel from './leftPanel/LeftPanel';
 import Header from './header/Header';
 import MemberBoard from './memberBoard/MemberBoard';
+import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -54,12 +55,12 @@ const Block2 = styled.div`
   flex: 2;
 `;
 
-const Block3 = styled.div`
-  background-color: ${(props) => props.theme.colors.pastelPurple};
-  padding: 16px;
-  border-radius: ${(props) => props.theme.borderRadius.small};
-  flex: 1;
-`;
+// const Block3 = styled.div`
+//   background-color: ${(props) => props.theme.colors.pastelPurple};
+//   padding: 16px;
+//   border-radius: ${(props) => props.theme.borderRadius.small};
+//   flex: 1;
+// `;
 
 function Dashboard() {
   const dummyHasSearchbar = true;
@@ -88,7 +89,7 @@ function Dashboard() {
               />
               <Block2>Block 2</Block2>
             </BlockColumn>
-            <Block3>Block 3</Block3>
+            <MeetingSettingBoard />
           </BlockWrapper>
         </DashboardBody>
       </ContentWrapper>
