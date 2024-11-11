@@ -31,8 +31,8 @@ export const theme = {
     fontSize: {
       xLarge: '2.25rem', // 36px
       large: '1.875rem', // 30px
-      mediumLarge: '1.5rem', // 24px
-      medium: '1.125rem', // 18px
+      mediumLarge: '1.4rem', // 24px
+      medium: '1.10rem', // 18px
       default: '1rem', // 16px
       small: '0.875rem', // 14px
       xSmall: '0.75rem', // 12px
@@ -45,9 +45,9 @@ export const theme = {
   },
 
   borderRadius: {
-    small: '8px',
-    medium: '16px',
-    large: '18px',
+    small: '0.5rem',
+    medium: '0.875rem',
+    large: '1rem',
   },
 
   shadows: {
