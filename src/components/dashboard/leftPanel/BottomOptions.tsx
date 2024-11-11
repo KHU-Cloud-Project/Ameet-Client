@@ -5,11 +5,11 @@ const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 40px;
 `;
 
 const OptionItem = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.medium};
+  font-size: ${(props) => props.theme.typography.fontSize.small};
   color: ${(props) => props.theme.colors.textGray};
   display: flex;
   align-items: center;

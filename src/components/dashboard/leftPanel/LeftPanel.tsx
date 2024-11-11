@@ -4,31 +4,34 @@ import Logo from './Logo';
 import SpaceList from './SpaceList';
 import BottomOptions from './BottomOptions';
 import ManageBtn from './ManageBtn';
-import Divider from '../../common/Divider';
 import { Spacer } from '../../common/Spacer';
+import Divider from '../../common/Divider';
 
 const Panel = styled.div`
   width: clamp(220px, 18vw, 260px);
   background-color: ${(props) => props.theme.colors.white};
-  padding: 20px 0px;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   border-right: 1px solid ${(props) => props.theme.colors.lightGray};
+  white-space: nowrap;
 `;
 
 function LeftPanel() {
   return (
     <Panel>
-      <div>
+      <div style={{ padding: '30px 12px' }}>
         <Logo />
-        <Spacer height={90} />
+        <Spacer height={66} />
         <ManageBtn />
+        <Spacer height={24} />
         <SpaceList />
       </div>
-      <div>
+      <div style={{ width: '100%', paddingBottom: '38px' }}>
         <Divider />
+        <Spacer height={36} />
         <BottomOptions />
       </div>
     </Panel>
