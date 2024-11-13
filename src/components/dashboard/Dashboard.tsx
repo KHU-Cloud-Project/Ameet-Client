@@ -4,6 +4,7 @@ import LeftPanel from './leftPanel/LeftPanel';
 import Header from './header/Header';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
+import LogBoard from './logBoard/LogBoard';
 
 const DashboardContainer = styled.div`
   display: flex;
@@ -41,13 +42,6 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-const Block2 = styled.div`
-  background-color: ${(props) => props.theme.colors.pastelGreen};
-  padding: 16px;
-  border-radius: ${(props) => props.theme.borderRadius.small};
-  flex: 1;
-`;
-
 function Dashboard() {
   const dummyHasSearchbar = true;
   const dummyIsAdmin = true;
@@ -73,7 +67,7 @@ function Dashboard() {
                 isAdmin={dummyIsAdmin}
                 onRemoveMember={handleRemoveMember}
               />
-              <Block2>Block 2</Block2>
+              <LogBoard />
             </BlockColumn>
             <MeetingSettingBoard />
           </BlockWrapper>
