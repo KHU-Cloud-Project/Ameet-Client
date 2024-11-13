@@ -4,20 +4,21 @@ import LeftPanel from './leftPanel/LeftPanel';
 import Header from './header/Header';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
+import LogBoard from './logBoard/LogBoard';
 
 const DashboardContainer = styled.div`
   display: flex;
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 `;
 
 const ContentWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
-
-// 추후 Modularize
 
 const DashboardBody = styled.div`
   display: flex;
@@ -30,37 +31,16 @@ const BlockWrapper = styled.div`
   display: flex;
   flex: 1;
   gap: 26px;
+  overflow: hidden;
 `;
 
 const BlockColumn = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 2.9;
+  flex: 1;
   gap: 18px;
+  overflow: hidden;
 `;
-
-// const Block1 = styled.div`
-//   background-color: ${(props) => props.theme.colors.pastelYellow};
-//   padding: 16px;
-//   border-radius: ${(props) => props.theme.borderRadius.small};
-//   overflow-x: auto;
-//   white-space: nowrap;
-//   flex: 1;
-// `;
-
-const Block2 = styled.div`
-  background-color: ${(props) => props.theme.colors.pastelGreen};
-  padding: 16px;
-  border-radius: ${(props) => props.theme.borderRadius.small};
-  flex: 2;
-`;
-
-// const Block3 = styled.div`
-//   background-color: ${(props) => props.theme.colors.pastelPurple};
-//   padding: 16px;
-//   border-radius: ${(props) => props.theme.borderRadius.small};
-//   flex: 1;
-// `;
 
 function Dashboard() {
   const dummyHasSearchbar = true;
@@ -87,7 +67,7 @@ function Dashboard() {
                 isAdmin={dummyIsAdmin}
                 onRemoveMember={handleRemoveMember}
               />
-              <Block2>Block 2</Block2>
+              <LogBoard />
             </BlockColumn>
             <MeetingSettingBoard />
           </BlockWrapper>

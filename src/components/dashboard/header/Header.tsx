@@ -2,6 +2,8 @@
 import styled from '@emotion/styled';
 import { User } from '../../../models/User';
 import { Spacer } from '../../common/Spacer';
+import BoardTitle from '../../common/BoardTitle';
+import { theme } from '../../../styles/theme';
 
 type HeaderProps = {
   title: string;
@@ -11,23 +13,16 @@ type HeaderProps = {
 
 const HeaderContainer = styled.div`
   display: flex;
-  flex-shrink: 0;
+  // flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 38px;
+  padding: 20px 24px;
   background-color: ${(props) => props.theme.colors.white};
   // border-bottom: 1px solid ${(props) => props.theme.colors.lightGray};
 `;
 
 const HeaderRightSideWrapper = styled.div`
   display: flex;
-`;
-
-const Title = styled.h1`
-  font-size: ${(props) => props.theme.typography.fontSize.xLarge};
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.textBlack};
-  margin-right: 20px;
 `;
 
 const SearchBar = styled.div`
@@ -49,7 +44,7 @@ const SearchInput = styled.input`
   border: none;
   background: transparent;
   font-size: ${(props) => props.theme.typography.fontSize.medium};
-  color: ${(props) => props.theme.colors.red};
+  color: ${(props) => props.theme.colors.textBlack};
 
   &:focus {
     outline: none;
@@ -71,7 +66,6 @@ const LanguageFlag = styled.span`
 const NotificationIcon = styled.div`
   margin-left: 20px;
   font-size: ${(props) => props.theme.typography.fontSize.large};
-  color: ${(props) => props.theme.colors.red};
   position: relative;
   cursor: pointer;
 `;
@@ -112,7 +106,11 @@ const ProfileRole = styled.div`
 function Header({ title, hasSearchbar, user }: HeaderProps) {
   return (
     <HeaderContainer>
-      <Title>{title}</Title>
+      <BoardTitle
+        children={title}
+        fontSize={theme.typography.fontSize.xLarge}
+        marginBottom={0}
+      />
       {hasSearchbar && (
         <SearchBar>
           <SearchIcon>🔍</SearchIcon>

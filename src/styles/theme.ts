@@ -2,7 +2,7 @@ export const theme = {
   colors: {
     primary: '#5D5FEF',
     secondary: '#81B1FF',
-    background: '#FAFBFC',
+    background: '#F9FAFA',
     textBlack: '#151D48',
     textBlue: '#4079ED',
     textLightGray: '#979797',
@@ -29,9 +29,12 @@ export const theme = {
   typography: {
     fontFamily: "'Poppins', sans-serif",
     fontSize: {
-      xLarge: '2.25rem', // 36px
-      large: '1.875rem', // 30px
-      mediumLarge: '1.4rem', // 24px
+      //xLarge: '2.25rem', // 36px
+      // large: '1.875rem', // 30px
+      // mediumLarge: '1.4rem', // 24px
+      xLarge: '2.05rem',
+      large: '1.5rem',
+      mediumLarge: '1.32rem',
       medium: '1.10rem', // 18px
       default: '1rem', // 16px
       small: '0.875rem', // 14px

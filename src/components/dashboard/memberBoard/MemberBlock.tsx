@@ -21,6 +21,7 @@ const BlockContainer = styled.div<{ backgroundColor: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 18px;
 `;
 
 const ProfileImage = styled.img`

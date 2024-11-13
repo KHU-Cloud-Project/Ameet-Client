@@ -4,23 +4,9 @@ import BotBlock from './BotBlock';
 import DashboardTimer from './DashboardTimer';
 import Divider from '../../common/Divider';
 import { Spacer } from '../../common/Spacer';
-
-const BoardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 24px 16px 18px;
-  border-radius: ${(props) => props.theme.borderRadius.medium};
-  background-color: ${(props) => props.theme.colors.white};
-  box-shadow: ${(props) => props.theme.shadows.section};
-  height: 100%;
-`;
-
-const Title = styled.h2`
-  font-size: 20px;
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.textBlack};
-  margin-bottom: 28px;
-`;
+import { theme } from '../../../styles/theme';
+import BoardTitle from '../../common/BoardTitle';
+import BoardContainer from '../../common/BoardContainer';
 
 const SectionTitle = styled.div`
   font-size: 14px;
@@ -47,8 +33,12 @@ const MeetingSettingBoard: React.FC = () => {
   };
 
   return (
-    <BoardContainer>
-      <Title>Meeting Settings</Title>
+    <BoardContainer flex="none" padding="20px 20px 18px">
+      <BoardTitle
+        children="Meeting Settings"
+        fontSize={theme.typography.fontSize.mediumLarge}
+        marginBottom={24}
+      />
       <SectionTitle>Bots</SectionTitle>
       <Divider marginTop="6px" marginBottom="4px" />
       <BotBlock
