@@ -1,24 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import LeftPanel from './leftPanel/LeftPanel';
 import Header from './header/Header';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
 import LogBoard from './logBoard/LogBoard';
-
-const DashboardContainer = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-`;
-
-const ContentWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-`;
 
 const DashboardBody = styled.div`
   display: flex;
@@ -51,29 +36,26 @@ function Dashboard() {
   };
 
   return (
-    <DashboardContainer>
-      <LeftPanel />
-      <ContentWrapper>
-        <Header
-          title={dummyTitle}
-          hasSearchbar={dummyHasSearchbar}
-          user={dummyUser}
-        />
-        <DashboardBody>
-          <BlockWrapper>
-            <BlockColumn>
-              <MemberBoard
-                members={dummyMembers}
-                isAdmin={dummyIsAdmin}
-                onRemoveMember={handleRemoveMember}
-              />
-              <LogBoard />
-            </BlockColumn>
-            <MeetingSettingBoard />
-          </BlockWrapper>
-        </DashboardBody>
-      </ContentWrapper>
-    </DashboardContainer>
+    <>
+      <Header
+        title={dummyTitle}
+        hasSearchbar={dummyHasSearchbar}
+        user={dummyUser}
+      />
+      <DashboardBody>
+        <BlockWrapper>
+          <BlockColumn>
+            <MemberBoard
+              members={dummyMembers}
+              isAdmin={dummyIsAdmin}
+              onRemoveMember={handleRemoveMember}
+            />
+            <LogBoard />
+          </BlockColumn>
+          <MeetingSettingBoard />
+        </BlockWrapper>
+      </DashboardBody>
+    </>
   );
 }
 

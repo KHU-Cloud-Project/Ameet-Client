@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 const LogoContainer = styled.div`
   font-size: ${(props) => props.theme.typography.fontSize.large};
@@ -8,6 +9,7 @@ const LogoContainer = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 `;
 
 const LogoIcon = styled.div`
@@ -17,11 +19,18 @@ const LogoIcon = styled.div`
   border-radius: 8px;
   text-align: center;
   align-content: center;
+  justify-content: center;
 `;
 
 function Logo() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/');
+  };
+
   return (
-    <LogoContainer>
+    <LogoContainer onClick={handleClick}>
       <LogoIcon>✈️</LogoIcon>
       A-meet
     </LogoContainer>

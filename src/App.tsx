@@ -3,10 +3,11 @@ import { theme } from './styles/theme';
 import { Route, Routes } from 'react-router';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Dashboard from './pages/DashboardPage';
+import DashboardPage from './pages/DashboardPage';
 import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/globalStyles';
+import SpacePage from './pages/SpacePage';
 
 const AppContainer = styled.div`
   display: flex;
@@ -25,7 +26,8 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/space" element={<SpacePage />} />
           </Routes>
         </BrowserRouter>
       </AppContainer>

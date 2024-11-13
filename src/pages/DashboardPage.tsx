@@ -1,11 +1,11 @@
-/** @jsxImportSource @emotion/react */
+import PageLayout from '../components/common/PageLayout';
 import Dashboard from '../components/dashboard/Dashboard';
 
 function DashboardPage() {
   return (
-    <div>
+    <PageLayout>
       <Dashboard />
-    </div>
+    </PageLayout>
   );
 }
 
