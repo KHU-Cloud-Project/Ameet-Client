@@ -2,6 +2,8 @@
 import styled from '@emotion/styled';
 import MemberBlock from './MemberBlock';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
+import BoardTitle from '../../common/BoardTitle';
+import BoardContainer from '../../common/BoardContainer';
 // import { LeftArrow, RightArrow } from './ScrollArrows';
 
 type Member = {
@@ -17,30 +19,15 @@ type MemberBoardProps = {
   onRemoveMember?: (nickname: string) => void;
 };
 
-const BoardContainer = styled.div`
-  padding: 20px;
-  background-color: ${(props) => props.theme.colors.white};
-  border-radius: ${(props) => props.theme.borderRadius.medium};
-  box-shadow: ${(props) => props.theme.shadows.section};
-  // flex: 1;
-`;
-
-const Title = styled.h2`
-  font-size: ${(props) => props.theme.typography.fontSize.large};
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.textBlack};
-  margin-bottom: 20px;
-`;
-
 const MemberCount = styled.span`
-  font-size: ${(props) => props.theme.typography.fontSize.large};
+  padding-left: 8px;
+  font-size: ${(props) => props.theme.typography.fontSize.mediumLarge};
   color: ${(props) => props.theme.colors.textGray};
 `;
 
 const ScrollableMemberList = styled.div`
   display: flex;
   overflow-x: auto;
-  // overflow-x: scroll;
   white-space: nowrap;
   max-width: 100%;
 `;
@@ -54,10 +41,10 @@ const MemberListContainer = styled.div`
 
 function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
   return (
-    <BoardContainer>
-      <Title>
+    <BoardContainer flex="none">
+      <BoardTitle>
         Members <MemberCount>({members.length})</MemberCount>
-      </Title>
+      </BoardTitle>
       <ScrollableMemberList>
         {/* <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}> */}
         <ScrollMenu>

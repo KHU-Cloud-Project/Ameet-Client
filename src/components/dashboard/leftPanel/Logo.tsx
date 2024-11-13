@@ -6,7 +6,8 @@ const LogoContainer = styled.div`
   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
   color: ${(props) => props.theme.colors.textBlack};
   display: flex;
-  align-items: start;
+  gap: 10px;
+  align-items: center;
 `;
 
 const LogoIcon = styled.div`
@@ -14,6 +15,7 @@ const LogoIcon = styled.div`
   height: 40px;
   background-color: ${(props) => props.theme.colors.primary};
   border-radius: 8px;
+  text-align: center;
   align-content: center;
 `;
 

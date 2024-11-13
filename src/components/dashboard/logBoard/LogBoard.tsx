@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import LogBlock from './LogBlock';
 import LogModal from './LogModal';
 import UploadBtn from './UploadBtn';
-import TitleBar from '../../common/BlockTitle';
+import BoardTitle from '../../common/BoardTitle';
+import BoardContainer from '../../common/BoardContainer';
 
 type Log = {
   id: string;
@@ -12,16 +13,6 @@ type Log = {
   length: number;
   participants: { nickname: string }[];
 };
-
-const BoardContainer = styled.div`
-  padding: 20px;
-  background-color: ${(props) => props.theme.colors.white};
-  border-radius: ${(props) => props.theme.borderRadius.medium};
-  box-shadow: ${(props) => props.theme.shadows.section};
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
 
 const LogsContainer = styled.div`
   display: flex;
@@ -92,8 +83,8 @@ function LogBoard() {
 
   return (
     <BoardContainer>
-      <TitleBar
-        titleText="Meeting Logs"
+      <BoardTitle
+        children="Meeting Logs"
         actionComponent={<UploadBtn onClick={handleUploadClick} />}
       />
       <LogsContainer>

@@ -30,10 +30,11 @@ export const theme = {
     fontFamily: "'Poppins', sans-serif",
     fontSize: {
       //xLarge: '2.25rem', // 36px
-      xLarge: '2.05rem',
       // large: '1.875rem', // 30px
+      // mediumLarge: '1.4rem', // 24px
+      xLarge: '2.05rem',
       large: '1.5rem',
-      mediumLarge: '1.4rem', // 24px
+      mediumLarge: '1.32rem',
       medium: '1.10rem', // 18px
       default: '1rem', // 16px
       small: '0.875rem', // 14px
