@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import styled from '@emotion/styled';
 import LogBlock from './LogBlock';
 import LogModal from './LogModal';
@@ -19,27 +20,59 @@ const LogsContainer = styled.div`
   flex-direction: column;
 `;
 
-const Pagination = styled.div`
+const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-top: 16px;
+  gap: 8px;
 `;
 
 const PaginationButton = styled.button`
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
+  font-size: ${(props) => props.theme.typography.fontSize.xSmall};
+  color: ${(props) =>
+    props.disabled ? props.theme.colors.lineGray : props.theme.colors.textGray};
+
+  &:focus {
+    outline: none;
+  }
+  /* &:hover {
+    color: ${(props) =>
+    props.disabled ? props.theme.colors.textGray : props.theme.colors.primary};
+  } */
+`;
+
+const PageNumber = styled.button<{ active?: boolean }>`
   padding: 6px 12px;
-  background-color: ${(props) => props.theme.colors.lightGray};
   border: none;
   border-radius: ${(props) => props.theme.borderRadius.small};
-  cursor: pointer;
-  &:disabled {
-    background-color: ${(props) => props.theme.colors.darkWhite};
-    cursor: not-allowed;
+  background-color: transparent;
+  font-size: ${(props) => props.theme.typography.fontSize.default};
+  font-weight: ${(props) =>
+    props.active
+      ? props.theme.typography.fontWeight.semibold
+      : props.theme.typography.fontWeight.regular};
+  color: ${(props) =>
+    props.active ? props.theme.colors.textBlue : props.theme.colors.textGray};
+  cursor: ${(props) => (props.active ? 'default' : 'pointer')};
+
+  &:hover {
+    background-color: ${(props) =>
+      props.active ? props.theme.colors.white : props.theme.colors.background};
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 
-const dummyLogs: Log[] = Array.from({ length: 25 }, (_, i) => ({
+const dummyLogs: Log[] = Array.from({ length: 20 }, (_, i) => ({
   id: `${i + 1}`,
   name: `Meeting ${i + 1}`,
   date: `2024-09-01 23:00:01`,
@@ -81,6 +114,37 @@ function LogBoard() {
     console.log('Upload button 누름');
   };
 
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const renderPageNumbers = () => {
+    const maxVisiblePages = 5;
+    const startPage = Math.max(
+      1,
+      Math.min(
+        currentPage - Math.floor(maxVisiblePages / 2),
+        totalPages - maxVisiblePages + 1,
+      ),
+    );
+    const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+    const pages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <PageNumber
+          key={i}
+          active={i === currentPage}
+          onClick={() => handlePageClick(i)}
+        >
+          {i}
+        </PageNumber>,
+      );
+    }
+
+    return pages;
+  };
+
   return (
     <BoardContainer>
       <BoardTitle
@@ -104,20 +168,18 @@ function LogBoard() {
           flex: 1,
         }}
       ></div>
-      <Pagination>
+      <PaginationContainer>
         <PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
-          Previous
+          <FaChevronLeft />
         </PaginationButton>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+        {renderPageNumbers()}
         <PaginationButton
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >
-          Next
+          <FaChevronRight />
         </PaginationButton>
-      </Pagination>
+      </PaginationContainer>
       {selectedLog && (
         <LogModal log={selectedLog} onClose={() => setSelectedLog(null)} />
       )}

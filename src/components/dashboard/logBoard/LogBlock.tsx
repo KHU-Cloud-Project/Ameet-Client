@@ -24,7 +24,7 @@ const LogRow = styled.div<{ type: 'header' | 'data' }>`
   color: ${(props) =>
     props.type === 'header'
       ? props.theme.colors.textGray
-      : props.theme.colors.textBlack};
+      : props.theme.colors.textDarkGray};
   display: flex;
   align-items: center;
   padding: 4px 8px;
