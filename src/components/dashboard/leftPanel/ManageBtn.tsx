@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 const Button = styled.button`
   background-color: ${(props) => props.theme.colors.secondary};
@@ -10,10 +11,24 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
   font-size: ${(props) => props.theme.typography.fontSize.medium};
+
+  &:hover {
+    color: ${(props) => props.theme.colors.background};
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 function ManageBtn() {
-  return <Button>Manage Spaces</Button>;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/space');
+  };
+
+  return <Button onClick={handleClick}>Manage Spaces</Button>;
 }
 
 export default ManageBtn;
