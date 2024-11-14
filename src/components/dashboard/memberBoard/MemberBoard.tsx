@@ -40,10 +40,15 @@ const MemberListContainer = styled.div`
 `;
 
 function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
+  const dummyMaxMembers = 8;
+
   return (
     <BoardContainer flex="none">
       <BoardTitle>
-        Members <MemberCount>({members.length})</MemberCount>
+        Members{' '}
+        <MemberCount>
+          ({members.length}/{dummyMaxMembers})
+        </MemberCount>
       </BoardTitle>
       <ScrollableMemberList>
         {/* <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}> */}

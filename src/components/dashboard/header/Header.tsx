@@ -26,7 +26,7 @@ const HeaderRightSideWrapper = styled.div`
 `;
 
 const SearchBar = styled.div`
-  max-width: 480px;
+  max-width: 458px;
   flex: 1;
   display: flex;
   align-items: center;
@@ -40,6 +40,12 @@ const SearchIcon = styled.span`
   color: ${(props) => props.theme.colors.secondary};
 `;
 
+const SpaceDescText = styled.span`
+  color: ${(props) => props.theme.colors.textGray};
+  font-size: ${(props) => props.theme.typography.fontSize.default};
+  font-weight: ${(props) => props.theme.typography.fontWeight.regular};
+`;
+
 const SearchInput = styled.input`
   border: none;
   background: transparent;
@@ -51,20 +57,19 @@ const SearchInput = styled.input`
   }
 `;
 
-const LanguageSelector = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: ${(props) => props.theme.colors.textBlack};
-`;
+// const LanguageSelector = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   cursor: pointer;
+//   color: ${(props) => props.theme.colors.textBlack};
+// `;
 
-const LanguageFlag = styled.span`
-  font-size: ${(props) => props.theme.typography.fontSize.large};
-`;
+// const LanguageFlag = styled.span`
+//   font-size: ${(props) => props.theme.typography.fontSize.large};
+// `;
 
 const NotificationIcon = styled.div`
-  margin-left: 20px;
   font-size: ${(props) => props.theme.typography.fontSize.large};
   position: relative;
   cursor: pointer;
@@ -84,7 +89,6 @@ const ProfileArea = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 20px;
 `;
 
 const ProfileImage = styled.img`
@@ -104,13 +108,18 @@ const ProfileRole = styled.div`
 `;
 
 function Header({ title, hasSearchbar, user }: HeaderProps) {
+  const dummyDescription = 'This is a space for the Cloud Project class';
+
   return (
     <HeaderContainer>
-      <BoardTitle
-        children={title}
-        fontSize={theme.typography.fontSize.xLarge}
-        marginBottom={0}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <BoardTitle
+          children={title}
+          fontSize={theme.typography.fontSize.xLarge}
+          marginBottom={10}
+        />
+        <SpaceDescText>{dummyDescription}</SpaceDescText>
+      </div>
       {hasSearchbar && (
         <SearchBar>
           <SearchIcon>🔍</SearchIcon>
@@ -118,16 +127,16 @@ function Header({ title, hasSearchbar, user }: HeaderProps) {
         </SearchBar>
       )}
       <HeaderRightSideWrapper>
-        <LanguageSelector>
+        {/* <LanguageSelector>
           <LanguageFlag>🇺🇸</LanguageFlag>
           <span>Eng (US)</span>
-        </LanguageSelector>
-        <Spacer width={30} />
+        </LanguageSelector> */}
+        <Spacer width={48} />
         <NotificationIcon>
           🔔
           <NotificationDot />
         </NotificationIcon>
-        <Spacer width={18} />
+        <Spacer width={26} />
         <ProfileArea>
           <ProfileImage src={user.profileImage} alt="Profile" />
           <div>

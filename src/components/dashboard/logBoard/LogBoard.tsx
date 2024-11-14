@@ -72,7 +72,7 @@ const PageNumber = styled.button<{ active?: boolean }>`
   }
 `;
 
-const dummyLogs: Log[] = Array.from({ length: 20 }, (_, i) => ({
+const dummyLogs: Log[] = Array.from({ length: 130 }, (_, i) => ({
   id: `${i + 1}`,
   name: `Meeting ${i + 1}`,
   date: `2024-09-01 23:00:01`,
