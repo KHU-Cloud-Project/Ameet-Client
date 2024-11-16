@@ -2,30 +2,36 @@
 import styled from '@emotion/styled';
 import Header from './meetingHeader/MeetingHeader';
 import MemberBoard from '../dashboard/memberBoard/MemberBoard';
-import MeetingSettingBoard from '../dashboard/meetingSettingBoard/MeetingSettingBoard';
 import LogBoard from '../dashboard/logBoard/LogBoard';
 
-// const DashboardBody = styled.div`
-//   display: flex;
-//   flex: 1;
-//   padding: 28px 38px 34px 28px; // TRBL
-//   overflow: hidden;
-// `;
+const MeetingBody = styled.div`
+  display: flex;
+  flex: 1;
+  padding: 28px 15px 28px 15px; // TRBL
+  overflow: hidden;
+`;
 
-// const BlockWrapper = styled.div`
-//   display: flex;
-//   flex: 1;
-//   gap: 26px;
-//   overflow: hidden;
-// `;
+const DummyBoard = styled.div`
+  display: flex;
+  flex: 1;
+  gap: 26px;
+  overflow: hidden;
+`;
 
-// const BlockColumn = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   flex: 1;
-//   gap: 18px;
-//   overflow: hidden;
-// `;
+const BlockWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  gap: 26px;
+  overflow: hidden;
+`;
+
+const BlockColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 18px;
+  overflow: hidden;
+`;
 
 function Meeting() {
   const dummyHasSearchbar = true;
@@ -42,8 +48,9 @@ function Meeting() {
         hasSearchbar={dummyHasSearchbar}
         user={dummyUser}
       />
-      {/* <DashboardBody>
+      <MeetingBody>
         <BlockWrapper>
+          <DummyBoard />
           <BlockColumn>
             <MemberBoard
               members={dummyMembers}
@@ -52,9 +59,8 @@ function Meeting() {
             />
             <LogBoard />
           </BlockColumn>
-          <MeetingSettingBoard />
         </BlockWrapper>
-      </DashboardBody> */}
+      </MeetingBody>
     </>
   );
 }
