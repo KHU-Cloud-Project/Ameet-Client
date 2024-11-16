@@ -1,11 +1,11 @@
-import PageLayout from '../components/common/PageLayout';
-import Dashboard from '../components/dashboard/Dashboard';
+import MeetingPageLayout from '../components/meeting/meetingPageLayout/MeetingPageLayout';
+import Meeting from '../components/meeting/Meeting';
 
 function DashboardPage() {
   return (
-    <PageLayout>
-      <Dashboard />
-    </PageLayout>
+    <MeetingPageLayout>
+        <Meeting />
+    </MeetingPageLayout>
   );
 }
 
