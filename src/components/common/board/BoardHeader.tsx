@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import { User } from '../../../models/User';
-import { Spacer } from '../../common/Spacer';
-import BoardTitle from '../../common/BoardTitle';
+import { Spacer } from '../Spacer';
+import BoardTitle from './BoardTitle';
 import { theme } from '../../../styles/theme';
 
 type HeaderProps = {
@@ -107,7 +107,7 @@ const ProfileRole = styled.div`
   color: ${(props) => props.theme.colors.primary};
 `;
 
-function Header({ title, hasSearchbar, user }: HeaderProps) {
+function BoardHeader({ title, hasSearchbar, user }: HeaderProps) {
   const dummyDescription = 'This is a space for the Cloud Project class';
 
   return (
@@ -149,4 +149,4 @@ function Header({ title, hasSearchbar, user }: HeaderProps) {
   );
 }
 
-export default Header;
+export default BoardHeader;

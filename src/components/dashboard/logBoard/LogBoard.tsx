@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import LogBlock from './LogBlock';
 import LogModal from './LogModal';
 import UploadBtn from './UploadBtn';
-import BoardTitle from '../../common/BoardTitle';
-import BoardContainer from '../../common/BoardContainer';
+import BoardTitle from '../../common/board/BoardTitle';
+import BoardContainer from '../../common/board/BoardContainer';
 
 type Log = {
   id: string;

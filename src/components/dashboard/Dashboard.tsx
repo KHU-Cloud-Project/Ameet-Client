@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import Header from './header/Header';
+import BoardHeader from '../common/board/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
 import LogBoard from './logBoard/LogBoard';
@@ -37,7 +37,7 @@ function Dashboard() {
 
   return (
     <>
-      <Header
+      <BoardHeader
         title={dummyTitle}
         hasSearchbar={dummyHasSearchbar}
         user={dummyUser}

@@ -5,8 +5,8 @@ import DashboardTimer from './DashboardTimer';
 import Divider from '../../common/Divider';
 import { Spacer } from '../../common/Spacer';
 import { theme } from '../../../styles/theme';
-import BoardTitle from '../../common/BoardTitle';
-import BoardContainer from '../../common/BoardContainer';
+import BoardTitle from '../../common/board/BoardTitle';
+import BoardContainer from '../../common/board/BoardContainer';
 
 const SectionTitle = styled.div`
   font-size: 14px;
