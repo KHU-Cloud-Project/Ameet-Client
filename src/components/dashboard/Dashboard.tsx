@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import BoardHeader from '../common/board/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
-import LogBoard from './logBoard/LogBoard';
+import LogBoard from '../common/logBoard/LogBoard';
 
 const DashboardBody = styled.div`
   display: flex;
