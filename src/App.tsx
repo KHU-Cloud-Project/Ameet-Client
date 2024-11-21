@@ -7,7 +7,7 @@ import DashboardPage from './pages/DashboardPage';
 import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/globalStyles';
-import SpacePage from './pages/SpacePage';
+import SpaceboardPage from './pages/SpaceboardPage';
 
 const AppContainer = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/" element={<DashboardPage />} />
-            <Route path="/space" element={<SpacePage />} />
+            <Route path="/space" element={<SpaceboardPage />} />
           </Routes>
         </BrowserRouter>
       </AppContainer>

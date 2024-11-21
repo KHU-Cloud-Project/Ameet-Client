@@ -40,6 +40,7 @@ function Dashboard() {
       <BoardHeader
         title={dummyTitle}
         hasSearchbar={dummyHasSearchbar}
+        hasDescription={true}
         user={dummyUser}
       />
       <DashboardBody>

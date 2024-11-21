@@ -17,6 +17,7 @@ const BlockContainer = styled.div<{ backgroundColor: string }>`
   padding: 16px;
   border-radius: ${(props) => props.theme.borderRadius.medium};
   width: 180px;
+  height: 142px;
   position: relative;
   display: flex;
   flex-direction: column;

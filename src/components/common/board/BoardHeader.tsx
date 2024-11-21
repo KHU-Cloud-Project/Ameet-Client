@@ -8,6 +8,7 @@ import { theme } from '../../../styles/theme';
 type HeaderProps = {
   title: string;
   hasSearchbar: boolean;
+  hasDescription: boolean;
   user: User;
 };
 
@@ -107,7 +108,12 @@ const ProfileRole = styled.div`
   color: ${(props) => props.theme.colors.primary};
 `;
 
-function BoardHeader({ title, hasSearchbar, user }: HeaderProps) {
+function BoardHeader({
+  title,
+  hasSearchbar,
+  hasDescription,
+  user,
+}: HeaderProps) {
   const dummyDescription = 'This is a space for the Cloud Project class';
 
   return (
@@ -116,9 +122,9 @@ function BoardHeader({ title, hasSearchbar, user }: HeaderProps) {
         <BoardTitle
           children={title}
           fontSize={theme.typography.fontSize.xLarge}
-          marginBottom={10}
+          marginBottom={hasDescription ? 10 : 0}
         />
-        <SpaceDescText>{dummyDescription}</SpaceDescText>
+        {hasDescription && <SpaceDescText>{dummyDescription}</SpaceDescText>}
       </div>
       {hasSearchbar && (
         <SearchBar>
