@@ -17,9 +17,10 @@ type MemberBoardProps = {
 
 const ScrollableSpaceList = styled.div`
   display: flex;
+  flex-direction: column;
   overflow-y: auto;
+  overflow-x: hidden;
   // white-space: nowrap;
-  max-height: 100%;
   // max-width: 100%;
 `;
 
@@ -27,13 +28,15 @@ const SpaceListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  // width: 100%;
   // overflow-x: auto;
   // align-items: center;
 `;
 
 function SpaceArea({ spaces }: MemberBoardProps) {
   return (
-    <BoardContainer flex="none">
+    // <BoardContainer flex="none">
+    <BoardContainer>
       <BoardTitle>Spaces</BoardTitle>
       <ScrollableSpaceList>
         {/* <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}> */}

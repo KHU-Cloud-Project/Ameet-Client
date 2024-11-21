@@ -43,7 +43,9 @@ function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
   const dummyMaxMembers = 8;
 
   return (
-    <BoardContainer flex="none">
+    // <BoardContainer flex="none">
+    <BoardContainer flex={0.6}>
+      {/* todo: flex 설정값 정리하기 */}
       <BoardTitle>
         Members{' '}
         <MemberCount>

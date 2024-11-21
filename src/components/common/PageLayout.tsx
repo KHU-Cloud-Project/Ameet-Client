@@ -4,8 +4,9 @@ import LeftPanel from '../dashboard/leftPanel/LeftPanel';
 
 const LayoutContainer = styled.div`
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  flex: 1;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 `;
 

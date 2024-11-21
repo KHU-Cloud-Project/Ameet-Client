@@ -2,6 +2,7 @@
 import styled from '@emotion/styled';
 import BoardHeader from '../common/board/BoardHeader';
 import SpaceArea from './spaceArea/SpaceArea';
+import LogBoard, { Log } from '../common/logBoard/LogBoard';
 
 const SpaceboardBody = styled.div`
   display: flex;
@@ -23,6 +24,13 @@ const BlockColumn = styled.div`
   flex: 1;
   gap: 18px;
   overflow: hidden;
+  & > div:first-of-type {
+    flex: 1.3;
+  }
+
+  & > div:last-of-type {
+    flex: 1;
+  }
 `;
 
 function Spaceboard() {
@@ -38,8 +46,9 @@ function Spaceboard() {
         <BlockWrapper>
           <BlockColumn>
             <SpaceArea spaces={dummySpaces} />
+            <LogBoard logs={dummyLogs} itemsPerPage={4} />
           </BlockColumn>
-          <BlockColumn style={{ flex: 0.4 }}></BlockColumn>
+          <div>To be Create Space Area</div>
         </BlockWrapper>
       </SpaceboardBody>
     </>
@@ -95,3 +104,16 @@ const dummySpaces = [
     role: 'OWNER',
   },
 ];
+
+const dummyLogs: Log[] = Array.from({ length: 130 }, (_, i) => ({
+  id: `${i + 1}`,
+  name: `Meeting ${i + 1}`,
+  date: `2024-09-01 23:00:01`,
+  length: 3799 + i * 10,
+  participants: [
+    { nickname: 'Say' },
+    { nickname: 'Sumin' },
+    { nickname: 'User3' },
+    { nickname: 'User4' },
+  ],
+}));

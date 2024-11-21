@@ -55,7 +55,7 @@ const PaginationButton = styled.button`
 `;
 
 const PageNumber = styled.button<{ active?: boolean }>`
-  padding: 6px 12px;
+  padding: 0px 12px;
   border: none;
   border-radius: ${(props) => props.theme.borderRadius.small};
   background-color: transparent;
@@ -145,10 +145,11 @@ function LogBoard({ logs, itemsPerPage = 7 }: LogBoardProps) {
   };
 
   return (
-    <BoardContainer flex={1.2}>
+    <BoardContainer>
       <BoardTitle
         children="Meeting Logs"
         actionComponent={<UploadBtn onClick={handleUploadClick} />}
+        marginBottom={20}
       />
       <LogsContainer>
         <LogBlock type="header" />
