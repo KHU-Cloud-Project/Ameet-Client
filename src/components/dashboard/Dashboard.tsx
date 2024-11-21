@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import BoardHeader from '../common/board/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
-import LogBoard from '../common/logBoard/LogBoard';
+import LogBoard, { Log } from '../common/logBoard/LogBoard';
 
 const DashboardBody = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ function Dashboard() {
               isAdmin={dummyIsAdmin}
               onRemoveMember={handleRemoveMember}
             />
-            <LogBoard />
+            <LogBoard logs={dummyLogs} />
           </BlockColumn>
           <MeetingSettingBoard />
         </BlockWrapper>
@@ -101,3 +101,16 @@ const dummyMembers = [
     introduction: 'I AM ZM',
   },
 ];
+
+const dummyLogs: Log[] = Array.from({ length: 130 }, (_, i) => ({
+  id: `${i + 1}`,
+  name: `Meeting ${i + 1}`,
+  date: `2024-09-01 23:00:01`,
+  length: 3799 + i * 10,
+  participants: [
+    { nickname: 'Say' },
+    { nickname: 'Sumin' },
+    { nickname: 'User3' },
+    { nickname: 'User4' },
+  ],
+}));

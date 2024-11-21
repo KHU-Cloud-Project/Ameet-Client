@@ -1,13 +1,19 @@
 import { useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+} from 'react-icons/fa';
 import styled from '@emotion/styled';
 import LogBlock from './LogBlock';
 import LogModal from './LogModal';
 import UploadBtn from './UploadBtn';
 import BoardTitle from '../board/BoardTitle';
 import BoardContainer from '../board/BoardContainer';
+import { formatDate } from '../../../utils/dateUtils';
 
-type Log = {
+export type Log = {
   id: string;
   name: string;
   date: string;
@@ -72,30 +78,20 @@ const PageNumber = styled.button<{ active?: boolean }>`
   }
 `;
 
-const dummyLogs: Log[] = Array.from({ length: 130 }, (_, i) => ({
-  id: `${i + 1}`,
-  name: `Meeting ${i + 1}`,
-  date: `2024-09-01 23:00:01`,
-  length: 3799 + i * 10,
-  participants: [
-    { nickname: 'Say' },
-    { nickname: 'Sumin' },
-    { nickname: 'User3' },
-    { nickname: 'User4' },
-  ],
-}));
+type LogBoardProps = {
+  logs: Log[];
+  itemsPerPage?: number;
+};
 
-const ITEMS_PER_PAGE = 7;
-
-function LogBoard() {
+function LogBoard({ logs, itemsPerPage = 7 }: LogBoardProps) {
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(dummyLogs.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(logs.length / itemsPerPage);
 
-  const currentLogs = dummyLogs.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE,
+  const currentLogs = logs.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
   );
 
   const handleNextPage = () => {
@@ -117,6 +113,9 @@ function LogBoard() {
   const handlePageClick = (page: number) => {
     setCurrentPage(page);
   };
+
+  const handleFirstPage = () => setCurrentPage(1);
+  const handleLastPage = () => setCurrentPage(totalPages);
 
   const renderPageNumbers = () => {
     const maxVisiblePages = 5;
@@ -146,7 +145,7 @@ function LogBoard() {
   };
 
   return (
-    <BoardContainer>
+    <BoardContainer flex={1.2}>
       <BoardTitle
         children="Meeting Logs"
         actionComponent={<UploadBtn onClick={handleUploadClick} />}
@@ -157,18 +156,23 @@ function LogBoard() {
           <LogBlock
             key={log.id}
             type="data"
-            log={log}
-            index={(currentPage - 1) * ITEMS_PER_PAGE + index + 1}
+            log={{
+              ...log,
+              date: formatDate(log.date), // Only format the date
+            }}
+            index={(currentPage - 1) * itemsPerPage + index + 1}
             onClick={() => setSelectedLog(log)}
           />
         ))}
       </LogsContainer>
-      <div
-        style={{
-          flex: 1,
-        }}
-      ></div>
+      <div style={{ flex: 1 }}></div>
       <PaginationContainer>
+        <PaginationButton
+          onClick={handleFirstPage}
+          disabled={currentPage === 1}
+        >
+          <FaAngleDoubleLeft />
+        </PaginationButton>
         <PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
           <FaChevronLeft />
         </PaginationButton>
@@ -178,6 +182,12 @@ function LogBoard() {
           disabled={currentPage === totalPages}
         >
           <FaChevronRight />
+        </PaginationButton>
+        <PaginationButton
+          onClick={handleLastPage}
+          disabled={currentPage === totalPages}
+        >
+          <FaAngleDoubleRight />
         </PaginationButton>
       </PaginationContainer>
       {selectedLog && (
