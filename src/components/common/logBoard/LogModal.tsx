@@ -1,4 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
+import ModalOverlay from '../modal/ModalOverlay';
+import ModalContainer from '../modal/ModalContainer';
+import { formatLength } from '../../../utils/dateUtils';
 
 type Log = {
   id: string;
@@ -12,26 +16,6 @@ type LogModalProps = {
   log: Log;
   onClose: () => void;
 };
-
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalContainer = styled.div`
-  background-color: ${(props) => props.theme.colors.white};
-  padding: 24px;
-  border-radius: ${(props) => props.theme.borderRadius.medium};
-  width: 600px;
-  max-width: 90%;
-`;
 
 const ModalHeader = styled.div`
   display: flex;
@@ -58,7 +42,7 @@ const Content = styled.div`
 
 function LogModal({ log, onClose }: LogModalProps) {
   return (
-    <ModalBackground onClick={onClose}>
+    <ModalOverlay onClose={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <ModalTitle>{log.name}</ModalTitle>
@@ -71,15 +55,8 @@ function LogModal({ log, onClose }: LogModalProps) {
           <p>[Dummy content for agenda goes here]</p>
         </Content>
       </ModalContainer>
-    </ModalBackground>
+    </ModalOverlay>
   );
-}
-
-function formatLength(lengthInSeconds: number) {
-  const hours = Math.floor(lengthInSeconds / 3600);
-  const minutes = Math.floor((lengthInSeconds % 3600) / 60);
-  const seconds = lengthInSeconds % 60;
-  return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
 export default LogModal;
