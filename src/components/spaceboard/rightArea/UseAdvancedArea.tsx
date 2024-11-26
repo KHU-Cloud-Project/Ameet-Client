@@ -3,7 +3,6 @@ import BoardContainer from '../../common/board/BoardContainer';
 import styled from '@emotion/styled';
 import BoardTitle from '../../common/board/BoardTitle';
 import { theme } from '../../../styles/theme';
-// import { FaCheck } from 'react-icons/fa';
 import { HiCheck } from 'react-icons/hi';
 import buttonBg from '/src/assets/images/button_bg.png';
 import logo from '/src/assets/images/dummy logo.png';
@@ -11,7 +10,7 @@ import logo from '/src/assets/images/dummy logo.png';
 const FeatureStyle = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 `;
 
 const CheckIcon = styled.div`
@@ -26,14 +25,14 @@ const CheckIcon = styled.div`
 `;
 
 const BoldText = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.small};
+  font-size: ${(props) => props.theme.typography.fontSize.default};
   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.textBlack};
-  margin-bottom: 2px;
+  color: ${(props) => props.theme.colors.textDarkGray};
+  margin-bottom: 3px;
 `;
 
 const LightText = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.xSmall};
+  font-size: ${(props) => props.theme.typography.fontSize.small};
   font-weight: ${(props) => props.theme.typography.fontWeight.regular};
   color: ${(props) => props.theme.colors.textGray};
 `;
@@ -79,7 +78,7 @@ const UseAdvancedArea = () => {
   return (
     <BoardContainer>
       <BoardTitle
-        children=" Use Advanced Features"
+        children="Use Advanced Features"
         fontSize={theme.typography.fontSize.mediumLarge}
         marginBottom={18}
       />

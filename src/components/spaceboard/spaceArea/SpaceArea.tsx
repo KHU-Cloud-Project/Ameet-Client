@@ -20,6 +20,7 @@ const ScrollableSpaceList = styled.div`
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-right: 12px;
   // white-space: nowrap;
   // max-width: 100%;
 `;
@@ -36,7 +37,7 @@ const SpaceListContainer = styled.div`
 function SpaceArea({ spaces }: MemberBoardProps) {
   return (
     // <BoardContainer flex="none">
-    <BoardContainer>
+    <BoardContainer padding="20px 8px 20px 20px">
       <BoardTitle>Spaces</BoardTitle>
       <ScrollableSpaceList>
         {/* <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}> */}

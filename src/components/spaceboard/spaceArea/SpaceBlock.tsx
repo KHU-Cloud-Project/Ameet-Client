@@ -15,7 +15,7 @@ const BlockContainer = styled.div<{ isJoin: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: ${(props) => (props.isJoin ? 'center' : 'start')};
-  align-items: ${(props) => (props.isJoin ? 'center' : 'start')};
+  align-items: ${(props) => (props.isJoin ? 'center' : 'normal')};
   background-color: ${(props) =>
     props.isJoin ? props.theme.colors.white : props.theme.colors.pastelBlue};
   border-radius: ${(props) => props.theme.borderRadius.medium};
@@ -25,9 +25,9 @@ const BlockContainer = styled.div<{ isJoin: boolean }>`
         ? props.theme.colors.secondary
         : props.theme.colors.pastelBlue};
   padding: 16px;
-  width: 180px;
   height: 142px;
-  margin-bottom: 18px;
+  // width: 180px;
+  // margin-bottom: 18px;
   // position: relative;
 `;
 
@@ -35,8 +35,7 @@ const SpaceName = styled.h3`
   font-size: ${(props) => props.theme.typography.fontSize.medium};
   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
   color: ${(props) => props.theme.colors.textBlack};
-
-  margin-bottom: 2.4px;
+  margin-bottom: 5px;
   white-space: break-spaces;
   overflow-wrap: break-word;
 `;
@@ -62,6 +61,7 @@ const TxtBtn = styled.div<TxtBtnProps>`
   font-size: ${(props) => props.theme.typography.fontSize.small};
   font-weight: ${(props) => props.theme.typography.fontWeight.regular};
   margin-left: 8px;
+
   &:hover {
     color: ${(props) => props.theme.colors.textGray};
   }
