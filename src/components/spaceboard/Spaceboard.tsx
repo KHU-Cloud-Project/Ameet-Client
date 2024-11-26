@@ -20,7 +20,11 @@ const BlockWrapper = styled.div`
   overflow: hidden;
 `;
 
-const BlockColumn = styled.div<{ flex?: string }>`
+const BlockColumn = styled.div<{
+  flex?: string;
+  firstChildFlex: string;
+  lastChildFlex: string;
+}>`
   display: flex;
   flex-direction: column;
   flex: ${(props) => props.flex || '1'};
@@ -28,11 +32,11 @@ const BlockColumn = styled.div<{ flex?: string }>`
   overflow: hidden;
 
   & > div:first-of-type {
-    flex: 1.3;
+    flex: ${(props) => props.firstChildFlex};
   }
 
   & > div:last-of-type {
-    flex: 1;
+    flex: ${(props) => props.lastChildFlex};
   }
 `;
 
@@ -47,7 +51,7 @@ function Spaceboard() {
       />
       <SpaceboardBody>
         <BlockWrapper>
-          <BlockColumn>
+          <BlockColumn firstChildFlex="1.01" lastChildFlex="1">
             <SpaceArea spaces={dummySpaces} />
             <LogBoard
               logs={dummyLogs}
@@ -55,7 +59,13 @@ function Spaceboard() {
               title="All Meeting Logs"
             />
           </BlockColumn>
-          <BlockColumn flex="none">
+          <BlockColumn
+            flex="none"
+            // firstChildFlex="content"
+            // lastChildFlex="1000"
+            firstChildFlex="1.01"
+            lastChildFlex="1"
+          >
             <CreateArea />
             <UseAdvancedArea />
           </BlockColumn>
