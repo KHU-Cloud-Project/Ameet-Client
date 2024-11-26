@@ -79,11 +79,12 @@ const PageNumber = styled.button<{ active?: boolean }>`
 `;
 
 type LogBoardProps = {
+  title?: string;
   logs: Log[];
   itemsPerPage?: number;
 };
 
-function LogBoard({ logs, itemsPerPage = 7 }: LogBoardProps) {
+function LogBoard({ logs, itemsPerPage = 7, title }: LogBoardProps) {
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -147,7 +148,7 @@ function LogBoard({ logs, itemsPerPage = 7 }: LogBoardProps) {
   return (
     <BoardContainer>
       <BoardTitle
-        children="Meeting Logs"
+        children={title ?? 'Meeting Logs'}
         actionComponent={<UploadBtn onClick={handleUploadClick} />}
         marginBottom={20}
       />

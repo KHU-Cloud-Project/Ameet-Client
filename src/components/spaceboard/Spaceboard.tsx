@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import BoardHeader from '../common/board/BoardHeader';
 import SpaceArea from './spaceArea/SpaceArea';
 import LogBoard, { Log } from '../common/logBoard/LogBoard';
+import CreateArea from './rightArea/CreateArea';
+import UseAdvancedArea from './rightArea/UseAdvancedArea';
 
 const SpaceboardBody = styled.div`
   display: flex;
@@ -18,12 +20,13 @@ const BlockWrapper = styled.div`
   overflow: hidden;
 `;
 
-const BlockColumn = styled.div`
+const BlockColumn = styled.div<{ flex?: string }>`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: ${(props) => props.flex || '1'};
   gap: 18px;
   overflow: hidden;
+
   & > div:first-of-type {
     flex: 1.3;
   }
@@ -46,9 +49,16 @@ function Spaceboard() {
         <BlockWrapper>
           <BlockColumn>
             <SpaceArea spaces={dummySpaces} />
-            <LogBoard logs={dummyLogs} itemsPerPage={4} />
+            <LogBoard
+              logs={dummyLogs}
+              itemsPerPage={4}
+              title="All Meeting Logs"
+            />
           </BlockColumn>
-          <div>To be Create Space Area</div>
+          <BlockColumn flex="none">
+            <CreateArea />
+            <UseAdvancedArea />
+          </BlockColumn>
         </BlockWrapper>
       </SpaceboardBody>
     </>
