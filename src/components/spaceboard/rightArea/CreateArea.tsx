@@ -6,6 +6,7 @@ import BoardTitle from '../../common/board/BoardTitle';
 import { theme } from '../../../styles/theme';
 import { css } from '@emotion/react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import CustomBtn from '../../common/CustomBtn';
 
 const Label = styled.label`
   color: ${(props) => props.theme.colors.textGray};
@@ -72,25 +73,25 @@ const CounterBtn = styled.button<{ disabled?: boolean }>`
   }
 `;
 
-const CreateBtn = styled.button`
-  padding: 18px;
-  background-color: ${(props) => props.theme.colors.white};
-  font-size: ${(props) => props.theme.typography.fontSize.large};
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.secondary};
-  border-radius: ${(props) => props.theme.borderRadius.medium};
-  border: 1.8px solid ${(props) => props.theme.colors.secondary};
-  cursor: pointer;
+// const CreateBtn = styled.button`
+//   padding: 18px;
+//   background-color: ${(props) => props.theme.colors.white};
+//   font-size: ${(props) => props.theme.typography.fontSize.large};
+//   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
+//   color: ${(props) => props.theme.colors.secondary};
+//   border-radius: ${(props) => props.theme.borderRadius.medium};
+//   border: 1.8px solid ${(props) => props.theme.colors.secondary};
+//   cursor: pointer;
 
-  &:hover {
-    border: 1.8px solid ${(props) => props.theme.colors.secondary};
-  }
-  &:disabled {
-    color: ${(props) => props.theme.colors.secondary};
-    border: 1.8px solid ${(props) => props.theme.colors.secondary};
-    cursor: default;
-  }
-`;
+//   &:hover {
+//     border: 1.8px solid ${(props) => props.theme.colors.secondary};
+//   }
+//   &:disabled {
+//     color: ${(props) => props.theme.colors.secondary};
+//     border: 1.8px solid ${(props) => props.theme.colors.secondary};
+//     cursor: default;
+//   }
+// `;
 
 const CreateArea = () => {
   const [spaceName, setSpaceName] = useState('');
@@ -147,7 +148,14 @@ const CreateArea = () => {
             <AiOutlinePlus />
           </CounterBtn>
         </MemberControl>
-        <CreateBtn disabled={!spaceName || !entryPassword}>Create</CreateBtn>
+        <CustomBtn
+          text="Create"
+          padding="16px"
+          onClick={() => {
+            console.log('Create button clicked');
+          }}
+          disabled={!spaceName || !entryPassword}
+        />
       </div>
     </BoardContainer>
   );
