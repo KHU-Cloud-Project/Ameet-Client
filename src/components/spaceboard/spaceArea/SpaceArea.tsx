@@ -34,7 +34,7 @@ const SpaceListContainer = styled.div`
   // align-items: center;
 `;
 
-function SpaceArea({ spaces }: MemberBoardProps) {
+const SpaceArea = ({ spaces }: MemberBoardProps) => {
   return (
     // <BoardContainer flex="none">
     <BoardContainer padding="20px 8px 20px 20px">
@@ -56,6 +56,6 @@ function SpaceArea({ spaces }: MemberBoardProps) {
       </ScrollableSpaceList>
     </BoardContainer>
   );
-}
+};
 
 export default SpaceArea;

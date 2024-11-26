@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
+import { useState } from 'react';
+import JoinModal from './JoinModal';
 
 type SpaceBlockProps = {
   role: string;
@@ -26,6 +28,7 @@ const BlockContainer = styled.div<{ isJoin: boolean }>`
         : props.theme.colors.pastelBlue};
   padding: 16px;
   height: 134px;
+  cursor: pointer;
   // width: 180px;
   // margin-bottom: 18px;
   // position: relative;
@@ -89,13 +92,21 @@ const CheersIcon = styled.div`
   color: ${(props) => props.theme.colors.primary};
 `;
 
-function JoinSpaceBlock() {
+const JoinSpaceBlock = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <BlockContainer isJoin={true}>
-      <SpaceName>Join Space</SpaceName>
-      <CheersIcon>🥂</CheersIcon>
-    </BlockContainer>
+    <>
+      <BlockContainer isJoin={true} onClick={openModal}>
+        <SpaceName>Join Space</SpaceName>
+        <CheersIcon>🥂</CheersIcon>
+      </BlockContainer>
+      {isModalOpen && <JoinModal onClose={closeModal} />}
+    </>
   );
-}
+};
 
 export { JoinSpaceBlock };
