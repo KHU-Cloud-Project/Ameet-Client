@@ -5,6 +5,7 @@ import ModalContainer from '../../common/modal/ModalContainer';
 import BoardTitle from '../../common/board/BoardTitle';
 import { AiOutlineClose } from 'react-icons/ai';
 import CustomBtn from '../../common/CustomBtn';
+import { useState } from 'react';
 
 const CloseButton = styled.button`
   position: absolute;
@@ -49,6 +50,9 @@ const Content = styled.div`
 `;
 
 const JoinModal = ({ onClose }: { onClose: () => void }) => {
+  const [spaceName, setSpaceName] = useState('');
+  const [entryPassword, setEntryPassword] = useState('');
+
   return (
     <ModalOverlay onClose={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
@@ -59,11 +63,21 @@ const JoinModal = ({ onClose }: { onClose: () => void }) => {
         <Content>
           <label>
             Space Name
-            <input type="text" placeholder="enter space name" />
+            <input
+              value={spaceName}
+              onChange={(e) => setSpaceName(e.target.value)}
+              type="text"
+              placeholder="enter space name"
+            />
           </label>
           <label>
             Entry Password
-            <input type="password" placeholder="enter entry password" />
+            <input
+              type="password"
+              value={entryPassword}
+              onChange={(e) => setEntryPassword(e.target.value)}
+              placeholder="enter entry password"
+            />
           </label>
           <label>
             Self Introduction
@@ -77,6 +91,7 @@ const JoinModal = ({ onClose }: { onClose: () => void }) => {
           onClick={() => {
             console.log('Join 누름');
           }}
+          disabled={!spaceName || !entryPassword}
         />
       </ModalContainer>
     </ModalOverlay>

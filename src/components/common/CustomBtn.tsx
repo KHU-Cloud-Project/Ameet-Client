@@ -23,8 +23,8 @@ const StyledButton = styled.button<{ padding: string }>`
   }
 
   &:disabled {
-    color: ${(props) => props.theme.colors.secondary};
-    border: 1.8px solid ${(props) => props.theme.colors.secondary};
+    color: ${(props) => props.theme.colors.lineGray};
+    border: 1.8px solid ${(props) => props.theme.colors.lineGray};
     cursor: default;
   }
 `;
