@@ -45,9 +45,6 @@ const PaginationButton = styled.button`
   color: ${(props) =>
     props.disabled ? props.theme.colors.lineGray : props.theme.colors.textGray};
 
-  &:focus {
-    outline: none;
-  }
   /* &:hover {
     color: ${(props) =>
     props.disabled ? props.theme.colors.textGray : props.theme.colors.primary};

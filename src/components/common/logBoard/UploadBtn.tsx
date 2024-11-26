@@ -21,10 +21,6 @@ const StyledButton = styled.button`
     border: 1.2px solid ${(props) => props.theme.colors.lineGray};
     color: ${(props) => props.theme.colors.textDarkGray};
   }
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 const Icon = styled.img`

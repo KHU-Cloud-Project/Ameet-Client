@@ -44,6 +44,17 @@ export const GlobalStyles = () => (
         color: ${theme.colors.textBlack};
         font-size: ${theme.typography.fontSize.default};
       }
+
+      button {
+        all: unset;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:focus {
+          outline: none;
+        }
+      }
     `}
   />
 );
