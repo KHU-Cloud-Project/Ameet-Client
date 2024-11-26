@@ -25,7 +25,7 @@ const BlockContainer = styled.div<{ isJoin: boolean }>`
         ? props.theme.colors.secondary
         : props.theme.colors.pastelBlue};
   padding: 16px;
-  height: 142px;
+  height: 134px;
   // width: 180px;
   // margin-bottom: 18px;
   // position: relative;

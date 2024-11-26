@@ -33,6 +33,8 @@ const BlockColumn = styled.div<{
 
   & > div:first-of-type {
     flex: ${(props) => props.firstChildFlex};
+    max-height: 50%;
+    overflow: auto;
   }
 
   & > div:last-of-type {
@@ -51,7 +53,7 @@ function Spaceboard() {
       />
       <SpaceboardBody>
         <BlockWrapper>
-          <BlockColumn firstChildFlex="1.01" lastChildFlex="1">
+          <BlockColumn firstChildFlex="content" lastChildFlex="80">
             <SpaceArea spaces={dummySpaces} />
             <LogBoard
               logs={dummyLogs}
