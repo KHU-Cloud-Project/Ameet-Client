@@ -2,20 +2,8 @@
 import styled from '@emotion/styled';
 import ModalOverlay from '../../common/modal/ModalOverlay';
 import ModalContainer from '../../common/modal/ModalContainer';
-import { AiOutlineClose } from 'react-icons/ai';
 import CustomBtn from '../../common/CustomBtn';
 import { useState } from 'react';
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 19px;
-  color: ${(props) => props.theme.colors.textGray};
-  cursor: pointer;
-`;
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -85,10 +73,7 @@ const CreateModal = ({
 
   return (
     <ModalOverlay onClose={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>
-          <AiOutlineClose />
-        </CloseButton>
+      <ModalContainer onClose={onClose}>
         <TitleArea>
           <span>Join </span>
           <span>{spaceName}</span>

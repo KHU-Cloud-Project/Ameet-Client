@@ -3,20 +3,8 @@ import styled from '@emotion/styled';
 import ModalOverlay from '../../common/modal/ModalOverlay';
 import ModalContainer from '../../common/modal/ModalContainer';
 import BoardTitle from '../../common/board/BoardTitle';
-import { AiOutlineClose } from 'react-icons/ai';
 import CustomBtn from '../../common/CustomBtn';
 import { useState } from 'react';
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 19px;
-  color: ${(props) => props.theme.colors.textGray};
-  cursor: pointer;
-`;
 
 const InputLabel = styled.label`
   display: flex;
@@ -66,10 +54,7 @@ const JoinModal = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <ModalOverlay onClose={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>
-          <AiOutlineClose />
-        </CloseButton>
+      <ModalContainer onClose={onClose}>
         <BoardTitle marginBottom={52}>Join Space</BoardTitle>
         <Content>
           <InputLabel>
