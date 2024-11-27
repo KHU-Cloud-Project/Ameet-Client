@@ -18,6 +18,37 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
+const InputLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  margin-bottom: 28px;
+
+  span {
+    margin-bottom: 8px;
+    color: ${(props) => props.theme.colors.textDarkGray};
+    font-size: ${(props) => props.theme.typography.fontSize.medium};
+    font-weight: ${(props) => props.theme.typography.fontWeight.regular};
+  }
+
+  input {
+    padding: 9px 12px;
+    border: 1px solid ${(props) => props.theme.colors.lineGray};
+    font-size: ${(props) => props.theme.typography.fontSize.default};
+    border-radius: ${(props) => props.theme.borderRadius.small};
+    min-width: 270px;
+
+    &::placeholder {
+      color: ${(props) => props.theme.colors.textGray};
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+`;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,32 +57,12 @@ const Content = styled.div`
   width: 80%;
   max-width: 80%;
   margin: 0 auto;
-
-  label {
-    display: flex;
-    flex-direction: column;
-    color: ${(props) => props.theme.colors.textDarkGray};
-    font-size: ${(props) => props.theme.typography.fontSize.medium};
-    margin-bottom: 28px;
-
-    input {
-      margin-top: 8px;
-      padding: 10px 12px;
-      border: 1px solid ${(props) => props.theme.colors.lineGray};
-      font-size: ${(props) => props.theme.typography.fontSize.default};
-      border-radius: ${(props) => props.theme.borderRadius.small};
-      min-width: 270px;
-
-      &::placeholder {
-        color: ${(props) => props.theme.colors.textGray};
-      }
-    }
-  }
 `;
 
 const JoinModal = ({ onClose }: { onClose: () => void }) => {
   const [spaceName, setSpaceName] = useState('');
   const [entryPassword, setEntryPassword] = useState('');
+  const [selfIntro, setSelfIntro] = useState('');
 
   return (
     <ModalOverlay onClose={onClose}>
@@ -61,37 +72,46 @@ const JoinModal = ({ onClose }: { onClose: () => void }) => {
         </CloseButton>
         <BoardTitle marginBottom={52}>Join Space</BoardTitle>
         <Content>
-          <label>
-            Space Name
+          <InputLabel>
+            <span>Space Name</span>
             <input
               value={spaceName}
               onChange={(e) => setSpaceName(e.target.value)}
               type="text"
               placeholder="enter space name"
             />
-          </label>
-          <label>
-            Entry Password
+          </InputLabel>
+          <InputLabel>
+            <span>Entry Password</span>
             <input
               type="password"
               value={entryPassword}
               onChange={(e) => setEntryPassword(e.target.value)}
               placeholder="enter entry password"
             />
-          </label>
-          <label>
-            Self Introduction
-            <input placeholder="write a short introduction of yourself" />
-          </label>
+          </InputLabel>
+          <InputLabel>
+            <span>Self Introduction</span>
+            <input
+              value={selfIntro}
+              onChange={(e) => setSelfIntro(e.target.value)}
+              type="text"
+              placeholder="write a short introduction of yourself"
+            />
+          </InputLabel>
         </Content>
         <div style={{ height: '12px' }}></div>
         <CustomBtn
           text="Join"
-          padding="12px 26px"
+          padding="14px 28px"
           onClick={() => {
-            console.log('Join 누름');
+            console.log('Joining with:', {
+              spaceName,
+              entryPassword,
+              selfIntro,
+            });
           }}
-          disabled={!spaceName || !entryPassword}
+          disabled={!spaceName || !entryPassword || !selfIntro}
         />
       </ModalContainer>
     </ModalOverlay>

@@ -7,6 +7,7 @@ import { theme } from '../../../styles/theme';
 import { css } from '@emotion/react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import CustomBtn from '../../common/CustomBtn';
+import CreateModal from './CreateModal';
 
 const Label = styled.label`
   color: ${(props) => props.theme.colors.textGray};
@@ -73,31 +74,15 @@ const CounterBtn = styled.button<{ disabled?: boolean }>`
   }
 `;
 
-// const CreateBtn = styled.button`
-//   padding: 18px;
-//   background-color: ${(props) => props.theme.colors.white};
-//   font-size: ${(props) => props.theme.typography.fontSize.large};
-//   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-//   color: ${(props) => props.theme.colors.secondary};
-//   border-radius: ${(props) => props.theme.borderRadius.medium};
-//   border: 1.8px solid ${(props) => props.theme.colors.secondary};
-//   cursor: pointer;
-
-//   &:hover {
-//     border: 1.8px solid ${(props) => props.theme.colors.secondary};
-//   }
-//   &:disabled {
-//     color: ${(props) => props.theme.colors.secondary};
-//     border: 1.8px solid ${(props) => props.theme.colors.secondary};
-//     cursor: default;
-//   }
-// `;
-
 const CreateArea = () => {
   const [spaceName, setSpaceName] = useState('');
   const [spaceDescription, setSpaceDescription] = useState('');
   const [entryPassword, setEntryPassword] = useState('');
   const [members, setMembers] = useState(2);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const increaseMembers = () => {
     if (members < 8) setMembers(members + 1);
@@ -152,11 +137,18 @@ const CreateArea = () => {
           text="Create"
           padding="16px"
           onClick={() => {
-            console.log('Create button clicked');
+            openModal();
           }}
           disabled={!spaceName || !entryPassword}
         />
       </div>
+      {isModalOpen && (
+        <CreateModal
+          onClose={closeModal}
+          spaceName={spaceName}
+          spaceDescription={spaceDescription || `Team Space for ${spaceName}`}
+        />
+      )}
     </BoardContainer>
   );
 };
