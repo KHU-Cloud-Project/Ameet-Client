@@ -4,6 +4,7 @@ import ModalOverlay from '../../common/modal/ModalOverlay';
 import ModalContainer from '../../common/modal/ModalContainer';
 import CustomBtn from '../../common/CustomBtn';
 import { useState } from 'react';
+import InputLabel from '../../common/InputLabel';
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -29,37 +30,6 @@ const Description = styled.div`
   margin-bottom: 46px;
 `;
 
-const InputLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  max-width: 80%;
-  margin-bottom: 46px;
-
-  span {
-    margin-bottom: 8px;
-    color: ${(props) => props.theme.colors.textGray};
-    font-size: ${(props) => props.theme.typography.fontSize.medium};
-    font-weight: ${(props) => props.theme.typography.fontWeight.regular};
-  }
-
-  input {
-    padding: 9px 12px;
-    border: 1px solid ${(props) => props.theme.colors.lineGray};
-    font-size: ${(props) => props.theme.typography.fontSize.default};
-    border-radius: ${(props) => props.theme.borderRadius.small};
-    min-width: 270px;
-
-    &::placeholder {
-      color: ${(props) => props.theme.colors.textGray};
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-`;
-
 const CreateModal = ({
   onClose,
   spaceName,
@@ -79,15 +49,12 @@ const CreateModal = ({
           <span>{spaceName}</span>
         </TitleArea>
         <Description>{spaceDescription}</Description>
-        <InputLabel>
-          <span>Self Introduction</span>
-          <input
-            value={selfIntro}
-            onChange={(e) => setSelfIntro(e.target.value)}
-            type="text"
-            placeholder="write a short introduction of yourself"
-          />
-        </InputLabel>
+        <InputLabel
+          label="Self Introduction"
+          value={selfIntro}
+          placeholder="write a short introduction of yourself"
+          onChange={(e) => setSelfIntro(e.target.value)}
+        />
         <CustomBtn
           text="Create"
           padding="14px 28px"

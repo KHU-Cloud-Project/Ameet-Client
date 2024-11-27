@@ -5,37 +5,7 @@ import ModalContainer from '../../common/modal/ModalContainer';
 import BoardTitle from '../../common/board/BoardTitle';
 import CustomBtn from '../../common/CustomBtn';
 import { useState } from 'react';
-
-const InputLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  margin-bottom: 28px;
-
-  span {
-    margin-bottom: 8px;
-    color: ${(props) => props.theme.colors.textDarkGray};
-    font-size: ${(props) => props.theme.typography.fontSize.medium};
-    font-weight: ${(props) => props.theme.typography.fontWeight.regular};
-  }
-
-  input {
-    padding: 9px 12px;
-    border: 1px solid ${(props) => props.theme.colors.lineGray};
-    font-size: ${(props) => props.theme.typography.fontSize.default};
-    border-radius: ${(props) => props.theme.borderRadius.small};
-    min-width: 270px;
-
-    &::placeholder {
-      color: ${(props) => props.theme.colors.textGray};
-    }
-
-    &:focus {
-      outline: none;
-    }
-  }
-`;
+import InputLabel from '../../common/InputLabel';
 
 const Content = styled.div`
   display: flex;
@@ -57,33 +27,26 @@ const JoinModal = ({ onClose }: { onClose: () => void }) => {
       <ModalContainer onClose={onClose}>
         <BoardTitle marginBottom={52}>Join Space</BoardTitle>
         <Content>
-          <InputLabel>
-            <span>Space Name</span>
-            <input
-              value={spaceName}
-              onChange={(e) => setSpaceName(e.target.value)}
-              type="text"
-              placeholder="enter space name"
-            />
-          </InputLabel>
-          <InputLabel>
-            <span>Entry Password</span>
-            <input
-              type="password"
-              value={entryPassword}
-              onChange={(e) => setEntryPassword(e.target.value)}
-              placeholder="enter entry password"
-            />
-          </InputLabel>
-          <InputLabel>
-            <span>Self Introduction</span>
-            <input
-              value={selfIntro}
-              onChange={(e) => setSelfIntro(e.target.value)}
-              type="text"
-              placeholder="write a short introduction of yourself"
-            />
-          </InputLabel>
+          <InputLabel
+            label="Space Name"
+            value={spaceName}
+            placeholder="enter space name"
+            onChange={(e) => setSpaceName(e.target.value)}
+          />
+
+          <InputLabel
+            label="Entry Password"
+            value={entryPassword}
+            placeholder="enter entry password"
+            type="password"
+            onChange={(e) => setEntryPassword(e.target.value)}
+          />
+          <InputLabel
+            label="Self Introduction"
+            value={selfIntro}
+            placeholder="write a short introduction of yourself"
+            onChange={(e) => setSelfIntro(e.target.value)}
+          />
         </Content>
         <div style={{ height: '12px' }}></div>
         <CustomBtn
