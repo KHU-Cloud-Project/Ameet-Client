@@ -12,14 +12,7 @@ import UploadBtn from './UploadBtn';
 import BoardTitle from '../board/BoardTitle';
 import BoardContainer from '../board/BoardContainer';
 import { formatDate } from '../../../utils/dateUtils';
-
-export type Log = {
-  id: string;
-  name: string;
-  date: string;
-  length: number;
-  participants: { nickname: string }[];
-};
+import { dummyLogs, Log } from '../../../models/Log';
 
 const LogsContainer = styled.div`
   display: flex;
@@ -81,7 +74,11 @@ type LogBoardProps = {
   itemsPerPage?: number;
 };
 
-function LogBoard({ logs, itemsPerPage = 7, title }: LogBoardProps) {
+function LogBoard({
+  logs = dummyLogs,
+  itemsPerPage = 7,
+  title,
+}: LogBoardProps) {
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -153,10 +150,13 @@ function LogBoard({ logs, itemsPerPage = 7, title }: LogBoardProps) {
             type="data"
             log={{
               ...log,
-              date: formatDate(log.date), // Only format the date
+              date: formatDate(log.date),
             }}
             index={(currentPage - 1) * itemsPerPage + index + 1}
-            onClick={() => setSelectedLog(log)}
+            onClick={() => {
+              console.log('Selected Log:', log);
+              setSelectedLog(log);
+            }}
           />
         ))}
       </LogsContainer>

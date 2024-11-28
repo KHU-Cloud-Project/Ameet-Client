@@ -6,7 +6,7 @@ import ModalOverlay from '../../common/modal/ModalOverlay';
 import ModalContainer from '../../common/modal/ModalContainer';
 import InputLabel from '../InputLabel';
 import { AiOutlineClose } from 'react-icons/ai';
-import uploadIcon from '/src/assets/icons/logs/upload.png';
+import uploadIcon from '/src/assets/icons/logs/upload_file.png';
 import DatePicker from './DatePicker';
 import CustomBtn from '../CustomBtn';
 
