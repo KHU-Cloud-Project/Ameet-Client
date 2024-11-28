@@ -104,10 +104,6 @@ function LogBoard({ logs, itemsPerPage = 7, title }: LogBoardProps) {
     }
   };
 
-  const handleUploadClick = () => {
-    console.log('Upload button 누름');
-  };
-
   const handlePageClick = (page: number) => {
     setCurrentPage(page);
   };
@@ -146,7 +142,7 @@ function LogBoard({ logs, itemsPerPage = 7, title }: LogBoardProps) {
     <BoardContainer>
       <BoardTitle
         children={title ?? 'Meeting Logs'}
-        actionComponent={<UploadBtn onClick={handleUploadClick} />}
+        actionComponent={<UploadBtn />}
         marginBottom={20}
       />
       <LogsContainer>

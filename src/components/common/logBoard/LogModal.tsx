@@ -43,7 +43,7 @@ const Content = styled.div`
 function LogModal({ log, onClose }: LogModalProps) {
   return (
     <ModalOverlay onClose={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+      <ModalContainer onClose={onClose}>
         <ModalHeader>
           <ModalTitle>{log.name}</ModalTitle>
           <CloseButton onClick={onClose}>✖️</CloseButton>

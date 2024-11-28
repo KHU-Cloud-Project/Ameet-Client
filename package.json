@@ -15,6 +15,7 @@
     "emotion-reset": "^3.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.3.5",
     "react-horizontal-scrolling-menu": "^8.2.0",
     "react-icons": "^5.3.0",
     "react-router": "^6.27.0",

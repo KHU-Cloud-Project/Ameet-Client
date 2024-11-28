@@ -1,8 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-
-type UploadBtnProps = {
-  onClick?: () => void;
-};
+import { useState } from 'react';
+import UploadModal from './UploadModal';
 
 const StyledButton = styled.button`
   display: flex;
@@ -28,12 +27,20 @@ const Icon = styled.img`
   height: 16px;
 `;
 
-function UploadBtn({ onClick }: UploadBtnProps) {
+function UploadBtn() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <StyledButton onClick={onClick}>
-      <Icon src="/src/assets/icons/dashboard/upload.png" alt="Upload" />
-      Upload
-    </StyledButton>
+    <>
+      <StyledButton onClick={openModal}>
+        <Icon src="/src/assets/icons/dashboard/upload.png" alt="Upload" />
+        Upload
+      </StyledButton>
+      {isModalOpen && <UploadModal onClose={closeModal} />}
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 
-const InputLabelWrapper = styled.label`
+const InputLabelWrapper = styled.label<{ minWidth?: string }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 28px;
@@ -9,16 +9,16 @@ const InputLabelWrapper = styled.label`
   span {
     margin-bottom: 8px;
     color: ${(props) => props.theme.colors.textDarkGray};
-    font-size: ${(props) => props.theme.typography.fontSize.medium};
+    font-size: ${(props) => props.theme.typography.fontSize.default};
     font-weight: ${(props) => props.theme.typography.fontWeight.regular};
   }
 
   input {
-    padding: 9px 12px;
+    padding: 8px 12px;
     border: 1px solid ${(props) => props.theme.colors.lineGray};
-    font-size: ${(props) => props.theme.typography.fontSize.default};
+    font-size: ${(props) => props.theme.typography.fontSize.small};
     border-radius: ${(props) => props.theme.borderRadius.small};
-    min-width: 270px;
+    min-width: ${(props) => props.minWidth || '260px'};
 
     &::placeholder {
       color: ${(props) => props.theme.colors.textGray};
@@ -35,7 +35,7 @@ type InputLabelProps = {
   value: string;
   placeholder: string;
   type?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // The change handler
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const InputLabel = ({
