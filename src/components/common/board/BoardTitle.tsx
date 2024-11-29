@@ -13,7 +13,7 @@ const Container = styled.div<{ marginBottom?: number }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${(props) =>
-    props.marginBottom !== undefined ? `${props.marginBottom}px` : '30px'};
+    props.marginBottom !== undefined ? `${props.marginBottom}px` : '24px'};
 `;
 
 const Title = styled.h1<{ fontSize?: string }>`

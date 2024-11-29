@@ -20,6 +20,7 @@ export const GlobalStyles = () => (
         padding: 0;
         margin: 0;
         font-family: ${theme.typography.fontFamily};
+        height: 100%;
       }
 
       * {
@@ -42,6 +43,17 @@ export const GlobalStyles = () => (
         background-color: ${theme.colors.background};
         color: ${theme.colors.textBlack};
         font-size: ${theme.typography.fontSize.default};
+      }
+
+      button {
+        all: unset;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:focus {
+          outline: none;
+        }
       }
     `}
   />

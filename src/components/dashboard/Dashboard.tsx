@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import Header from './header/Header';
+import BoardHeader from '../common/board/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
-import LogBoard from './logBoard/LogBoard';
+import LogBoard from '../common/logBoard/LogBoard';
+import { dummyLogs } from '../../models/Log';
 
 const DashboardBody = styled.div`
   display: flex;
@@ -37,9 +38,10 @@ function Dashboard() {
 
   return (
     <>
-      <Header
+      <BoardHeader
         title={dummyTitle}
         hasSearchbar={dummyHasSearchbar}
+        hasDescription={true}
         user={dummyUser}
       />
       <DashboardBody>
@@ -50,7 +52,7 @@ function Dashboard() {
               isAdmin={dummyIsAdmin}
               onRemoveMember={handleRemoveMember}
             />
-            <LogBoard />
+            <LogBoard logs={dummyLogs} />
           </BlockColumn>
           <MeetingSettingBoard />
         </BlockWrapper>

@@ -15,10 +15,6 @@ const Button = styled.button`
   &:hover {
     color: ${(props) => props.theme.colors.background};
   }
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 function ManageBtn() {

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { formatLength } from '../../../utils/dateUtils';
 
 type Log = {
   id: string;
@@ -54,13 +55,6 @@ const ActionBtn = styled.button`
   border: none;
   cursor: pointer;
 `;
-
-function formatLength(lengthInSeconds: number) {
-  const hours = Math.floor(lengthInSeconds / 3600);
-  const minutes = Math.floor((lengthInSeconds % 3600) / 60);
-  const seconds = lengthInSeconds % 60;
-  return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
 
 function LogBlock({ type, log, index, onClick }: LogBlockProps) {
   if (type === 'header') {

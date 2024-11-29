@@ -2,8 +2,8 @@
 import styled from '@emotion/styled';
 import MemberBlock from './MemberBlock';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
-import BoardTitle from '../../common/BoardTitle';
-import BoardContainer from '../../common/BoardContainer';
+import BoardTitle from '../../common/board/BoardTitle';
+import BoardContainer from '../../common/board/BoardContainer';
 // import { LeftArrow, RightArrow } from './ScrollArrows';
 
 type Member = {
@@ -43,7 +43,9 @@ function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
   const dummyMaxMembers = 8;
 
   return (
-    <BoardContainer flex="none">
+    // <BoardContainer flex="none">
+    <BoardContainer flex={0.6}>
+      {/* todo: flex 설정값 정리하기 */}
       <BoardTitle>
         Members{' '}
         <MemberCount>
