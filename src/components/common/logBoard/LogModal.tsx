@@ -9,45 +9,44 @@ import {
 } from 'react-icons/ai';
 import { useState } from 'react';
 import { Log } from '../../../models/Log';
+import BoardTitle from '../board/BoardTitle';
+import { theme } from '../../../styles/theme';
+import { FiUsers } from 'react-icons/fi';
+import Divider from '../Divider';
+// import { BiGroup } from 'react-icons/bi';
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  width: 100%;
+  white-space: nowrap;
 `;
 
-const Title = styled.h2`
-  font-size: 20px;
-  font-weight: bold;
-  color: ${(props) => props.theme.colors.textBlack};
-  margin: 0;
-`;
-
-const Participants = styled.p`
-  font-size: 14px;
-  color: ${(props) => props.theme.colors.textGray};
-  margin: 0;
-`;
-
-const Info = styled.div`
+const Participants = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 4px;
+  font-size: ${(props) => props.theme.typography.fontSize.small};
+  color: ${(props) => props.theme.colors.textDarkGray};
 `;
 
-const TimeInfo = styled.span`
-  font-size: 14px;
-  color: ${(props) => props.theme.colors.textGray};
-`;
+const HeaderInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
 
-const Duration = styled.span`
-  font-size: 14px;
-  color: ${(props) => props.theme.colors.primary};
+  span {
+    font-size: ${(props) => props.theme.typography.fontSize.small};
+    color: ${(props) => props.theme.colors.textDarkGray};
+    white-space: nowrap;
+  }
 `;
 
 const ActionButtons = styled.div`
   display: flex;
   gap: 8px;
+  padding: 0 10px;
+  font-size: ${(props) => props.theme.typography.fontSize.medium};
 
   button {
     background: none;
@@ -56,61 +55,73 @@ const ActionButtons = styled.div`
     color: ${(props) => props.theme.colors.textGray};
 
     &:hover {
-      color: ${(props) => props.theme.colors.primary};
+      color: ${(props) => props.theme.colors.secondary};
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 `;
 
-const Content = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.medium};
-  color: ${(props) => props.theme.colors.textBlack};
+const ContentHeader = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Toggle = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 2px;
+  background-color: ${(props) => props.theme.colors.lineGray};
+  border-radius: 8px;
 `;
 
 const ToggleButton = styled.button<{ active: boolean }>`
+  width: 128px;
+  margin: 2px;
   background-color: ${(props) =>
-    props.active ? props.theme.colors.primary : 'transparent'};
+    props.active ? props.theme.colors.white : 'transparent'};
+  font-weight: ${(props) =>
+    props.active
+      ? props.theme.typography.fontWeight.semibold
+      : props.theme.typography.fontWeight.regular};
+  padding: 4px 20px;
   color: ${(props) =>
-    props.active ? props.theme.colors.white : props.theme.colors.textGray};
-  border: 1px solid ${(props) => props.theme.colors.primary};
-  border-radius: 4px;
-  padding: 8px 16px;
+    props.active ? props.theme.colors.textBlack : props.theme.colors.textGray};
+  font-size: ${(props) => props.theme.typography.fontSize.xSmall};
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-
-  &:hover {
-    background-color: ${(props) =>
-      props.active
-        ? props.theme.colors.primary
-        : props.theme.colors.background};
-  }
 `;
 
 const EditButton = styled.button`
+  position: absolute;
+  background-color: red;
+  right: 12px;
   background: none;
   border: none;
   cursor: pointer;
   color: ${(props) => props.theme.colors.textGray};
 
   &:hover {
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.secondary};
   }
 `;
 
 const ContentBody = styled.div`
-  background-color: ${(props) => props.theme.colors.background};
-  border: 1px solid ${(props) => props.theme.colors.lineGray};
-  border-radius: 4px;
-  padding: 16px;
-  font-size: 14px;
+  margin-top: 20px;
+  padding: 16px 12px 40px 12px; // TRBL
+  height: 100%;
+  width: 90%;
+  overflow-y: auto;
+  min-height: 200px;
+  background-color: ${(props) => props.theme.colors.darkWhite};
+  font-size: ${(props) => props.theme.typography.fontSize.default};
   color: ${(props) => props.theme.colors.textBlack};
-  white-space: pre-wrap; /* Preserve line breaks in text */
+  white-space: pre-wrap;
 `;
 
 type LogModalProps = {
@@ -131,28 +142,42 @@ function LogModal({ log, onClose }: LogModalProps) {
 
   return (
     <ModalOverlay onClose={onClose}>
-      <ModalContainer onClose={onClose} width="700px">
+      <ModalContainer
+        onClose={onClose}
+        width="50%"
+        minWidth="400px"
+        height="60%"
+        justifyContent="start"
+      >
         <Header>
           <div>
-            <Title>{log.name}</Title>
+            <BoardTitle
+              marginBottom={5}
+              fontSize={theme.typography.fontSize.mediumLarge}
+            >
+              {log.name}
+            </BoardTitle>
             <Participants>
+              <FiUsers />
               {log.participants.map((p) => p.nickname).join(', ')}
             </Participants>
           </div>
-          <Info>
-            <TimeInfo>{log.date}</TimeInfo>
-            <Duration>{formatDuration(log.length)}</Duration>
+          <HeaderInfo>
+            <span>{log.date}</span>
+            <span>{formatDuration(log.length)}</span>
             <ActionButtons>
               <button>
-                <AiOutlineDownload size={18} />
+                <AiOutlineDownload />
               </button>
               <button>
-                <AiOutlineDelete size={18} />
+                <AiOutlineDelete />
               </button>
             </ActionButtons>
-          </Info>
+          </HeaderInfo>
         </Header>
-        <Content>
+        <Divider marginBottom="16px" marginTop="16px" />
+        <ContentHeader>
+          <div />
           <Toggle>
             <ToggleButton
               active={toggleView === 'AI Summary'}
@@ -166,14 +191,14 @@ function LogModal({ log, onClose }: LogModalProps) {
             >
               Original
             </ToggleButton>
-            <EditButton>
-              <AiOutlineEdit size={18} />
-            </EditButton>
           </Toggle>
-          <ContentBody>
-            {toggleView === 'AI Summary' ? log.aiSummary : log.originalContent}
-          </ContentBody>
-        </Content>
+          <EditButton>
+            <AiOutlineEdit />
+          </EditButton>
+        </ContentHeader>
+        <ContentBody>
+          {toggleView === 'AI Summary' ? log.aiSummary : log.originalContent}
+        </ContentBody>
       </ModalContainer>
     </ModalOverlay>
   );

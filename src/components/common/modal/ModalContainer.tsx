@@ -2,11 +2,16 @@
 import styled from '@emotion/styled';
 import { AiOutlineClose } from 'react-icons/ai';
 
-const ModalContainerWrapper = styled.div<{ width?: string; minWidth?: string }>`
+const ModalContainerWrapper = styled.div<{
+  width?: string;
+  minWidth?: string;
+  height?: string;
+  justifyContent?: string;
+}>`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: ${(props) => props.justifyContent || 'center'};
   align-items: center;
   overflow: auto;
   background-color: ${(props) => props.theme.colors.white};
@@ -14,6 +19,7 @@ const ModalContainerWrapper = styled.div<{ width?: string; minWidth?: string }>`
   border-radius: ${(props) => props.theme.borderRadius.medium};
   padding: 34px 28px;
   width: ${(props) => props.width || '38%'};
+  height: ${(props) => props.height || 'auto'};
   min-width: ${(props) => props.minWidth || '380px'};
   max-width: 90%;
 `;
@@ -34,16 +40,22 @@ const ModalContainer = ({
   onClose,
   width,
   minWidth,
+  height,
+  justifyContent,
 }: {
   children: React.ReactNode;
   onClose: () => void;
   width?: string;
   minWidth?: string;
+  height?: string;
+  justifyContent?: string;
 }) => {
   return (
     <ModalContainerWrapper
       width={width}
       minWidth={minWidth}
+      height={height}
+      justifyContent={justifyContent}
       onClick={(e) => e.stopPropagation()}
     >
       <CloseButton onClick={onClose}>
