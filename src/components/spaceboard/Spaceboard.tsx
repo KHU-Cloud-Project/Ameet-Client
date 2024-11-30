@@ -1,11 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import BoardHeader from '../common/board/BoardHeader';
+import BoardHeader from '../common/board/header/BoardHeader';
 import SpaceArea from './spaceArea/SpaceArea';
 import LogBoard from '../common/logBoard/LogBoard';
 import CreateArea from './rightArea/CreateArea';
 import UseAdvancedArea from './rightArea/UseAdvancedArea';
 import { dummyLogs } from '../../models/Log';
+import { useFetchUser } from '../../hooks/useFetchUser';
+import { useEffect } from 'react';
+import { MOCK_USER_ID } from '../../constants/mockUser';
 
 const SpaceboardBody = styled.div`
   display: flex;
@@ -44,13 +47,27 @@ const BlockColumn = styled.div<{
 `;
 
 function Spaceboard() {
+  const { user, fetchUser } = useFetchUser();
+
+  useEffect(() => {
+    fetchUser(MOCK_USER_ID); // Mock userId 사용
+  }, [fetchUser]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user || !user.nickname) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <BoardHeader
         title="Manage Space"
         hasSearchbar={dummyHasSearchbar}
         hasDescription={false}
-        user={dummyUser}
+        user={user}
       />
       <SpaceboardBody>
         <BlockWrapper>
@@ -83,11 +100,6 @@ export default Spaceboard;
 // 더미데이터
 
 const dummyHasSearchbar = false;
-const dummyUser = {
-  name: 'Cherrie',
-  role: 'Member',
-  profileImage: 'https://picsum.photos/200',
-};
 
 const dummySpaces = [
   {
