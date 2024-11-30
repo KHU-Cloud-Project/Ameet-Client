@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/globalStyles';
 import SpaceboardPage from './pages/SpaceboardPage';
+import { RecoilRoot } from 'recoil';
 
 const AppContainer = styled.div`
   display: flex;
@@ -19,19 +20,21 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <AppContainer>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/space" element={<SpaceboardPage />} />
-          </Routes>
-        </BrowserRouter>
-      </AppContainer>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <AppContainer>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/space" element={<SpaceboardPage />} />
+            </Routes>
+          </BrowserRouter>
+        </AppContainer>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 }
 
