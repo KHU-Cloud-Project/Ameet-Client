@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import Header from './meetingHeader/MeetingHeader';
-import MemberBoard from '../dashboard/memberBoard/MemberBoard';
-import LogBoard from '../dashboard/logBoard/LogBoard';
+import EtcBoard from './etcBoard/EtcBoard';
+import BotBoard from './botBoard/BotBoard';
+import PersonBoard from './personBoard/PersonBoard';
 
 const MeetingBody = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const MeetingBody = styled.div`
 
 const DummyBoard = styled.div`
   display: flex;
-  flex: 1;
+  flex: 2.2;
   gap: 26px;
   overflow: hidden;
 `;
@@ -50,14 +51,10 @@ function Meeting() {
       />
       <MeetingBody>
         <BlockWrapper>
-          <DummyBoard />
+          <PersonBoard/>
           <BlockColumn>
-            <MemberBoard
-              members={dummyMembers}
-              isAdmin={dummyIsAdmin}
-              onRemoveMember={handleRemoveMember}
-            />
-            <LogBoard />
+            <EtcBoard/>
+            <BotBoard/>
           </BlockColumn>
         </BlockWrapper>
       </MeetingBody>
