@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import BoardHeader from '../common/board/BoardHeader';
+import BoardHeader from '../common/board/header/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
 import LogBoard from '../common/logBoard/LogBoard';
 import { dummyLogs } from '../../models/Log';
+import { useFetchUser } from '../../hooks/useFetchUser';
+import { useEffect } from 'react';
+import { MOCK_USER_ID } from '../../constants/mockUser';
 
 const DashboardBody = styled.div`
   display: flex;
@@ -31,6 +34,19 @@ const BlockColumn = styled.div`
 function Dashboard() {
   const dummyHasSearchbar = true;
   const dummyIsAdmin = true;
+  const { user, fetchUser } = useFetchUser();
+
+  useEffect(() => {
+    if (!user) {
+      fetchUser(MOCK_USER_ID); // Mock userId 사용
+    }
+  }, [user, fetchUser]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  console.log('USER' + user);
 
   const handleRemoveMember = (nickname: string) => {
     console.log(`Remove member: ${nickname}`);
@@ -42,7 +58,7 @@ function Dashboard() {
         title={dummyTitle}
         hasSearchbar={dummyHasSearchbar}
         hasDescription={true}
-        user={dummyUser}
+        user={user}
       />
       <DashboardBody>
         <BlockWrapper>
@@ -64,11 +80,6 @@ function Dashboard() {
 export default Dashboard;
 
 const dummyTitle = 'Space 1';
-const dummyUser = {
-  name: 'Cherrie',
-  role: 'Member',
-  profileImage: 'https://picsum.photos/200',
-};
 
 const dummyMembers = [
   {

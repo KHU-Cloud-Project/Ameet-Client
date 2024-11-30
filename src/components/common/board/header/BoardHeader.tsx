@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import { User } from '../../../models/User';
-import { Spacer } from '../Spacer';
-import BoardTitle from './BoardTitle';
-import { theme } from '../../../styles/theme';
+import { Spacer } from '../../Spacer';
+import BoardTitle from '../BoardTitle';
+import { theme } from '../../../../styles/theme';
+import ProfileArea from './ProfileArea';
+import { User } from '../../../../recoil/atoms/userAtom';
 
 type HeaderProps = {
   title: string;
@@ -86,28 +87,6 @@ const NotificationDot = styled.span`
   border-radius: 50%;
 `;
 
-const ProfileArea = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const ProfileImage = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-`;
-
-const ProfileName = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.medium};
-  color: ${(props) => props.theme.colors.textBlack};
-`;
-
-const ProfileRole = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.small};
-  color: ${(props) => props.theme.colors.primary};
-`;
-
 function BoardHeader({
   title,
   hasSearchbar,
@@ -143,13 +122,11 @@ function BoardHeader({
           <NotificationDot />
         </NotificationIcon>
         <Spacer width={26} />
-        <ProfileArea>
-          <ProfileImage src={user.profileImage} alt="Profile" />
-          <div>
-            <ProfileName>{user.name}</ProfileName>
-            <ProfileRole>{user.role}</ProfileRole>
-          </div>
-        </ProfileArea>
+        <ProfileArea
+          nickname={user.nickname}
+          email={user.email}
+          profileImage={user.profile}
+        />
       </HeaderRightSideWrapper>
     </HeaderContainer>
   );
