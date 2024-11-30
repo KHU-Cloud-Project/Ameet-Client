@@ -6,6 +6,7 @@ import BottomOptions from './BottomOptions';
 import ManageBtn from './ManageBtn';
 import { Spacer } from '../../common/Spacer';
 import Divider from '../../common/Divider';
+import DummySignupButton from '../DummySignupBtn';
 
 const Panel = styled.div`
   width: clamp(220px, 18vw, 260px);
@@ -22,6 +23,7 @@ const Panel = styled.div`
 function LeftPanel() {
   return (
     <Panel>
+      <DummySignupButton />
       <div style={{ padding: '30px 12px' }}>
         <Logo />
         <Spacer height={66} />
