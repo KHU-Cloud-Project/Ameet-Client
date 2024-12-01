@@ -1,4 +1,4 @@
-import axiosInstance from '../api/axiosInstance';
+import { signupUserApi } from '../api/userAPI';
 
 export const useFetchSignup = () => {
   const signupUser = async (data: {
@@ -9,9 +9,7 @@ export const useFetchSignup = () => {
   }) => {
     try {
       console.log('Signing up user:', data);
-      const response = await axiosInstance.post('/api/v1/signup', data);
-      console.log('API Response:', response.data);
-      return response.data;
+      return await signupUserApi(data);
     } catch (error) {
       console.error('[useFetchSignup] Failed to signup user:', error);
       throw error;
