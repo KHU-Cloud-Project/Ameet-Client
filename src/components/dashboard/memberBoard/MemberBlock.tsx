@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 import { useMemo } from 'react';
 import { useTheme } from '@emotion/react';
 import { UserForTeam } from '../../../recoil/atoms/userAtom';
+import { AiOutlineClose } from 'react-icons/ai';
 
 type MemberBlockProps = {
   member: UserForTeam;
-  isOwner: boolean;
   onRemove?: () => void;
 };
 
@@ -34,7 +34,7 @@ const Nickname = styled.h3`
   font-size: ${(props) => props.theme.typography.fontSize.medium};
   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
   color: ${(props) => props.theme.colors.textBlack};
-  margin: 0;
+  margin-bottom: 6px;
 `;
 
 const Authority = styled.div`
@@ -50,15 +50,16 @@ const Introduction = styled.div`
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   background: transparent;
   border: none;
   color: ${(props) => props.theme.colors.textGray};
   cursor: pointer;
+  font-size: ${(props) => props.theme.typography.fontSize.small};
 `;
 
-function MemberBlock({ member, isOwner, onRemove }: MemberBlockProps) {
+function MemberBlock({ member, onRemove }: MemberBlockProps) {
   const theme = useTheme();
 
   const backgroundColor = useMemo(() => {
@@ -74,7 +75,11 @@ function MemberBlock({ member, isOwner, onRemove }: MemberBlockProps) {
 
   return (
     <BlockContainer backgroundColor={backgroundColor}>
-      {isOwner && <CloseButton onClick={onRemove}>×</CloseButton>}
+      {member.role == 'OWNER' && (
+        <CloseButton onClick={onRemove}>
+          <AiOutlineClose />
+        </CloseButton>
+      )}
       <ProfileImage
         src={member.profile || '/src/assets/images/profile.png'}
         alt={member.nickname}
@@ -84,7 +89,9 @@ function MemberBlock({ member, isOwner, onRemove }: MemberBlockProps) {
       />
       <Nickname>{member.nickname}</Nickname>
       <Authority>{member.role}</Authority>
-      <Introduction>{member.introduction || ''}</Introduction>
+      {member.introduction && (
+        <Introduction>{member.introduction}</Introduction>
+      )}
     </BlockContainer>
   );
 }

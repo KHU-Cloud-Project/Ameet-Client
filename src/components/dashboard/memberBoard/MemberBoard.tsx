@@ -9,7 +9,6 @@ import { UserForTeam } from '../../../recoil/atoms/userAtom';
 type MemberBoardProps = {
   members: UserForTeam[];
   maxMembers: number;
-  isOwner: boolean;
   onRemoveMember?: (nickname: string) => void;
 };
 
@@ -36,7 +35,6 @@ const MemberListContainer = styled.div`
 function MemberBoard({
   members,
   maxMembers,
-  isOwner,
   onRemoveMember,
 }: MemberBoardProps) {
   return (
@@ -57,7 +55,6 @@ function MemberBoard({
               <MemberBlock
                 key={member.userTeamId || member.nickname} // Use unique key
                 member={member} // Pass the entire member object
-                isOwner={isOwner}
                 onRemove={() =>
                   onRemoveMember && onRemoveMember(member.nickname)
                 }

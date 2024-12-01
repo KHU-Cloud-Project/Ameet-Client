@@ -28,6 +28,7 @@ export const mapTeamDetailResponse = (response: any): Team => {
         role: user.role,
         nickname: user.nickname,
         introduction: user.introduction,
+        profile: user.profile,
       }),
     ),
   };

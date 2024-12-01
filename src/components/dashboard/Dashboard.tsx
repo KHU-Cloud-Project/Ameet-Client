@@ -5,10 +5,9 @@ import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
 import LogBoard from '../common/logBoard/LogBoard';
 import { dummyLogs } from '../../models/Log';
-import { useFetchUser } from '../../hooks/useFetchUser';
-import { useEffect } from 'react';
-import { MOCK_USER_ID } from '../../constants/mockUser';
 import { Team } from '../../models/Team';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../recoil/atoms/userAtom';
 
 type DashboardProps = {
   team: Team;
@@ -38,31 +37,24 @@ const BlockColumn = styled.div`
 
 function Dashboard({ team }: DashboardProps) {
   const dummyHasSearchbar = true;
+  const [user] = useRecoilState(userAtom);
 
-  const { user, fetchUser } = useFetchUser();
-
-  useEffect(() => {
-    if (!user) {
-      fetchUser(MOCK_USER_ID); // Mock userId 사용
-    }
-  }, [user, fetchUser]);
-
-  if (!user) {
-    return <div>Loading...</div>;
+  if (!user || !user.id) {
+    throw new Error('User data is not present.');
   }
-
-  console.log('USER' + user);
 
   const handleRemoveMember = (nickname: string) => {
     console.log(`Remove member: ${nickname}`);
   };
 
+  console.log('asdfasdfasdfasdfasdfasd', team.role);
+
   return (
     <>
       <BoardHeader
-        title={dummyTitle}
+        title={team.name}
         hasSearchbar={dummyHasSearchbar}
-        hasDescription={true}
+        description={team.description}
         user={user}
       />
       <DashboardBody>
@@ -71,7 +63,6 @@ function Dashboard({ team }: DashboardProps) {
             <MemberBoard
               members={team.memberList || []}
               maxMembers={team.maxPeople || 0}
-              isOwner={team.role == 'OWNER'}
               onRemoveMember={handleRemoveMember}
             />
             <LogBoard logs={dummyLogs} />
@@ -84,38 +75,3 @@ function Dashboard({ team }: DashboardProps) {
 }
 
 export default Dashboard;
-
-const dummyTitle = 'Space 1';
-
-const dummyMembers = [
-  {
-    imageUrl: 'https://picsum.photos/201',
-    nickname: 'Sumin',
-    authority: 'Admin',
-    introduction: 'I love cloud ☁️ 🌹💘💘',
-  },
-  {
-    imageUrl: 'https://picsum.photos/202',
-    nickname: 'SaY',
-    authority: 'Member',
-    introduction: 'backend developer',
-  },
-  {
-    imageUrl: 'https://picsum.photos/203',
-    nickname: 'Cherrie',
-    authority: 'Member',
-    introduction: 'Sujin so cute',
-  },
-  {
-    imageUrl: 'https://picsum.photos/204',
-    nickname: 'Sujin',
-    authority: 'Member',
-    introduction: 'I AM MZ',
-  },
-  {
-    imageUrl: 'https://picsum.photos/205',
-    nickname: 'Gyeongtaek',
-    authority: 'Member',
-    introduction: 'I AM ZM',
-  },
-];

@@ -9,7 +9,7 @@ import { User } from '../../../../recoil/atoms/userAtom';
 type HeaderProps = {
   title: string;
   hasSearchbar: boolean;
-  hasDescription: boolean;
+  description?: string | null | '';
   user: User;
 };
 
@@ -87,23 +87,16 @@ const NotificationDot = styled.span`
   border-radius: 50%;
 `;
 
-function BoardHeader({
-  title,
-  hasSearchbar,
-  hasDescription,
-  user,
-}: HeaderProps) {
-  const dummyDescription = 'This is a space for the Cloud Project class';
-
+function BoardHeader({ title, hasSearchbar, description, user }: HeaderProps) {
   return (
     <HeaderContainer>
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         <BoardTitle
           children={title}
           fontSize={theme.typography.fontSize.xLarge}
-          marginBottom={hasDescription ? 10 : 0}
+          marginBottom={description ? 10 : 0}
         />
-        {hasDescription && <SpaceDescText>{dummyDescription}</SpaceDescText>}
+        {description && <SpaceDescText>{description}</SpaceDescText>}
       </div>
       {hasSearchbar && (
         <SearchBar>
