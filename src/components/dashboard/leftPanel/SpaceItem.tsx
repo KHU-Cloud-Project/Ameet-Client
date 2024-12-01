@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
+import { AiOutlineCrown, AiOutlineDeploymentUnit } from 'react-icons/ai';
+import { Team } from '../../../models/Team';
 
 type SpaceItemProps = {
-  icon: string;
-  label: string;
+  team: Team;
 };
 
 const Item = styled.div`
@@ -14,11 +15,13 @@ const Item = styled.div`
   gap: 10px;
 `;
 
-function SpaceItem({ icon, label }: SpaceItemProps) {
+function SpaceItem({ team }: SpaceItemProps) {
+  const Icon = team.role === 'OWNER' ? AiOutlineCrown : AiOutlineDeploymentUnit;
+
   return (
     <Item>
-      <span>{icon}</span>
-      {label}
+      <Icon />
+      {team.name}
     </Item>
   );
 }

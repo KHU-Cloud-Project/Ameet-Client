@@ -9,6 +9,9 @@ export const useFetchUser = () => {
     try {
       if (!user) {
         console.log('Fetching user with ID:', userId);
+        // fetchUserPromise = axiosInstance.get('/api/v1/user', {
+        //   params: { userId },
+        // });
         const response = await axiosInstance.get('/api/v1/user', {
           params: { userId },
         });
