@@ -9,7 +9,7 @@ export const useFetchTeams = (userId: number) => {
   const fetchTeams = async () => {
     try {
       setTeamsLoading(true);
-      console.log('Fetching teams with user ID:', userId);
+      // console.log('Fetching teams with user ID:', userId);
 
       const teamsData = await fetchTeamsApi(userId);
       setTeams(teamsData);

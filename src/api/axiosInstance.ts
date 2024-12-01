@@ -11,22 +11,39 @@ const axiosInstance = axios.create({
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
   (config) => {
-    console.log(
-      'Request URL:',
-      config.baseURL ?? 'no config.baseURL' + config.url ?? 'no config.url',
-    );
-    console.log('Params:', config.params);
-
+    // 디버깅 할 떄 필요시 주석 해제하고 사용
+    // console.log('--- Request Details ---');
+    // console.log('URL:', config.url);
+    // console.log('Method:', config.method);
+    // console.log('Params:', config.params);
+    // console.log('Data (Body):', config.data);
+    // console.log('Headers:', config.headers);
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => {
+    console.error('--- Request Error ---');
+    console.error(error);
+    return Promise.reject(error);
+  },
 );
 
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('URL:', response.config.url, '\nData:', response.data);
+    return response;
+  },
   (error) => {
-    console.error('API Error:', error);
+    if (error.response) {
+      console.error(
+        'URL:',
+        error.response.config?.url,
+        '\nData:',
+        error.response.data,
+      );
+    } else {
+      console.error('Error Message:', error.message);
+    }
     return Promise.reject(error);
   },
 );

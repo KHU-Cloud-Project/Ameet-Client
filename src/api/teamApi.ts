@@ -17,6 +17,10 @@ export const createTeamApi = async (teamData: {
   maxPeople: number;
   selfIntro?: string;
 }) => {
-  const response = await axiosInstance.post('/api/v1/team', teamData);
-  return response.data;
+  try {
+    const response = await axiosInstance.post('/api/v1/team', teamData);
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
 };

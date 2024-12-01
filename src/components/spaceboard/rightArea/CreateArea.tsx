@@ -11,7 +11,6 @@ import CreateModal from './CreateModal';
 
 const Label = styled.label`
   color: ${(props) => props.theme.colors.textGray};
-  // font-size: ${(props) => props.theme.typography.fontSize.default};
   font-size: 0.95rem;
   margin-bottom: 8px;
 `;
@@ -63,6 +62,7 @@ const CounterBtn = styled.button<{ disabled?: boolean }>`
       : props.theme.colors.textGray};
   font-size: ${(props) => props.theme.typography.fontSize.small};
   cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 
   &:hover {
     border: 1px solid ${(props) => props.theme.colors.lineGray};
@@ -80,9 +80,21 @@ const CreateArea = () => {
   const [entryPassword, setEntryPassword] = useState('');
   const [members, setMembers] = useState(2);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setSpaceName('');
+    setSpaceDescription('');
+    setEntryPassword('');
+    setMembers(2);
+    setError(null);
+  };
 
   const increaseMembers = () => {
     if (members < 8) setMembers(members + 1);
@@ -146,7 +158,9 @@ const CreateArea = () => {
         <CreateModal
           onClose={closeModal}
           spaceName={spaceName}
+          entryPassword={entryPassword}
           spaceDescription={spaceDescription || `Team Space for ${spaceName}`}
+          maxMembers={members}
         />
       )}
     </BoardContainer>

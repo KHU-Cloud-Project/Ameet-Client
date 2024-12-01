@@ -8,7 +8,7 @@ export const useFetchUser = () => {
   const fetchUser = async (userId: number) => {
     try {
       if (!user) {
-        console.log('Fetching user with ID:', userId);
+        // console.log('Fetching user with ID:', userId);
         const userData = await fetchUserApi(userId);
         setUser(userData);
         return userData;

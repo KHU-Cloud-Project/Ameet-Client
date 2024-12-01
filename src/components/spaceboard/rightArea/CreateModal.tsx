@@ -5,6 +5,18 @@ import ModalContainer from '../../common/modal/ModalContainer';
 import CustomBtn from '../../common/CustomBtn';
 import { useState } from 'react';
 import InputLabel from '../../common/InputLabel';
+import { useRecoilState } from 'recoil';
+import { teamsAtom } from '../../../recoil/atoms/teamAtom';
+import { createTeamApi } from '../../../api/teamApi';
+import { userAtom } from '../../../recoil/atoms/userAtom';
+
+type CreateModalProps = {
+  onClose: () => void;
+  spaceName: string;
+  spaceDescription: string;
+  maxMembers: number;
+  entryPassword: string;
+};
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -13,11 +25,11 @@ const TitleArea = styled.div`
   margin-bottom: 22px;
   text-align: center;
 
-  span:first-child {
+  span:first-of-type {
     color: ${(props) => props.theme.colors.textGray};
   }
 
-  span:last-child {
+  span:last-of-type {
     color: ${(props) => props.theme.colors.textBlack};
   }
 `;
@@ -34,33 +46,80 @@ const CreateModal = ({
   onClose,
   spaceName,
   spaceDescription,
-}: {
-  onClose: () => void;
-  spaceName: string;
-  spaceDescription: string;
-}) => {
+  maxMembers,
+  entryPassword,
+}: CreateModalProps) => {
   const [selfIntro, setSelfIntro] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [teams, setTeams] = useRecoilState(teamsAtom);
+  const [user] = useRecoilState(userAtom);
+
+  const handleCreate = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      if (!user || !user.id) {
+        throw new Error('User is not logged in.');
+      }
+
+      const teamData = {
+        userId: user.id,
+        teamName: spaceName,
+        description: spaceDescription,
+        teamPassword: entryPassword,
+        maxPeople: maxMembers,
+        selfIntro,
+      };
+
+      console.log('createTeamApi 호출 전');
+      const teamId = await createTeamApi(teamData);
+      console.log('createTeamApi 호출 후');
+
+      const newTeam = {
+        teamId,
+        name: teamData.teamName,
+        description: teamData.description,
+        password: teamData.teamPassword,
+        maxPeople: teamData.maxPeople,
+        selfIntro: teamData.selfIntro,
+        userId: teamData.userId,
+      };
+
+      setTeams((prev) => [...prev, newTeam]);
+
+      alert('Team created successfully!');
+
+      onClose();
+    } catch (err) {
+      console.error('Error creating team:', err);
+      setError('Failed to create the team. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ModalOverlay onClose={onClose}>
       <ModalContainer onClose={onClose}>
         <TitleArea>
-          <span>Join </span>
+          <span>Create and Join: </span>
           <span>{spaceName}</span>
         </TitleArea>
         <Description>{spaceDescription}</Description>
         <InputLabel
           label="Self Introduction"
           value={selfIntro}
-          placeholder="write a short introduction of yourself"
+          placeholder="Write a short introduction of yourself"
           onChange={(e) => setSelfIntro(e.target.value)}
         />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <CustomBtn
-          text="Create"
+          text={loading ? 'Creating...' : 'Create'}
           padding="14px 28px"
-          onClick={() => {
-            console.log('Joining with intro:', selfIntro);
-          }}
+          onClick={handleCreate}
+          disabled={loading}
         />
       </ModalContainer>
     </ModalOverlay>
