@@ -1,6 +1,8 @@
 import { useRecoilState } from 'recoil';
 import { teamsAtom, teamsLoadingAtom } from '../recoil/atoms/teamAtom';
 import { fetchTeamsApi } from '../api/teamApi';
+import { useState } from 'react';
+import { Team } from '../models/Team';
 
 export const useFetchTeams = (userId: number) => {
   const [teams, setTeams] = useRecoilState(teamsAtom);
@@ -9,8 +11,6 @@ export const useFetchTeams = (userId: number) => {
   const fetchTeams = async () => {
     try {
       setTeamsLoading(true);
-      // console.log('Fetching teams with user ID:', userId);
-
       const teamsData = await fetchTeamsApi(userId);
       setTeams(teamsData);
     } catch (error) {

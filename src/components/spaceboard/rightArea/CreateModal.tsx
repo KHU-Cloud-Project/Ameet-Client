@@ -73,9 +73,7 @@ const CreateModal = ({
         selfIntro,
       };
 
-      console.log('createTeamApi 호출 전');
       const teamId = await createTeamApi(teamData);
-      console.log('createTeamApi 호출 후');
 
       const newTeam = {
         teamId,
