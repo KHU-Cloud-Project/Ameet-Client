@@ -5,3 +5,8 @@ export const teamsAtom = atom<Team[]>({
   key: 'teamsAtom',
   default: [],
 });
+
+export const teamsLoadingAtom = atom({
+  key: 'teamsLoading',
+  default: true,
+});

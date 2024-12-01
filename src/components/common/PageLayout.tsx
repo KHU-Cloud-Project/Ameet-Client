@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import LeftPanel from '../dashboard/leftPanel/LeftPanel';
-import { MOCK_USER_ID } from '../../constants/mockUser';
+import { useRecoilValue } from 'recoil';
+import { teamsAtom, teamsLoadingAtom } from '../../recoil/atoms/teamAtom';
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -19,9 +20,16 @@ const ContentWrapper = styled.div`
 `;
 
 function PageLayout({ children }: { children: React.ReactNode }) {
+  const teams = useRecoilValue(teamsAtom);
+  const teamsLoading = useRecoilValue(teamsLoadingAtom);
+
+  if (teamsLoading) {
+    return <div>Loading teams...</div>;
+  }
+
   return (
     <LayoutContainer>
-      <LeftPanel userId={MOCK_USER_ID} />
+      <LeftPanel teams={teams} teamsLoading={teamsLoading} />
       <ContentWrapper>{children}</ContentWrapper>
     </LayoutContainer>
   );

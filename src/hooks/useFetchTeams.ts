@@ -1,16 +1,15 @@
 import { useRecoilState } from 'recoil';
 import axiosInstance from '../api/axiosInstance';
-import { teamsAtom } from '../recoil/atoms/teamAtom';
-import React from 'react';
+import { teamsAtom, teamsLoadingAtom } from '../recoil/atoms/teamAtom';
 
 export const useFetchTeams = (userId: number) => {
   const [teams, setTeams] = useRecoilState(teamsAtom);
-  const [teamsLoading, setLoading] = React.useState(true);
+  const [teamsLoading, setTeamsLoading] = useRecoilState(teamsLoadingAtom);
 
   const fetchTeams = async () => {
     try {
-      setLoading(true);
-      console.log('Fetching team with userID:', userId);
+      setTeamsLoading(true);
+      console.log('Fetching teams with user ID:', userId);
 
       const response = await axiosInstance.put(
         `/api/v1/team/myTeamList?userId=${userId}`,
@@ -24,7 +23,7 @@ export const useFetchTeams = (userId: number) => {
       console.error('[useFetchTeams] Failed to fetch teams:', error);
       setTeams([]);
     } finally {
-      setLoading(false);
+      setTeamsLoading(false);
     }
   };
 

@@ -21,7 +21,7 @@ function ManageBtn() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/space');
+    navigate('/');
   };
 
   return <Button onClick={handleClick}>Manage Spaces</Button>;

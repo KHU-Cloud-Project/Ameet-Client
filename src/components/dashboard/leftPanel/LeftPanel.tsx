@@ -7,8 +7,12 @@ import ManageBtn from './ManageBtn';
 import { Spacer } from '../../common/Spacer';
 import Divider from '../../common/Divider';
 import DummySignupButton from '../DummySignupBtn';
-import { useFetchTeams } from '../../../hooks/useFetchTeams';
-import { useEffect } from 'react';
+import { Team } from '../../../models/Team';
+
+type LeftPanelProps = {
+  teams: Team[];
+  teamsLoading: boolean;
+};
 
 const Panel = styled.div`
   width: clamp(220px, 18vw, 260px);
@@ -22,15 +26,7 @@ const Panel = styled.div`
   white-space: nowrap;
 `;
 
-function LeftPanel({ userId }: { userId: number }) {
-  const { teams, fetchTeams, teamsLoading } = useFetchTeams(userId);
-
-  useEffect(() => {
-    if (teams.length === 0) {
-      fetchTeams();
-    }
-  }, [teams, fetchTeams]);
-
+function LeftPanel({ teams, teamsLoading }: LeftPanelProps) {
   return (
     <Panel>
       <DummySignupButton />
