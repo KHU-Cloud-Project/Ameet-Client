@@ -7,6 +7,8 @@ import ManageBtn from './ManageBtn';
 import { Spacer } from '../../common/Spacer';
 import Divider from '../../common/Divider';
 import DummySignupButton from '../DummySignupBtn';
+import { useFetchTeams } from '../../../hooks/useFetchTeams';
+import { useEffect } from 'react';
 
 const Panel = styled.div`
   width: clamp(220px, 18vw, 260px);
@@ -20,7 +22,15 @@ const Panel = styled.div`
   white-space: nowrap;
 `;
 
-function LeftPanel() {
+function LeftPanel({ userId }: { userId: number }) {
+  const { teams, fetchTeams, teamsLoading } = useFetchTeams(userId);
+
+  useEffect(() => {
+    if (teams.length === 0) {
+      fetchTeams();
+    }
+  }, [teams, fetchTeams]);
+
   return (
     <Panel>
       <DummySignupButton />
@@ -29,7 +39,11 @@ function LeftPanel() {
         <Spacer height={66} />
         <ManageBtn />
         <Spacer height={24} />
-        <SpaceList />
+        {teamsLoading ? (
+          <div>Loading spaces...</div>
+        ) : (
+          <SpaceList teams={teams} />
+        )}
       </div>
       <div style={{ width: '100%', paddingBottom: '38px' }}>
         <Divider />

@@ -1,6 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import SpaceItem from './SpaceItem';
+import { Team } from '../../../models/Team';
+
+type SpaceListProps = {
+  teams: Team[];
+};
 
 const List = styled.div`
   display: flex;
@@ -12,14 +17,16 @@ const List = styled.div`
   flex: 1;
 `;
 
-function SpaceList() {
+function SpaceList({ teams }: SpaceListProps) {
+  if (!Array.isArray(teams) || teams.length === 0) {
+    return <div>No teams available</div>;
+  }
+
   return (
     <List>
-      <SpaceItem icon="📊" label="Space 1" />
-      <SpaceItem icon="🛒" label="Space 2" />
-      <SpaceItem icon="📅" label="Space 3" />
-      <SpaceItem icon="📈" label="Space 4" />
-      <SpaceItem icon="💬" label="Space 5" />
+      {teams.map((team) => (
+        <SpaceItem key={team.teamId} team={team} />
+      ))}
     </List>
   );
 }

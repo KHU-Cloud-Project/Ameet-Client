@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import LeftPanel from '../dashboard/leftPanel/LeftPanel';
+import { MOCK_USER_ID } from '../../constants/mockUser';
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const ContentWrapper = styled.div`
 function PageLayout({ children }: { children: React.ReactNode }) {
   return (
     <LayoutContainer>
-      <LeftPanel />
+      <LeftPanel userId={MOCK_USER_ID} />
       <ContentWrapper>{children}</ContentWrapper>
     </LayoutContainer>
   );
