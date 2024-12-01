@@ -8,6 +8,11 @@ import { dummyLogs } from '../../models/Log';
 import { useFetchUser } from '../../hooks/useFetchUser';
 import { useEffect } from 'react';
 import { MOCK_USER_ID } from '../../constants/mockUser';
+import { Team } from '../../models/Team';
+
+type DashboardProps = {
+  team: Team;
+};
 
 const DashboardBody = styled.div`
   display: flex;
@@ -31,9 +36,9 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-function Dashboard() {
+function Dashboard({ team }: DashboardProps) {
   const dummyHasSearchbar = true;
-  const dummyIsAdmin = true;
+
   const { user, fetchUser } = useFetchUser();
 
   useEffect(() => {
@@ -64,8 +69,9 @@ function Dashboard() {
         <BlockWrapper>
           <BlockColumn>
             <MemberBoard
-              members={dummyMembers}
-              isAdmin={dummyIsAdmin}
+              members={team.memberList || []}
+              maxMembers={team.maxPeople || 0}
+              isOwner={team.role == 'OWNER'}
               onRemoveMember={handleRemoveMember}
             />
             <LogBoard logs={dummyLogs} />

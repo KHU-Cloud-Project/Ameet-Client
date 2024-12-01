@@ -65,7 +65,7 @@ function AppInitializer() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard/:teamId" element={<DashboardPage />} />
         <Route path="/" element={<SpaceboardPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

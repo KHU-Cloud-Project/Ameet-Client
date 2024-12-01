@@ -4,18 +4,12 @@ import MemberBlock from './MemberBlock';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import BoardTitle from '../../common/board/BoardTitle';
 import BoardContainer from '../../common/board/BoardContainer';
-// import { LeftArrow, RightArrow } from './ScrollArrows';
-
-type Member = {
-  imageUrl: string;
-  nickname: string;
-  authority: string;
-  introduction: string;
-};
+import { UserForTeam } from '../../../recoil/atoms/userAtom';
 
 type MemberBoardProps = {
-  members: Member[];
-  isAdmin: boolean;
+  members: UserForTeam[];
+  maxMembers: number;
+  isOwner: boolean;
   onRemoveMember?: (nickname: string) => void;
 };
 
@@ -39,9 +33,12 @@ const MemberListContainer = styled.div`
   align-items: center;
 `;
 
-function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
-  const dummyMaxMembers = 8;
-
+function MemberBoard({
+  members,
+  maxMembers,
+  isOwner,
+  onRemoveMember,
+}: MemberBoardProps) {
   return (
     // <BoardContainer flex="none">
     <BoardContainer flex={0.6}>
@@ -49,7 +46,7 @@ function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
       <BoardTitle>
         Members{' '}
         <MemberCount>
-          ({members.length}/{dummyMaxMembers})
+          ({members.length}/{maxMembers})
         </MemberCount>
       </BoardTitle>
       <ScrollableMemberList>
@@ -58,12 +55,9 @@ function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
           <MemberListContainer>
             {members.map((member) => (
               <MemberBlock
-                key={member.nickname}
-                imageUrl={member.imageUrl}
-                nickname={member.nickname}
-                authority={member.authority}
-                introduction={member.introduction}
-                isAdmin={isAdmin}
+                key={member.userTeamId || member.nickname} // Use unique key
+                member={member} // Pass the entire member object
+                isOwner={isOwner}
                 onRemove={() =>
                   onRemoveMember && onRemoveMember(member.nickname)
                 }

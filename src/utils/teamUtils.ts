@@ -22,12 +22,12 @@ export const mapTeamDetailResponse = (response: any): Team => {
     memberNum: response.memberNum,
     createdAt: response.createdAt,
     memberList: response.memberList.map(
-      (member: any): UserForTeam => ({
-        userTeamId: member.userTeamId,
-        userId: member.userId,
-        role: member.role,
-        nickname: member.nickname,
-        introduction: member.introduction,
+      (user: UserForTeam): UserForTeam => ({
+        userTeamId: user.userTeamId,
+        userId: user.userId,
+        role: user.role,
+        nickname: user.nickname,
+        introduction: user.introduction,
       }),
     ),
   };

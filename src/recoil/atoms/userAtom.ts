@@ -12,7 +12,8 @@ export type UserForTeam = {
   userId: number | null;
   role: 'OWNER' | 'MEMBER';
   nickname: string;
-  introduction?: string;
+  introduction?: string | null;
+  profile?: string | null;
 };
 
 export const userAtom = atom<User | null>({

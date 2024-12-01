@@ -2,13 +2,11 @@
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
 import { useTheme } from '@emotion/react';
+import { UserForTeam } from '../../../recoil/atoms/userAtom';
 
 type MemberBlockProps = {
-  imageUrl: string;
-  nickname: string;
-  authority: string;
-  introduction: string;
-  isAdmin: boolean;
+  member: UserForTeam;
+  isOwner: boolean;
   onRemove?: () => void;
 };
 
@@ -60,14 +58,7 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-function MemberBlock({
-  imageUrl,
-  nickname,
-  authority,
-  introduction,
-  isAdmin,
-  onRemove,
-}: MemberBlockProps) {
+function MemberBlock({ member, isOwner, onRemove }: MemberBlockProps) {
   const theme = useTheme();
 
   const backgroundColor = useMemo(() => {
@@ -83,11 +74,17 @@ function MemberBlock({
 
   return (
     <BlockContainer backgroundColor={backgroundColor}>
-      {isAdmin && <CloseButton onClick={onRemove}>×</CloseButton>}
-      <ProfileImage src={imageUrl} alt={nickname} />
-      <Nickname>{nickname}</Nickname>
-      <Authority>{authority}</Authority>
-      <Introduction>{introduction}</Introduction>
+      {isOwner && <CloseButton onClick={onRemove}>×</CloseButton>}
+      <ProfileImage
+        src={member.profile || '/src/assets/images/profile.png'}
+        alt={member.nickname}
+        onError={(e) => {
+          e.currentTarget.src = '/src/assets/images/profile.png';
+        }}
+      />
+      <Nickname>{member.nickname}</Nickname>
+      <Authority>{member.role}</Authority>
+      <Introduction>{member.introduction || ''}</Introduction>
     </BlockContainer>
   );
 }

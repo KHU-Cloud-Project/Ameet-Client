@@ -10,6 +10,19 @@ export const fetchTeamsApi = async (userId: number): Promise<Team[]> => {
   return mapTeamListResponse(response.data?.data || []);
 };
 
+// Fetch details of a single team
+export const fetchTeamDetailApi = async (teamId: number) => {
+  const response = await axiosInstance.get(`/api/v1/team`, {
+    params: { teamId },
+  });
+
+  if (response.data?.success && response.status === 200) {
+    return response.data;
+  }
+
+  throw new Error('Failed to fetch team details');
+};
+
 // Create Team
 export const createTeamApi = async (teamData: {
   userId: number;
