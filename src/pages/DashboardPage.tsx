@@ -14,21 +14,9 @@ function DashboardPage() {
     }
   }, [teamId, fetchTeamDetail]);
 
-  if (loading) {
-    return <div>Loading team details...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!teamDetail) {
-    return <div>Team not found</div>;
-  }
-
   return (
     <PageLayout>
-      <Dashboard team={teamDetail} />
+      <Dashboard team={teamDetail} loading={loading} error={error} />
     </PageLayout>
   );
 }

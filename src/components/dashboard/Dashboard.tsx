@@ -10,7 +10,9 @@ import { useRecoilState } from 'recoil';
 import { userAtom } from '../../recoil/atoms/userAtom';
 
 type DashboardProps = {
-  team: Team;
+  team: Team | null;
+  loading: boolean;
+  error: string | null;
 };
 
 const DashboardBody = styled.div`
@@ -35,7 +37,7 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-function Dashboard({ team }: DashboardProps) {
+function Dashboard({ team, loading, error }: DashboardProps) {
   const dummyHasSearchbar = true;
   const [user] = useRecoilState(userAtom);
 
@@ -47,22 +49,21 @@ function Dashboard({ team }: DashboardProps) {
     console.log(`Remove member: ${nickname}`);
   };
 
-  console.log('asdfasdfasdfasdfasdfasd', team.role);
-
   return (
     <>
       <BoardHeader
-        title={team.name}
-        hasSearchbar={dummyHasSearchbar}
-        description={team.description}
+        title={team ? team.name : ''}
+        hasSearchbar
+        description={team?.description || null}
         user={user}
       />
       <DashboardBody>
         <BlockWrapper>
           <BlockColumn>
             <MemberBoard
-              members={team.memberList || []}
-              maxMembers={team.maxPeople || 0}
+              members={team?.memberList || []}
+              maxMembers={team?.maxPeople || 0}
+              loading={loading}
               onRemoveMember={handleRemoveMember}
             />
             <LogBoard logs={dummyLogs} />

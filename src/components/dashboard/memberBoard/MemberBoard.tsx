@@ -9,6 +9,7 @@ import { UserForTeam } from '../../../recoil/atoms/userAtom';
 type MemberBoardProps = {
   members: UserForTeam[];
   maxMembers: number;
+  loading: boolean;
   onRemoveMember?: (nickname: string) => void;
 };
 
@@ -35,6 +36,7 @@ const MemberListContainer = styled.div`
 function MemberBoard({
   members,
   maxMembers,
+  loading,
   onRemoveMember,
 }: MemberBoardProps) {
   return (
@@ -44,22 +46,26 @@ function MemberBoard({
       <BoardTitle>
         Members{' '}
         <MemberCount>
-          ({members.length}/{maxMembers})
+          ({loading ? 'Loading...' : `${members.length}/${maxMembers}`})
         </MemberCount>
       </BoardTitle>
       <ScrollableMemberList>
         {/* <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}> */}
         <ScrollMenu>
           <MemberListContainer>
-            {members.map((member) => (
-              <MemberBlock
-                key={member.userTeamId || member.nickname} // Use unique key
-                member={member} // Pass the entire member object
-                onRemove={() =>
-                  onRemoveMember && onRemoveMember(member.nickname)
-                }
-              />
-            ))}
+            {loading ? (
+              <></>
+            ) : (
+              members.map((member) => (
+                <MemberBlock
+                  key={member.userTeamId || member.nickname}
+                  member={member}
+                  onRemove={() =>
+                    onRemoveMember && onRemoveMember(member.nickname)
+                  }
+                />
+              ))
+            )}
           </MemberListContainer>
         </ScrollMenu>
       </ScrollableMemberList>
