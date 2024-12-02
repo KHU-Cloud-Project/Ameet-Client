@@ -69,23 +69,25 @@ const PageNumber = styled.button<{ active?: boolean }>`
 `;
 
 type LogBoardProps = {
-  teamId: number;
+  teamId?: number;
+  userId?: number;
   itemsPerPage?: number;
   title?: string;
 };
 
-function LogBoard({ teamId, itemsPerPage = 7, title }: LogBoardProps) {
+function LogBoard({ teamId, userId, itemsPerPage = 7, title }: LogBoardProps) {
   const { logs = [], totalPages, fetchLogs, loading, error } = useFetchLogs();
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
 
   useEffect(() => {
-    if (teamId > 0) {
-      console.log('Fetching logs for teamId:', teamId);
-      fetchLogs(teamId, currentPage - 1, itemsPerPage);
+    if (teamId && teamId > 0) {
+      fetchLogs('team', teamId, currentPage - 1, itemsPerPage);
+    } else if (userId && userId > 0) {
+      fetchLogs('user', userId, currentPage - 1, itemsPerPage);
     }
-  }, [teamId, currentPage, itemsPerPage, fetchLogs]);
+  }, [teamId, userId, currentPage, itemsPerPage, fetchLogs]);
 
   const handlePageChange = (page: number) => {
     if (page !== currentPage) {

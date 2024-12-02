@@ -5,7 +5,6 @@ import SpaceArea from './spaceArea/SpaceArea';
 import LogBoard from '../common/logBoard/LogBoard';
 import CreateArea from './rightArea/CreateArea';
 import UseAdvancedArea from './rightArea/UseAdvancedArea';
-import { dummyLogs } from '../../models/Log';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '../../recoil/atoms/userAtom';
 
@@ -64,7 +63,7 @@ function Spaceboard() {
           <BlockColumn firstChildFlex="content" lastChildFlex="80">
             <SpaceArea spaces={dummySpaces} />
             <LogBoard
-              logs={dummyLogs}
+              userId={user.id}
               itemsPerPage={4}
               title="All Meeting Logs"
             />

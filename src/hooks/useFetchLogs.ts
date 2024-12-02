@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Log } from '../models/Log';
-import { fetchMeetingLogsApi } from '../api/logApi';
+import { fetchTeamMeetingLogsApi, fetchMyMeetingLogsApi } from '../api/logApi';
 
 export const useFetchLogs = () => {
   const [logs, setLogs] = useState<Log[]>([]);
@@ -10,20 +10,24 @@ export const useFetchLogs = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchLogs = useCallback(
-    async (teamId: number, page: number, size: number) => {
+    async (type: 'team' | 'user', id: number, page: number, size: number) => {
       if (loading) return;
       try {
         setLoading(true);
         setError(null);
 
-        const { content, totalPages, totalElements } =
-          await fetchMeetingLogsApi(teamId, page, size);
+        const response =
+          type === 'team'
+            ? await fetchTeamMeetingLogsApi(id, page, size)
+            : await fetchMyMeetingLogsApi(id, page, size);
+
+        const { content, totalPages, totalElements } = response;
 
         setLogs(content);
         setTotalPages(totalPages);
         setTotalElements(totalElements);
       } catch (err: any) {
-        setError(err.message || 'Failed to fetch meeting logss');
+        setError(err.message || 'Failed to fetch meeting logs');
       } finally {
         setLoading(false);
       }
