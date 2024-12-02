@@ -4,7 +4,6 @@ import BoardHeader from '../common/board/header/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
 import LogBoard from '../common/logBoard/LogBoard';
-import { dummyLogs } from '../../models/Log';
 import { Team } from '../../models/Team';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '../../recoil/atoms/userAtom';
@@ -62,11 +61,11 @@ function Dashboard({ team, loading, error }: DashboardProps) {
           <BlockColumn>
             <MemberBoard
               members={team?.memberList || []}
-              maxMembers={team?.maxPeople || 0}
+              maxMembers={team?.maxPeople || -1}
               loading={loading}
               onRemoveMember={handleRemoveMember}
             />
-            <LogBoard logs={dummyLogs} />
+            <LogBoard teamId={team?.teamId || -1} />
           </BlockColumn>
           <MeetingSettingBoard />
         </BlockWrapper>

@@ -1,18 +1,16 @@
-export type Participant = {
-  nickname: string;
-};
+import { UserForTeam } from '../recoil/atoms/userAtom';
 
 export type Log = {
-  id: string;
-  name: string;
+  meetingId: number;
+  title: string;
   date: string;
-  length: number;
-  participants: Participant[];
-  aiSummary?: string;
-  originalContent?: string;
+  duration: number;
+  participants?: UserForTeam[] | null;
+  aiSummary?: string | null;
+  originalContent?: string | null;
 };
 
-export const dummyLogs: Log[] = Array.from({ length: 130 }, (_, i) => ({
+export const dummyLogs = Array.from({ length: 130 }, (_, i) => ({
   id: `${i + 1}`,
   name: `Meeting ${i + 1}`,
   date: `2024-09-01 23:00:01`,

@@ -155,16 +155,16 @@ function LogModal({ log, onClose }: LogModalProps) {
               marginBottom={5}
               fontSize={theme.typography.fontSize.mediumLarge}
             >
-              {log.name}
+              {log.title}
             </BoardTitle>
             <Participants>
               <FiUsers />
-              {log.participants.map((p) => p.nickname).join(', ')}
+              {/* {log.participants.map((p) => p.nickname).join(', ')} */}
             </Participants>
           </div>
           <HeaderInfo>
             <span>{log.date}</span>
-            <span>{formatDuration(log.length)}</span>
+            <span>{formatDuration(log.duration)}</span>
             <ActionButtons>
               <button>
                 <AiOutlineDownload />

@@ -10,7 +10,7 @@ export type User = {
 export type UserForTeam = {
   userTeamId: number | null;
   userId: number | null;
-  role: 'OWNER' | 'MEMBER';
+  role?: 'OWNER' | 'MEMBER';
   nickname: string;
   introduction?: string | null;
   profile?: string | null;
