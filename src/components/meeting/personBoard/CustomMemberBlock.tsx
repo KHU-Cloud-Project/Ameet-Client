@@ -20,15 +20,16 @@ const CustomBlockContainer = styled.div<{ backgroundColor: string }>`
   align-items: center;
   margin: 0; /* 그리드 간격에 맞게 간격 제거 */
   width: 100%; /* 부모 그리드에 맞게 */
-  aspect-ratio: 1.2; /* 가로와 세로 길이를 동일하게 설정 */
+  aspect-ratio: 1.5; /* 가로와 세로 길이를 동일하게 설정 */
 `;
 
 const ProfileImage = styled.img`
-  width: 60px; /* 크기 조정 */
-  height: 60px; /* 크기 조정 */
+  width: 50%; /* 크기 조정 */
+  height: auto; /* 크기 조정 */
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 8px;
+  margin-bottom: auto;
+  margin-top: auto;
 `;
 
 const Nickname = styled.h3`
@@ -43,11 +44,22 @@ const Authority = styled.div`
   color: ${(props) => props.theme.colors.textGray};
 `;
 
+const HeadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* 부모의 전체 너비 사용 */
+  padding: 0 10px; /* 좌우 여백 추가 */
+  margin-bottom: 8px;
+  margin-top: 12px;
+`;
+
 const Introduction = styled.div`
   font-size: ${(props) => props.theme.typography.fontSize.small};
   color: ${(props) => props.theme.colors.textBlue};
-  margin-top: 4px;
-  text-align: center;
+  bottom: 10px; /* 아래에서 10px */
+  margin-right: auto; /* 왼쪽에서 10px */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
 `;
 
 function CustomMemberBlock({
@@ -72,9 +84,11 @@ function CustomMemberBlock({
 
   return (
     <CustomBlockContainer backgroundColor={backgroundColor}>
+      <HeadContainer>
+        <Nickname>{nickname}</Nickname>
+        <Authority>{authority}</Authority>
+      </HeadContainer>
       <ProfileImage src={imageUrl} alt={nickname} />
-      <Nickname>{nickname}</Nickname>
-      <Authority>{authority}</Authority>
       <Introduction>{introduction}</Introduction>
     </CustomBlockContainer>
   );

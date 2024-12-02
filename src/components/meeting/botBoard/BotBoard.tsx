@@ -10,46 +10,89 @@ const BoardContainer = styled.div`
   padding: 20px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
-`;
+;`
 
 const BoardTitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px; /* 아이템 간 간격 */
+  gap: 10px; /* 아이템 간 간격 */
+;`
+
+const BotContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* 가로로 균등 분배 */
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 20px; /* 각 봇 간격 */
+  margin-bottom: 0;
 `;
+const bots = [
+  {
+    imageUrl: '/src/assets/images/positive bot.png',
+    botType: 'Positive Feedback',
+    description: 'Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!',
+    color: '#4CAF93', // 청록색
+  },
+  {
+    imageUrl: '/src/assets/images/attendance checker.png',
+    botType: 'Attendance Checker',
+    description: 'Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.',
+    color: '#8C4CBF', // 보라색
+  },
+  {
+    imageUrl: '/src/assets/images/negative bot.png',
+    botType: 'Negative Feedback',
+    description: 'Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!',
+    color: '#FFC107', // 노란색
+  },
+];
 
-const bots = {
-    bot1: '#4CAF93', // 청록색
-    bot2: '#8C4CBF', // 보라색
-    bot3: '#FFC107', // 노란색
-  };
-
-const responsesMap: { [key: string]: string } = {
-    bot1: 'WaterBot: Stay hydrated during your meeting!',
-    bot2: 'LoopBot: I’ll keep track of your tasks!',
-    bot3: 'EnergyBot: Let’s boost the productivity!testtesttesttesttest',
+const responsesMap: { [botType: string]: string } = {
+    'Positive Feedback': 'Stay hydrated during your meeting!',
+    'Attendance Checker': 'll keep track of your tasks!',
+    'Negative Feedback': 'Let’s boost the productivity!testtesttesttesttest',
   };
 
 function BotBoard() {
-    const [responses, setResponses] = useState<{ botId: string; text: string }[]>(
+  const [selectedBot, setSelectedBot] = useState<string | null>(null);
+
+    const [responses, setResponses] = useState<{ botType: string; text: string }[]>(
         []
       );
 
-    const handleSelectBot = (botId: string) => {
-      const newResponse = { botId, text: responsesMap[botId] };
+    const handleSelectBot = (botType: string) => {
+      console.log('Selected bot:', botType);
+      console.log('Responses:', responses);
+      const newResponse = { botType, text: responsesMap[botType] };
       setResponses((prev) => [...prev, newResponse]); // 새로운 응답 추가
+      setSelectedBot(botType);
     };
+
+    const botColorsAndImages = bots.reduce((acc, bot) => {
+      acc[bot.botType] = { color: bot.color, imageUrl: bot.imageUrl };
+      return acc;
+    }, {} as { [botType: string]: { color: string; imageUrl: string } });
+  
 
   return (
     <BoardContainer>
       <BoardTitleContainer>
-      <BotList selectedBot={null} onSelectBot={handleSelectBot} />
+        <BotContainer>
+          {bots.map((bot) => (
+            <BotList
+              imageUrl={bot.imageUrl}
+              botType={bot.botType}
+              description={bot.description}
+              color={bot.color}
+              selectedBot={selectedBot}
+              onSelectBot={handleSelectBot}
+            />
+          ))}
+        </BotContainer>
       <Divider />
-      <BotResponses responses={responses} bots={bots}/>
+      <BotResponses responses={responses} bots={botColorsAndImages} />
       </BoardTitleContainer>
     </BoardContainer>
   );
 }
 
 export default BotBoard;
-

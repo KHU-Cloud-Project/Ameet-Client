@@ -1,47 +1,8 @@
-// /** @jsxImportSource @emotion/react */
-// import styled from '@emotion/styled';
-
-// const ResponseContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 10px;
-//   margin-top: 16px;
-//   padding: 10px;
-//   background-color: ${(props) => props.theme.colors.textLightGray};
-//   border-radius: 8px;
-//   max-height: 200px;
-//   overflow-y: auto; /* 응답이 많아질 경우 스크롤 활성화 */
-// `;
-
-// const ResponseItem = styled.div`
-//   padding: 10px;
-//   background-color: ${(props) => props.theme.colors.white};
-//   border: 1px solid ${(props) => props.theme.colors.lightGray};
-//   border-radius: 8px;
-//   color: ${(props) => props.theme.colors.textBlack};
-// `;
-
-// type BotResponsesProps = {
-//   responses: string[];
-// };
-
-// function BotResponses({ responses }: BotResponsesProps) {
-//   return (
-//     <ResponseContainer>
-//       {responses.map((response, index) => (
-//         <ResponseItem key={index}>{response}</ResponseItem>
-//       ))}
-//     </ResponseContainer>
-//   );
-// }
-
-// export default BotResponses;
-
 import styled from '@emotion/styled';
 
 type BotResponsesProps = {
-  responses: { botId: string; text: string }[];
-  bots: { [key: string]: string }; // 봇 색상 정보
+  responses: { botType: string; text: string }[];
+  bots: { [botType: string]: { color: string; imageUrl: string } }; // 봇 정보 (색상, 이미지)
 };
 
 const ResponsesContainer = styled.div`
@@ -77,28 +38,36 @@ const ResponseBubble = styled.div<{ color: string }>`
   border: 0.5px solid ${({ color }) => color}; /* 테두리 색상 */
   padding: 10px 15px;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 0.7rem;
   display: flex;
   align-items: center; /* 봇 아이콘과 텍스트 정렬 */
   gap: 10px;
-`;
+;`
 
-const BotIcon = styled.div<{ color: string }>`
+const BotIcon = styled.div<{ imageUrl?: string }>`
   width: 20px;
   height: 20px;
-  background-color: ${({ color }) => color};
-  border-radius: 50%;
-`;
+background-image: url(${({ imageUrl }) => imageUrl});
+  background-size: cover; /* 이미지를 아이콘 크기에 맞게 조정 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  border-radius: 12px; /* 동그란 모양 유지 */
+;`
 
 function BotResponses({ responses, bots }: BotResponsesProps) {
   return (
     <ResponsesContainer>
-      {responses.map((response, index) => (
-        <ResponseBubble key={index} color={bots[response.botId]}>
-          <BotIcon color={bots[response.botId]} />
-          {response.text}
-        </ResponseBubble>
-      ))}
+      {responses.map((response) => {
+        const bot = bots[response.botType]; // responses의 botType으로 bots에서 데이터 가져옴
+        if (!bot) {
+          return null; // botType이 없는 경우 렌더링 생략
+        }
+        return (
+          <ResponseBubble key={response.botType} color={bot.color}>
+            <BotIcon imageUrl={bot.imageUrl} />
+            {response.text}
+          </ResponseBubble>
+        );
+      })}
     </ResponsesContainer>
   );
 }
