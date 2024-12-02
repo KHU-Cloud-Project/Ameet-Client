@@ -44,11 +44,10 @@ const ResponseBubble = styled.div<{ color: string }>`
   gap: 10px;
 ;`
 
-const BotIcon = styled.div<{ imageUrl?: string }>`
+  const BotIcon = styled.img`
   width: 20px;
   height: 20px;
-background-image: url(${({ imageUrl }) => imageUrl});
-  background-size: cover; /* 이미지를 아이콘 크기에 맞게 조정 */
+  border-radius: 50%;
   background-position: center; /* 이미지 중앙 정렬 */
   border-radius: 12px; /* 동그란 모양 유지 */
 ;`
@@ -56,14 +55,11 @@ background-image: url(${({ imageUrl }) => imageUrl});
 function BotResponses({ responses, bots }: BotResponsesProps) {
   return (
     <ResponsesContainer>
-      {responses.map((response) => {
-        const bot = bots[response.botType]; // responses의 botType으로 bots에서 데이터 가져옴
-        if (!bot) {
-          return null; // botType이 없는 경우 렌더링 생략
-        }
+      {responses.map((response, index) => {
+        const bot = bots[response.botType];
         return (
-          <ResponseBubble key={response.botType} color={bot.color}>
-            <BotIcon imageUrl={bot.imageUrl} />
+          <ResponseBubble key={index} color={bot.color}>
+            <BotIcon src={bot.imageUrl} alt={response.botType} />
             {response.text}
           </ResponseBubble>
         );
@@ -71,5 +67,6 @@ function BotResponses({ responses, bots }: BotResponsesProps) {
     </ResponsesContainer>
   );
 }
+
 
 export default BotResponses;

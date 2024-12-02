@@ -29,39 +29,33 @@ const bots = [
   {
     imageUrl: '/src/assets/images/positive bot.png',
     botType: 'Positive Feedback',
-    description: 'Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!Stay hydrated!',
     color: '#4CAF93', // 청록색
   },
   {
     imageUrl: '/src/assets/images/attendance checker.png',
     botType: 'Attendance Checker',
-    description: 'Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.Track your tasks.',
     color: '#8C4CBF', // 보라색
   },
   {
     imageUrl: '/src/assets/images/negative bot.png',
     botType: 'Negative Feedback',
-    description: 'Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!Boost productivity!',
     color: '#FFC107', // 노란색
   },
 ];
 
 const responsesMap: { [botType: string]: string } = {
-    'Positive Feedback': 'Stay hydrated during your meeting!',
-    'Attendance Checker': 'll keep track of your tasks!',
-    'Negative Feedback': 'Let’s boost the productivity!testtesttesttesttest',
+    'Positive Feedback': 'Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!',
+    'Attendance Checker': 'll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!',
+    'Negative Feedback': 'Let’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttest',
   };
 
 function BotBoard() {
   const [selectedBot, setSelectedBot] = useState<string | null>(null);
-
     const [responses, setResponses] = useState<{ botType: string; text: string }[]>(
         []
       );
 
     const handleSelectBot = (botType: string) => {
-      console.log('Selected bot:', botType);
-      console.log('Responses:', responses);
       const newResponse = { botType, text: responsesMap[botType] };
       setResponses((prev) => [...prev, newResponse]); // 새로운 응답 추가
       setSelectedBot(botType);
@@ -79,9 +73,9 @@ function BotBoard() {
         <BotContainer>
           {bots.map((bot) => (
             <BotList
+              key={bot.botType}
               imageUrl={bot.imageUrl}
               botType={bot.botType}
-              description={bot.description}
               color={bot.color}
               selectedBot={selectedBot}
               onSelectBot={handleSelectBot}
