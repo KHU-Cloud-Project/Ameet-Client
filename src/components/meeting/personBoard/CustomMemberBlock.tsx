@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useMemo } from 'react';
 import { useTheme } from '@emotion/react';
 
-type CustomMemberBlockProps = {
+export type CustomMemberBlockProps = {
   imageUrl: string;
   nickname: string;
   authority: string;
