@@ -41,7 +41,7 @@ function LeftPanel({ teams, teamsLoading }: LeftPanelProps) {
           <SpaceList teams={teams} />
         )}
       </div>
-      <div style={{ width: '100%', paddingBottom: '38px' }}>
+      <div style={{ width: '100%', paddingBottom: '38px', marginTop: '10px' }}>
         <Divider />
         <Spacer height={36} />
         <BottomOptions />

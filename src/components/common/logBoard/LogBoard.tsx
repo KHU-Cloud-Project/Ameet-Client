@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaChevronLeft,
   FaChevronRight,
@@ -11,8 +11,8 @@ import LogModal from './LogModal';
 import UploadBtn from './UploadBtn';
 import BoardTitle from '../board/BoardTitle';
 import BoardContainer from '../board/BoardContainer';
-import { formatDate } from '../../../utils/dateUtils';
-import { dummyLogs, Log } from '../../../models/Log';
+import { Log } from '../../../models/Log';
+import { useFetchLogs } from '../../../hooks/useFetchLogs';
 
 const LogsContainer = styled.div`
   display: flex;
@@ -69,70 +69,30 @@ const PageNumber = styled.button<{ active?: boolean }>`
 `;
 
 type LogBoardProps = {
-  title?: string;
-  logs: Log[];
+  teamId?: number;
+  userId?: number;
   itemsPerPage?: number;
+  title?: string;
 };
 
-function LogBoard({
-  logs = dummyLogs,
-  itemsPerPage = 7,
-  title,
-}: LogBoardProps) {
-  const [selectedLog, setSelectedLog] = useState<Log | null>(null);
+function LogBoard({ teamId, userId, itemsPerPage = 7, title }: LogBoardProps) {
+  const { logs = [], totalPages, fetchLogs, loading, error } = useFetchLogs();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedLog, setSelectedLog] = useState<Log | null>(null);
 
-  const totalPages = Math.ceil(logs.length / itemsPerPage);
-
-  const currentLogs = logs.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  useEffect(() => {
+    if (teamId && teamId > 0) {
+      fetchLogs('team', teamId, currentPage - 1, itemsPerPage);
+    } else if (userId && userId > 0) {
+      fetchLogs('user', userId, currentPage - 1, itemsPerPage);
     }
-  };
+  }, [teamId, userId, currentPage, itemsPerPage, fetchLogs]);
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
     }
-  };
-
-  const handlePageClick = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handleFirstPage = () => setCurrentPage(1);
-  const handleLastPage = () => setCurrentPage(totalPages);
-
-  const renderPageNumbers = () => {
-    const maxVisiblePages = 5;
-    const startPage = Math.max(
-      1,
-      Math.min(
-        currentPage - Math.floor(maxVisiblePages / 2),
-        totalPages - maxVisiblePages + 1,
-      ),
-    );
-    const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
-
-    const pages = [];
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <PageNumber
-          key={i}
-          active={i === currentPage}
-          onClick={() => handlePageClick(i)}
-        >
-          {i}
-        </PageNumber>,
-      );
-    }
-
-    return pages;
   };
 
   return (
@@ -142,51 +102,69 @@ function LogBoard({
         actionComponent={<UploadBtn />}
         marginBottom={20}
       />
-      <LogsContainer>
-        <LogBlock type="header" />
-        {currentLogs.map((log, index) => (
-          <LogBlock
-            key={log.id}
-            type="data"
-            log={{
-              ...log,
-              date: formatDate(log.date),
-            }}
-            index={(currentPage - 1) * itemsPerPage + index + 1}
-            onClick={() => {
-              console.log('Selected Log:', log);
-              setSelectedLog(log);
-            }}
-          />
-        ))}
-      </LogsContainer>
-      <div style={{ flex: 1 }}></div>
+      {loading ? (
+        <div>Loading logs...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : logs.length === 0 ? (
+        <div>No meeting logs available.</div>
+      ) : (
+        <LogsContainer>
+          <LogBlock type="header" />
+          {logs.map((log, index) => (
+            <LogBlock
+              key={log.meetingId}
+              type="data"
+              log={log}
+              index={(currentPage - 1) * itemsPerPage + index + 1}
+              onClick={() => {
+                setSelectedLog(log);
+                setModalOpen(true);
+              }}
+            />
+          ))}
+        </LogsContainer>
+      )}
+      <div style={{ flex: 1 }} />
       <PaginationContainer>
         <PaginationButton
-          onClick={handleFirstPage}
+          onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
         >
           <FaAngleDoubleLeft />
         </PaginationButton>
-        <PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>
+        <PaginationButton
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           <FaChevronLeft />
         </PaginationButton>
-        {renderPageNumbers()}
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+          (page) => (
+            <PageNumber
+              key={page}
+              active={page === currentPage}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </PageNumber>
+          ),
+        )}
         <PaginationButton
-          onClick={handleNextPage}
+          onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           <FaChevronRight />
         </PaginationButton>
         <PaginationButton
-          onClick={handleLastPage}
+          onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
         >
           <FaAngleDoubleRight />
         </PaginationButton>
       </PaginationContainer>
-      {selectedLog && (
-        <LogModal log={selectedLog} onClose={() => setSelectedLog(null)} />
+      {isModalOpen && selectedLog && (
+        <LogModal log={selectedLog} onClose={() => setModalOpen(false)} />
       )}
     </BoardContainer>
   );

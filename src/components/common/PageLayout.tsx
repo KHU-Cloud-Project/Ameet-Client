@@ -27,6 +27,10 @@ function PageLayout({ children }: { children: React.ReactNode }) {
     return <div>Loading teams...</div>;
   }
 
+  if (!teams.length) {
+    return <div>No teams found. Join or create a team!</div>;
+  }
+
   return (
     <LayoutContainer>
       <LeftPanel teams={teams} teamsLoading={teamsLoading} />

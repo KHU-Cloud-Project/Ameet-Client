@@ -5,10 +5,8 @@ import SpaceArea from './spaceArea/SpaceArea';
 import LogBoard from '../common/logBoard/LogBoard';
 import CreateArea from './rightArea/CreateArea';
 import UseAdvancedArea from './rightArea/UseAdvancedArea';
-import { dummyLogs } from '../../models/Log';
-import { useFetchUser } from '../../hooks/useFetchUser';
-import { useEffect } from 'react';
-import { MOCK_USER_ID } from '../../constants/mockUser';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../recoil/atoms/userAtom';
 
 const SpaceboardBody = styled.div`
   display: flex;
@@ -47,18 +45,10 @@ const BlockColumn = styled.div<{
 `;
 
 function Spaceboard() {
-  const { user, fetchUser } = useFetchUser();
+  const [user] = useRecoilState(userAtom);
 
-  useEffect(() => {
-    fetchUser(MOCK_USER_ID); // Mock userId 사용
-  }, [fetchUser]);
-
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user || !user.nickname) {
-    return <div>Loading...</div>;
+  if (!user || !user.id) {
+    throw new Error('User data is not present.');
   }
 
   return (
@@ -66,7 +56,6 @@ function Spaceboard() {
       <BoardHeader
         title="Manage Space"
         hasSearchbar={dummyHasSearchbar}
-        hasDescription={false}
         user={user}
       />
       <SpaceboardBody>
@@ -74,7 +63,7 @@ function Spaceboard() {
           <BlockColumn firstChildFlex="content" lastChildFlex="80">
             <SpaceArea spaces={dummySpaces} />
             <LogBoard
-              logs={dummyLogs}
+              userId={user.id}
               itemsPerPage={4}
               title="All Meeting Logs"
             />

@@ -4,18 +4,12 @@ import MemberBlock from './MemberBlock';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import BoardTitle from '../../common/board/BoardTitle';
 import BoardContainer from '../../common/board/BoardContainer';
-// import { LeftArrow, RightArrow } from './ScrollArrows';
-
-type Member = {
-  imageUrl: string;
-  nickname: string;
-  authority: string;
-  introduction: string;
-};
+import { UserForTeam } from '../../../recoil/atoms/userAtom';
 
 type MemberBoardProps = {
-  members: Member[];
-  isAdmin: boolean;
+  members: UserForTeam[];
+  maxMembers: number;
+  loading: boolean;
   onRemoveMember?: (nickname: string) => void;
 };
 
@@ -39,9 +33,12 @@ const MemberListContainer = styled.div`
   align-items: center;
 `;
 
-function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
-  const dummyMaxMembers = 8;
-
+function MemberBoard({
+  members,
+  maxMembers,
+  loading,
+  onRemoveMember,
+}: MemberBoardProps) {
   return (
     // <BoardContainer flex="none">
     <BoardContainer flex={0.6}>
@@ -49,26 +46,26 @@ function MemberBoard({ members, isAdmin, onRemoveMember }: MemberBoardProps) {
       <BoardTitle>
         Members{' '}
         <MemberCount>
-          ({members.length}/{dummyMaxMembers})
+          ({loading ? 'Loading...' : `${members.length}/${maxMembers}`})
         </MemberCount>
       </BoardTitle>
       <ScrollableMemberList>
         {/* <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}> */}
         <ScrollMenu>
           <MemberListContainer>
-            {members.map((member) => (
-              <MemberBlock
-                key={member.nickname}
-                imageUrl={member.imageUrl}
-                nickname={member.nickname}
-                authority={member.authority}
-                introduction={member.introduction}
-                isAdmin={isAdmin}
-                onRemove={() =>
-                  onRemoveMember && onRemoveMember(member.nickname)
-                }
-              />
-            ))}
+            {loading ? (
+              <></>
+            ) : (
+              members.map((member) => (
+                <MemberBlock
+                  key={member.userTeamId || member.nickname}
+                  member={member}
+                  onRemove={() =>
+                    onRemoveMember && onRemoveMember(member.nickname)
+                  }
+                />
+              ))
+            )}
           </MemberListContainer>
         </ScrollMenu>
       </ScrollableMemberList>

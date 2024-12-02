@@ -10,10 +10,9 @@ type SpaceListProps = {
 const List = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  // overflow-y: auto;
+  gap: 6px;
+  overflow-y: auto;
   width: 100%;
-  padding: 0 20px;
   flex: 1;
 `;
 

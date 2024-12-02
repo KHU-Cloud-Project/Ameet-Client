@@ -1,13 +1,6 @@
 import styled from '@emotion/styled';
-import { formatLength } from '../../../utils/dateUtils';
-
-type Log = {
-  id: string;
-  name: string;
-  date: string;
-  length: number;
-  participants: { nickname: string }[];
-};
+import { Log } from '../../../models/Log';
+import { formatDuration, formatDate } from '../../../utils/dateUtils';
 
 type LogBlockProps = {
   type: 'header' | 'data';
@@ -85,9 +78,9 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
   if (!log) return null;
 
   const participantsDisplay =
-    log.participants.length > 2
-      ? `${log.participants[0].nickname}, ${log.participants[1].nickname}...(${log.participants.length})`
-      : log.participants.map((p) => p.nickname).join(', ');
+    log.participants && log.participants.length > 2
+      ? `${log.participants[0].nickname}, ${log.participants[1].nickname}... (${log.participants.length})`
+      : log.participants?.map((p) => p.nickname).join(', ') || '-';
 
   return (
     <LogRow type="data" onClick={onClick}>
@@ -99,9 +92,9 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
       >
         {index?.toString().padStart(2, '0')}
       </div>
-      <Cell flex={2}>{log.name}</Cell>
-      <Cell flex={1.5}>{log.date}</Cell>
-      <Cell flex={1}>{formatLength(log.length)}</Cell>
+      <Cell flex={2}>{log.title}</Cell>
+      <Cell flex={1.5}>{formatDate(log.date)}</Cell>
+      <Cell flex={1}>{formatDuration(log.duration)}</Cell>
       <Cell flex={2}>{participantsDisplay}</Cell>
       <Actions>
         <ActionBtn>⬇️</ActionBtn>
