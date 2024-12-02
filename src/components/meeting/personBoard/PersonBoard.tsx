@@ -339,7 +339,13 @@ function PersonBoard() {
     return null; // 기본 값
   };
 
-  return <PersonContainer>{renderLayout()}</PersonContainer>;
+  return <PersonContainer>
+    <RecordingIndicator>
+        <div className="dot"></div>
+        <div className="text">recording..</div>
+      </RecordingIndicator>
+      {renderLayout()
+      }</PersonContainer>;
 }
 
 export default PersonBoard;
