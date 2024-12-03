@@ -66,10 +66,10 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
         >
           #
         </div>
-        <Cell width="200px">Name</Cell>
-        <Cell width="150px">Date</Cell>
-        <Cell width="100px">Length</Cell>
-        <Cell width="250px">Participants</Cell>
+        <Cell width='25%'>Name</Cell>
+        <Cell width='25%'>Date</Cell>
+        <Cell width='25%'>Length</Cell>
+        <Cell width='25%'>Participants</Cell>
         {/* <Actions>Actions</Actions> */}
       </LogRow>
     );
@@ -93,7 +93,7 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
         {index?.toString().padStart(2, '0')}
       </div>
       <Cell width="200px">{log.title}</Cell>
-      <Cell width="150px">{formatDate(log.date)}</Cell>
+      <Cell width="150px">{log.date}</Cell>
       <Cell width="100px">{formatDuration(log.duration)}</Cell>
       <Cell width="250px">{participantsDisplay}</Cell>
       {/* <Actions>
