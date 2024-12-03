@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-
+import settingIcon from '../../../assets/icons/dashboard/setting.png';
+import signOutIcon from '../../../assets/icons/dashboard/signOut.png';
 const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,11 +18,18 @@ const OptionItem = styled.div`
   cursor: pointer;
 `;
 
+const IconImage = styled.img`
+  width: 24px; 
+  height: 24px;
+`;
+
 function BottomOptions() {
   return (
     <OptionsContainer>
-      <OptionItem>⚙️ Settings</OptionItem>
-      <OptionItem>↩️ Sign Out</OptionItem>
+      <OptionItem>
+        <IconImage src={settingIcon} alt="settingIcon" /> Settings</OptionItem>
+      <OptionItem>
+        <IconImage src={signOutIcon} alt="signOutIcon" />Sign Out</OptionItem>
     </OptionsContainer>
   );
 }
