@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import BotList from './BotList';
 import BotResponses from './BotResponses';
-import Divider from './Divider';
+import Divider from '../../common/Divider';
+import { theme } from '../../../styles/theme';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -10,13 +11,13 @@ const BoardContainer = styled.div`
   padding: 20px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
-;`
+`;
 
 const BoardTitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px; /* 아이템 간 간격 */
-;`
+`;
 
 const BotContainer = styled.div`
   display: flex;
@@ -44,28 +45,33 @@ const bots = [
 ];
 
 const responsesMap: { [botType: string]: string } = {
-    'Positive Feedback': 'Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!',
-    'Attendance Checker': 'll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!',
-    'Negative Feedback': 'Let’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttest',
-  };
+  'Positive Feedback':
+    'Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!',
+  'Attendance Checker':
+    'll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!',
+  'Negative Feedback':
+    'Let’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttest',
+};
 
 function BotBoard() {
   const [selectedBot, setSelectedBot] = useState<string | null>(null);
-    const [responses, setResponses] = useState<{ botType: string; text: string }[]>(
-        []
-      );
+  const [responses, setResponses] = useState<
+    { botType: string; text: string }[]
+  >([]);
 
-    const handleSelectBot = (botType: string) => {
-      const newResponse = { botType, text: responsesMap[botType] };
-      setResponses((prev) => [...prev, newResponse]); // 새로운 응답 추가
-      setSelectedBot(botType);
-    };
+  const handleSelectBot = (botType: string) => {
+    const newResponse = { botType, text: responsesMap[botType] };
+    setResponses((prev) => [...prev, newResponse]); // 새로운 응답 추가
+    setSelectedBot(botType);
+  };
 
-    const botColorsAndImages = bots.reduce((acc, bot) => {
+  const botColorsAndImages = bots.reduce(
+    (acc, bot) => {
       acc[bot.botType] = { color: bot.color, imageUrl: bot.imageUrl };
       return acc;
-    }, {} as { [botType: string]: { color: string; imageUrl: string } });
-  
+    },
+    {} as { [botType: string]: { color: string; imageUrl: string } },
+  );
 
   return (
     <BoardContainer>
@@ -82,8 +88,8 @@ function BotBoard() {
             />
           ))}
         </BotContainer>
-      <Divider />
-      <BotResponses responses={responses} bots={botColorsAndImages} />
+        <Divider color={theme.colors.textBlack} />
+        <BotResponses responses={responses} bots={botColorsAndImages} />
       </BoardTitleContainer>
     </BoardContainer>
   );

@@ -5,12 +5,14 @@ import BoardTitle from '../BoardTitle';
 import { theme } from '../../../../styles/theme';
 import ProfileArea from './ProfileArea';
 import { User } from '../../../../recoil/atoms/userAtom';
+import CuttedLogo from '../../../meeting/meetingHeader/CuttedLogo';
 
 type HeaderProps = {
   title: string;
   hasSearchbar: boolean;
   description?: string | null | '';
   user: User;
+  hasLogo?: boolean;
 };
 
 const HeaderContainer = styled.div`
@@ -87,9 +89,16 @@ const NotificationDot = styled.span`
   border-radius: 50%;
 `;
 
-function BoardHeader({ title, hasSearchbar, description, user }: HeaderProps) {
+function BoardHeader({
+  title,
+  hasSearchbar,
+  description,
+  user,
+  hasLogo,
+}: HeaderProps) {
   return (
     <HeaderContainer>
+      {hasLogo && <CuttedLogo />}
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         <BoardTitle
           children={title}
