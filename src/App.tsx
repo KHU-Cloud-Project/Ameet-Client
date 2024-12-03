@@ -8,6 +8,8 @@ import { BrowserRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/globalStyles';
 import SpaceboardPage from './pages/SpaceboardPage';
+import MeetingPage from './pages/MeetingPage';
+
 import { RecoilRoot, useRecoilState } from 'recoil';
 import { userAtom } from './recoil/atoms/userAtom';
 import { useFetchUser } from './hooks/useFetchUser';
@@ -69,6 +71,7 @@ function AppInitializer() {
         <Route path="/" element={<SpaceboardPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/meeting" element={<MeetingPage />} />
       </Routes>
     </BrowserRouter>
   );

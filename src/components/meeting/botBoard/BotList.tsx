@@ -1,0 +1,61 @@
+import styled from '@emotion/styled';
+
+type BotListProps = {
+  imageUrl: string; // 봇 이미지 경로
+  botType: string; // 봇 유형
+  color: string; // 봇 테두리 색상
+  selectedBot: string | null; // 선택된 봇
+  onSelectBot: (botType: string) => void; // 클릭 핸들러
+};
+
+const BotContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* 좌우로 공간을 균등하게 분배 */
+  padding: 0 20px; /* 좌우 여백 추가 */
+  margin-bottom: 20px;
+//   gap: 15px;
+//   justify-content: center;
+//   margin-bottom: 20px;
+`;
+
+const BotImage = styled.img`
+  width: 70px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+`;
+
+// 
+const BotCircle = styled.div<{ isSelected: boolean }>`
+  width: 90px;
+  height: 80px;
+  background-color: ${({ isSelected, color }) =>
+    isSelected ? color : 'transparent'};
+  border: 1px solid ${({ color }) => color};
+  border-radius: 12px; /* 둥근 정사각형 */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1); /* 호버 시 확대 효과 */
+  }
+`;
+
+function BotList({ imageUrl, botType, color, selectedBot, onSelectBot }: BotListProps) {
+  return (
+    <BotContainer>
+      <BotCircle
+        isSelected={selectedBot === botType}
+        color={color}
+        onClick={() => onSelectBot(botType)}
+      >
+        <BotImage src={imageUrl} alt={botType} />
+      </BotCircle>
+    </BotContainer>
+  );
+}
+
+export default BotList;
