@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import Header from './meetingHeader/MeetingHeader';
 import EtcBoard from './etcBoard/EtcBoard';
 import BotBoard from './botBoard/BotBoard';
 import PersonBoard from './personBoard/PersonBoard';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../recoil/atoms/userAtom';
+import BoardHeader from '../common/board/header/BoardHeader';
 
 const MeetingBody = styled.div`
   display: flex;
@@ -35,26 +37,29 @@ const BlockColumn = styled.div`
 `;
 
 function Meeting() {
+  const [user] = useRecoilState(userAtom);
+
+  if (!user || !user.id) {
+    throw new Error('User data is not present.');
+  }
+
   const dummyHasSearchbar = true;
   const dummyIsAdmin = true;
 
-  const handleRemoveMember = (nickname: string) => {
-    console.log(`Remove member: ${nickname}`);
-  };
-
   return (
     <>
-      <Header
+      <BoardHeader
         title={dummyTitle}
         hasSearchbar={dummyHasSearchbar}
-        user={dummyUser}
+        user={user}
+        hasLogo={true}
       />
       <MeetingBody>
         <BlockWrapper>
-          <PersonBoard/>
+          <PersonBoard />
           <BlockColumn>
-            <EtcBoard/>
-            <BotBoard/>
+            <EtcBoard />
+            <BotBoard />
           </BlockColumn>
         </BlockWrapper>
       </MeetingBody>
