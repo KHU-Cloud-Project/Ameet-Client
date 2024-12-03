@@ -35,19 +35,19 @@ const Cell = styled.div<{ flex?: number; width?: string }>`
   width: ${(props) => props.width || 'auto'};
   text-align: center;
 `;
-const Actions = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  flex: 1.2;
-`;
+// const Actions = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 6px;
+//   flex: 1.2;
+// `;
 
-const ActionBtn = styled.button`
-  padding: 2px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-`;
+// const ActionBtn = styled.button`
+//   padding: 2px;
+//   background-color: transparent;
+//   border: none;
+//   cursor: pointer;
+// `;
 
 function LogBlock({ type, log, index, onClick }: LogBlockProps) {
   if (type === 'header') {
@@ -66,11 +66,11 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
         >
           #
         </div>
-        <Cell flex={2}>Name</Cell>
-        <Cell flex={1.5}>Date</Cell>
-        <Cell flex={1}>Length</Cell>
-        <Cell flex={2}>Participants</Cell>
-        <Actions>Actions</Actions>
+        <Cell width='25%'>Name</Cell>
+        <Cell width='25%'>Date</Cell>
+        <Cell width='25%'>Length</Cell>
+        <Cell width='25%'>Participants</Cell>
+        {/* <Actions>Actions</Actions> */}
       </LogRow>
     );
   }
@@ -92,15 +92,15 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
       >
         {index?.toString().padStart(2, '0')}
       </div>
-      <Cell flex={2}>{log.title}</Cell>
-      <Cell flex={1.5}>{formatDate(log.date)}</Cell>
-      <Cell flex={1}>{formatDuration(log.duration)}</Cell>
-      <Cell flex={2}>{participantsDisplay}</Cell>
-      <Actions>
+      <Cell width="200px">{log.title}</Cell>
+      <Cell width="150px">{log.date}</Cell>
+      <Cell width="100px">{formatDuration(log.duration)}</Cell>
+      <Cell width="250px">{participantsDisplay}</Cell>
+      {/* <Actions>
         <ActionBtn>⬇️</ActionBtn>
         <ActionBtn>✏️</ActionBtn>
         <ActionBtn>🗑️</ActionBtn>
-      </Actions>
+      </Actions> */}
     </LogRow>
   );
 }

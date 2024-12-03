@@ -43,40 +43,40 @@ const MeetingSettingBoard: React.FC = () => {
       <Divider marginTop="4px" marginBottom="4px" />
       <BotBlock
         isActive={true}
-        imageUrl="/src/assets/images/dashboard/dummy1.jpg"
+        imageUrl="/src/assets/images/summary bot.png"
         botType="Smart Summarize"
         description="Gives summary"
         onToggle={() => handleToggle('Smart Summarize')}
       />
       <BotBlock
         isActive={true}
-        imageUrl="/src/assets/images/dashboard/dummy2.jpg"
+        imageUrl="/src/assets/images/positive bot.png"
         botType="Positive Feedback"
         description="Gives Feedback"
         onToggle={() => handleToggle('Positive Feedback')}
       />
       <BotBlock
         isActive={true}
-        imageUrl="/src/assets/images/dashboard/dummy3.jpg"
+        imageUrl="/src/assets/images/attendance checker.png"
         botType="Attendance Checker"
         description="Gives Feedback"
         onToggle={() => handleToggle('Attendance Checker')}
       />
       <BotBlock
         isActive={false}
-        imageUrl="/src/assets/images/dashboard/dummy4.png"
+        imageUrl="/src/assets/images/negative bot.png"
         botType="Negative Feedback"
         description="Gives Feedback"
       />
       <BotBlock
         isActive={false}
-        imageUrl="/src/assets/images/dashboard/dummy5.jpeg"
+         imageUrl="/src/assets/images/negative bot.png"
         botType="Negative Feedback"
         description="Gives Feedback"
       />
       <BotBlock
         isActive={false}
-        imageUrl="/src/assets/images/dashboard/dummy6.jpeg"
+        imageUrl="/src/assets/images/negative bot.png"
         botType="Negative Feedback"
         description="Gives Feedback"
       />
