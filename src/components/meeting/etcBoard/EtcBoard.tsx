@@ -5,6 +5,11 @@ import QuitBtn from './QuitBtn';
 import BoardContainer from '../../common/board/BoardContainer';
 import BoardTitle from '../../common/board/BoardTitle';
 
+const FixedHeightContainer = styled(BoardContainer)`
+  height: 140px; /* 고정된 높이 */
+  flex: none; /* 부모 flex 속성 무시 */
+`;
+
 function EtcBoard() {
   const meetingDuration = 5400; // 예: 1시간 30분 (초 단위)
 
@@ -16,12 +21,12 @@ function EtcBoard() {
     console.log('Quit Meeting button clicked');
   };
   return (
-    <BoardContainer flex="none">
+    <FixedHeightContainer>
       <BoardTitle>
         <TimerComponent initialTime={meetingDuration} />
         <QuitBtn onExit={handleExit} onQuitMeeting={handleQuitMeeting} />
       </BoardTitle>
-    </BoardContainer>
+    </FixedHeightContainer>
   );
 }
 
