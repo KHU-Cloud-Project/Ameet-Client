@@ -13,6 +13,7 @@ import BoardTitle from '../board/BoardTitle';
 import BoardContainer from '../board/BoardContainer';
 import { Log } from '../../../models/Log';
 import { useFetchLogs } from '../../../hooks/useFetchLogs';
+import { fetchLogDetailsApi } from '../../../api/logApi';
 
 const LogsContainer = styled.div`
   display: flex;
@@ -95,6 +96,17 @@ function LogBoard({ teamId, userId, itemsPerPage = 7, title }: LogBoardProps) {
     }
   };
 
+  const handleLogClick = async (log: Log) => {
+    try {
+      const logDetails = await fetchLogDetailsApi(log.meetingId);
+      setSelectedLog(logDetails);
+      setModalOpen(true);
+    } catch (err) {
+      console.error('Failed to fetch log details', err);
+      alert('Failed to fetch log details');
+    }
+  };
+
   return (
     <BoardContainer>
       <BoardTitle
@@ -117,10 +129,7 @@ function LogBoard({ teamId, userId, itemsPerPage = 7, title }: LogBoardProps) {
               type="data"
               log={log}
               index={(currentPage - 1) * itemsPerPage + index + 1}
-              onClick={() => {
-                setSelectedLog(log);
-                setModalOpen(true);
-              }}
+              onClick={() => handleLogClick(log)}
             />
           ))}
         </LogsContainer>

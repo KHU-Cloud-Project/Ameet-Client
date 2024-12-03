@@ -135,6 +135,10 @@ function LogModal({ log, onClose }: LogModalProps) {
     'AI Summary',
   );
 
+  if (!log) {
+    return null;
+  }
+
   return (
     <ModalOverlay onClose={onClose}>
       <ModalContainer
@@ -154,7 +158,9 @@ function LogModal({ log, onClose }: LogModalProps) {
             </BoardTitle>
             <Participants>
               <FiUsers />
-              {/* {log.participants.map((p) => p.nickname).join(', ')} */}
+              {log.participants
+                ? log.participants.map((p) => p.nickname).join(', ')
+                : '-'}
             </Participants>
           </div>
           <HeaderInfo>

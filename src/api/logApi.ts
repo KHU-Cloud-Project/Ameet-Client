@@ -95,3 +95,34 @@ export const fetchMyMeetingLogsApi = async (
 
   throw new Error('Failed to fetch meeting logs');
 };
+
+export const fetchLogDetailsApi = async (meetingId: number): Promise<Log> => {
+  const response = await axiosInstance.get('/api/v1/note', {
+    params: { meetingId },
+  });
+
+  if (response.status === 200 && response.data.success) {
+    const data = response.data.data;
+
+    return {
+      meetingId: data.meetingId,
+      noteId: data.noteId,
+      title: data.title,
+      summary: data.summary || '',
+      script: data.script || null,
+      members: data.members || null,
+      presignedUrl: data.presignedUrl || null,
+      createdAt: data.createdAt || null,
+      startedAt: data.startedAt || null,
+      duration: data.duration || null,
+      participants:
+        data.participantList?.map((participant: UserForTeam) => ({
+          userTeamId: participant.userTeamId,
+          userId: participant.userId,
+          nickname: participant.nickname,
+        })) || null,
+    };
+  }
+
+  throw new Error('Failed to fetch log details');
+};
