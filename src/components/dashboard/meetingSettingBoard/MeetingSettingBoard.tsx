@@ -5,8 +5,8 @@ import DashboardTimer from './DashboardTimer';
 import Divider from '../../common/Divider';
 import { Spacer } from '../../common/Spacer';
 import { theme } from '../../../styles/theme';
-import BoardTitle from '../../common/BoardTitle';
-import BoardContainer from '../../common/BoardContainer';
+import BoardTitle from '../../common/board/BoardTitle';
+import BoardContainer from '../../common/board/BoardContainer';
 
 const SectionTitle = styled.div`
   font-size: 14px;
@@ -37,10 +37,10 @@ const MeetingSettingBoard: React.FC = () => {
       <BoardTitle
         children="Meeting Settings"
         fontSize={theme.typography.fontSize.mediumLarge}
-        marginBottom={24}
+        marginBottom={18}
       />
       <SectionTitle>Bots</SectionTitle>
-      <Divider marginTop="6px" marginBottom="4px" />
+      <Divider marginTop="4px" marginBottom="4px" />
       <BotBlock
         isActive={true}
         imageUrl="/src/assets/images/dashboard/dummy1.jpg"
@@ -80,10 +80,12 @@ const MeetingSettingBoard: React.FC = () => {
         botType="Negative Feedback"
         description="Gives Feedback"
       />
-      <Spacer height={40} />
+      <Spacer height={36} />
       <SectionTitle>Set Timer</SectionTitle>
-      <Divider marginTop="6px" marginBottom="12px" />
+      <Divider marginTop="4px" marginBottom="8px" />
       <DashboardTimer />
+      <Spacer height={36} />
+      <SectionTitle>Set Meeting Title</SectionTitle>
       <ExpandSpacer />
       <Button>Start Meeting</Button>
     </BoardContainer>

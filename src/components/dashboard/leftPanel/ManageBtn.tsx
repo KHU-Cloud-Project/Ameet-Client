@@ -15,17 +15,13 @@ const Button = styled.button`
   &:hover {
     color: ${(props) => props.theme.colors.background};
   }
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 function ManageBtn() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/space');
+    navigate('/');
   };
 
   return <Button onClick={handleClick}>Manage Spaces</Button>;

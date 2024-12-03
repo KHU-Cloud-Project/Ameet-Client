@@ -1,9 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import Header from './header/Header';
+import BoardHeader from '../common/board/header/BoardHeader';
 import MemberBoard from './memberBoard/MemberBoard';
 import MeetingSettingBoard from './meetingSettingBoard/MeetingSettingBoard';
-import LogBoard from './logBoard/LogBoard';
+import LogBoard from '../common/logBoard/LogBoard';
+import { Team } from '../../models/Team';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../recoil/atoms/userAtom';
+
+type DashboardProps = {
+  team: Team | null;
+  loading: boolean;
+  error: string | null;
+};
 
 const DashboardBody = styled.div`
   display: flex;
@@ -27,9 +36,13 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-function Dashboard() {
+function Dashboard({ team, loading, error }: DashboardProps) {
   const dummyHasSearchbar = true;
-  const dummyIsAdmin = true;
+  const [user] = useRecoilState(userAtom);
+
+  if (!user || !user.id) {
+    throw new Error('User data is not present.');
+  }
 
   const handleRemoveMember = (nickname: string) => {
     console.log(`Remove member: ${nickname}`);
@@ -37,20 +50,22 @@ function Dashboard() {
 
   return (
     <>
-      <Header
-        title={dummyTitle}
-        hasSearchbar={dummyHasSearchbar}
-        user={dummyUser}
+      <BoardHeader
+        title={team ? team.name : ''}
+        hasSearchbar
+        description={team?.description || null}
+        user={user}
       />
       <DashboardBody>
         <BlockWrapper>
           <BlockColumn>
             <MemberBoard
-              members={dummyMembers}
-              isAdmin={dummyIsAdmin}
+              members={team?.memberList || []}
+              maxMembers={team?.maxPeople || -1}
+              loading={loading}
               onRemoveMember={handleRemoveMember}
             />
-            <LogBoard />
+            <LogBoard teamId={team?.teamId || -1} />
           </BlockColumn>
           <MeetingSettingBoard />
         </BlockWrapper>
@@ -60,43 +75,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-const dummyTitle = 'Space 1';
-const dummyUser = {
-  name: 'Cherrie',
-  role: 'Member',
-  profileImage: 'https://picsum.photos/200',
-};
-
-const dummyMembers = [
-  {
-    imageUrl: 'https://picsum.photos/201',
-    nickname: 'Sumin',
-    authority: 'Admin',
-    introduction: 'I love cloud ☁️ 🌹💘💘',
-  },
-  {
-    imageUrl: 'https://picsum.photos/202',
-    nickname: 'SaY',
-    authority: 'Member',
-    introduction: 'backend developer',
-  },
-  {
-    imageUrl: 'https://picsum.photos/203',
-    nickname: 'Cherrie',
-    authority: 'Member',
-    introduction: 'Sujin so cute',
-  },
-  {
-    imageUrl: 'https://picsum.photos/204',
-    nickname: 'Sujin',
-    authority: 'Member',
-    introduction: 'I AM MZ',
-  },
-  {
-    imageUrl: 'https://picsum.photos/205',
-    nickname: 'Gyeongtaek',
-    authority: 'Member',
-    introduction: 'I AM ZM',
-  },
-];

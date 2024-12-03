@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/globalStyles';
 import SpaceboardPage from './pages/SpaceboardPage';
 import MeetingPage from './pages/MeetingPage';
+
 import { RecoilRoot, useRecoilState } from 'recoil';
 import { userAtom } from './recoil/atoms/userAtom';
 import { useFetchUser } from './hooks/useFetchUser';

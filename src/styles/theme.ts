@@ -32,12 +32,13 @@ export const theme = {
       //xLarge: '2.25rem', // 36px
       // large: '1.875rem', // 30px
       // mediumLarge: '1.4rem', // 24px
+      // small: '0.875rem', // 14px
       xLarge: '2.05rem',
       large: '1.5rem',
       mediumLarge: '1.32rem',
       medium: '1.10rem', // 18px
       default: '1rem', // 16px
-      small: '0.875rem', // 14px
+      small: '0.865rem', // 14px
       xSmall: '0.75rem', // 12px
     },
     fontWeight: {

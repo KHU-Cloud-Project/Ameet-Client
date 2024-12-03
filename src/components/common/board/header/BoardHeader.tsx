@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import { User } from '../../../models/User';
-import { Spacer } from '../../common/Spacer';
-import BoardTitle from '../../common/BoardTitle';
-import { theme } from '../../../styles/theme';
+import { Spacer } from '../../Spacer';
+import BoardTitle from '../BoardTitle';
+import { theme } from '../../../../styles/theme';
+import ProfileArea from './ProfileArea';
+import { User } from '../../../../recoil/atoms/userAtom';
 
 type HeaderProps = {
   title: string;
   hasSearchbar: boolean;
+  description?: string | null | '';
   user: User;
 };
 
@@ -26,7 +28,7 @@ const HeaderRightSideWrapper = styled.div`
 `;
 
 const SearchBar = styled.div`
-  max-width: 480px;
+  max-width: 458px;
   flex: 1;
   display: flex;
   align-items: center;
@@ -40,6 +42,12 @@ const SearchIcon = styled.span`
   color: ${(props) => props.theme.colors.secondary};
 `;
 
+const SpaceDescText = styled.span`
+  color: ${(props) => props.theme.colors.textGray};
+  font-size: ${(props) => props.theme.typography.fontSize.default};
+  font-weight: ${(props) => props.theme.typography.fontWeight.regular};
+`;
+
 const SearchInput = styled.input`
   border: none;
   background: transparent;
@@ -51,20 +59,19 @@ const SearchInput = styled.input`
   }
 `;
 
-const LanguageSelector = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: ${(props) => props.theme.colors.textBlack};
-`;
+// const LanguageSelector = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   cursor: pointer;
+//   color: ${(props) => props.theme.colors.textBlack};
+// `;
 
-const LanguageFlag = styled.span`
-  font-size: ${(props) => props.theme.typography.fontSize.large};
-`;
+// const LanguageFlag = styled.span`
+//   font-size: ${(props) => props.theme.typography.fontSize.large};
+// `;
 
 const NotificationIcon = styled.div`
-  margin-left: 20px;
   font-size: ${(props) => props.theme.typography.fontSize.large};
   position: relative;
   cursor: pointer;
@@ -80,37 +87,17 @@ const NotificationDot = styled.span`
   border-radius: 50%;
 `;
 
-const ProfileArea = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 20px;
-`;
-
-const ProfileImage = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-`;
-
-const ProfileName = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.medium};
-  color: ${(props) => props.theme.colors.textBlack};
-`;
-
-const ProfileRole = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.small};
-  color: ${(props) => props.theme.colors.primary};
-`;
-
-function Header({ title, hasSearchbar, user }: HeaderProps) {
+function BoardHeader({ title, hasSearchbar, description, user }: HeaderProps) {
   return (
     <HeaderContainer>
-      <BoardTitle
-        children={title}
-        fontSize={theme.typography.fontSize.xLarge}
-        marginBottom={0}
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <BoardTitle
+          children={title}
+          fontSize={theme.typography.fontSize.xLarge}
+          marginBottom={description ? 10 : 0}
+        />
+        {description && <SpaceDescText>{description}</SpaceDescText>}
+      </div>
       {hasSearchbar && (
         <SearchBar>
           <SearchIcon>🔍</SearchIcon>
@@ -118,26 +105,24 @@ function Header({ title, hasSearchbar, user }: HeaderProps) {
         </SearchBar>
       )}
       <HeaderRightSideWrapper>
-        <LanguageSelector>
+        {/* <LanguageSelector>
           <LanguageFlag>🇺🇸</LanguageFlag>
           <span>Eng (US)</span>
-        </LanguageSelector>
-        <Spacer width={30} />
+        </LanguageSelector> */}
+        <Spacer width={48} />
         <NotificationIcon>
           🔔
           <NotificationDot />
         </NotificationIcon>
-        <Spacer width={18} />
-        <ProfileArea>
-          <ProfileImage src={user.profileImage} alt="Profile" />
-          <div>
-            <ProfileName>{user.name}</ProfileName>
-            <ProfileRole>{user.role}</ProfileRole>
-          </div>
-        </ProfileArea>
+        <Spacer width={26} />
+        <ProfileArea
+          nickname={user.nickname}
+          email={user.email}
+          profileImage={user.profile}
+        />
       </HeaderRightSideWrapper>
     </HeaderContainer>
   );
 }
 
-export default Header;
+export default BoardHeader;

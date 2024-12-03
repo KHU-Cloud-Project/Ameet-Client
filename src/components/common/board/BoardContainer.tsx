@@ -19,6 +19,8 @@ const StyledBoardContainer = styled.div<{
   display: flex;
   flex-direction: column;
   flex: ${(props) => (props.flex !== undefined ? props.flex : 1)};
+  height: 100%;
+  overflow: hidden;
 `;
 
 const BoardContainer = ({

@@ -12,9 +12,12 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "axios": "^1.7.8",
     "emotion-reset": "^3.0.1",
     "react": "^18.3.1",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.3.5",
     "react-horizontal-scrolling-menu": "^8.2.0",
     "react-icons": "^5.3.0",
     "react-router": "^6.27.0",
@@ -24,6 +27,7 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.12.0",
     "@eslint/js": "^9.13.0",
+    "@types/node": "^22.10.1",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@types/react-router": "^5.1.20",
