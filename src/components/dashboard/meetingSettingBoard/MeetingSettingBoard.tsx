@@ -14,6 +14,7 @@ import {
 } from '../../../recoil/atoms/meetingAtom';
 import { useState } from 'react';
 import { createMeetingApi } from '../../../api/meetingApi';
+import { useNavigate } from 'react-router';
 
 const SectionTitle = styled.div`
   font-size: 14px;
@@ -40,6 +41,7 @@ const MeetingSettingBoard = ({ teamId }: { teamId: number }) => {
     isMeetingInProgressAtom,
   );
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleToggle = (botType: string) => {
     console.log(`${botType} toggled`);
@@ -48,14 +50,17 @@ const MeetingSettingBoard = ({ teamId }: { teamId: number }) => {
   const handleCreateMeeting = async () => {
     try {
       setLoading(true);
-      console.log('teamId:', teamId);
       const meetingData = await createMeetingApi({
         teamId: teamId,
         title: 'New Meeting',
       });
+
       setMeeting(meetingData);
       setMeetingInProgress(true);
+
       console.log('Meeting created:', meetingData);
+      console.log('Meeting ID:', meetingData.meetingId);
+      navigate(`/meeting/${meetingData.meetingId}`);
     } catch (error) {
       console.error('[MeetingSettingBoard] Failed to create meeting:', error);
     } finally {

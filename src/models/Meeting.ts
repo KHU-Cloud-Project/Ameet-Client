@@ -2,8 +2,8 @@ export type Meeting = {
   meetingId: number;
   title: string;
   startedAt: string;
-  endedAt: string;
-  duration: {
+  endedAt?: string;
+  duration?: {
     seconds: number;
     zero: boolean;
     nano: number;
@@ -14,7 +14,7 @@ export type Meeting = {
       dateBased: boolean;
     }[];
   };
-  presignedUrl: string;
+  presignedUrl?: string;
 };
 
 export type CreateMeetingRequest = {

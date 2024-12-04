@@ -71,7 +71,7 @@ function AppInitializer() {
         <Route path="/" element={<SpaceboardPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/meeting" element={<MeetingPage />} />
+        <Route path="/meeting/:meetingId" element={<MeetingPage />} />
       </Routes>
     </BrowserRouter>
   );
