@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Log } from '../../../models/Log';
-import { formatDuration, formatDate } from '../../../utils/dateUtils';
+import { formatDate, formatISODuration } from '../../../utils/dateUtils';
 
 type LogBlockProps = {
   type: 'header' | 'data';
@@ -34,7 +34,9 @@ const Cell = styled.div<{ flex?: number; width?: string }>`
   flex: ${(props) => props.flex || 1};
   width: ${(props) => props.width || 'auto'};
   text-align: center;
+  white-space: nowrap;
 `;
+
 // const Actions = styled.div`
 //   display: flex;
 //   justify-content: center;
@@ -66,10 +68,10 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
         >
           #
         </div>
-        <Cell width='25%'>Name</Cell>
-        <Cell width='25%'>Date</Cell>
-        <Cell width='25%'>Length</Cell>
-        <Cell width='25%'>Participants</Cell>
+        <Cell width="25%">Name</Cell>
+        <Cell width="25%">Date</Cell>
+        <Cell width="25%">Length</Cell>
+        <Cell width="25%">Participants</Cell>
         {/* <Actions>Actions</Actions> */}
       </LogRow>
     );
@@ -93,8 +95,8 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
         {index?.toString().padStart(2, '0')}
       </div>
       <Cell width="200px">{log.title}</Cell>
-      <Cell width="150px">{log.date}</Cell>
-      <Cell width="100px">{formatDuration(log.duration)}</Cell>
+      <Cell width="150px">{formatDate(log.startedAt!)}</Cell>
+      <Cell width="100px">{formatISODuration(log.duration)}</Cell>
       <Cell width="250px">{participantsDisplay}</Cell>
       {/* <Actions>
         <ActionBtn>⬇️</ActionBtn>

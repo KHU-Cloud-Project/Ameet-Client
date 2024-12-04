@@ -38,3 +38,17 @@ export const createTeamApi = async (teamData: {
   }
   throw new Error('Failed to create team');
 };
+
+// Update user introduction
+export const updateUserIntroductionApi = async (data: {
+  userTeamId: number;
+  introduction: string;
+}): Promise<void> => {
+  const response = await axiosInstance.patch(
+    '/api/v1/userTeam/introduction',
+    data,
+  );
+  if (response.status !== 200) {
+    throw new Error('Failed to update introduction');
+  }
+};

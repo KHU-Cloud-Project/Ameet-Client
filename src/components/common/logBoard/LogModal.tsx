@@ -13,6 +13,7 @@ import BoardTitle from '../board/BoardTitle';
 import { theme } from '../../../styles/theme';
 import { FiUsers } from 'react-icons/fi';
 import Divider from '../Divider';
+import { formatISODuration } from '../../../utils/dateUtils';
 // import { BiGroup } from 'react-icons/bi';
 
 const Header = styled.div`
@@ -134,11 +135,9 @@ function LogModal({ log, onClose }: LogModalProps) {
     'AI Summary',
   );
 
-  const formatDuration = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-  };
+  if (!log) {
+    return null;
+  }
 
   return (
     <ModalOverlay onClose={onClose}>
@@ -159,12 +158,14 @@ function LogModal({ log, onClose }: LogModalProps) {
             </BoardTitle>
             <Participants>
               <FiUsers />
-              {/* {log.participants.map((p) => p.nickname).join(', ')} */}
+              {log.participants
+                ? log.participants.map((p) => p.nickname).join(', ')
+                : '-'}
             </Participants>
           </div>
           <HeaderInfo>
-            <span>{log.date}</span>
-            <span>{formatDuration(log.duration)}</span>
+            <span>{log.createdAt}</span>
+            <span>{formatISODuration(log.duration)}</span>
             <ActionButtons>
               <button>
                 <AiOutlineDownload />
@@ -197,7 +198,7 @@ function LogModal({ log, onClose }: LogModalProps) {
           </EditButton>
         </ContentHeader>
         <ContentBody>
-          {toggleView === 'AI Summary' ? log.aiSummary : log.originalContent}
+          {toggleView === 'AI Summary' ? log.summary : log.script}
         </ContentBody>
       </ModalContainer>
     </ModalOverlay>

@@ -2,7 +2,7 @@ import { Log } from '../models/Log';
 import { UserForTeam } from '../recoil/atoms/userAtom';
 import axiosInstance from './axiosInstance';
 
-// Fetch Meeting Logs
+// Fetch Meeting Logs of a specific team
 export const fetchTeamMeetingLogsApi = async (
   teamId: number,
   page: number,
@@ -19,32 +19,24 @@ export const fetchTeamMeetingLogsApi = async (
   if (response.status === 200 && response.data.success) {
     const { content, totalPages, totalElements } = response.data.data;
 
-    const parseISODuration = (isoDuration: string): number => {
-      const match = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?/.exec(
-        isoDuration,
-      );
-      if (!match) return 0;
-
-      const hours = parseFloat(match[1] || '0');
-      const minutes = parseFloat(match[2] || '0');
-      const seconds = parseFloat(match[3] || '0');
-
-      return hours * 3600 + minutes * 60 + seconds;
-    };
-
     return {
       content: content.map(
         (log: any): Log => ({
           meetingId: log.meetingId,
+          noteId: log.noteId,
           title: log.title,
-          date: new Date(log.startedAt).toLocaleString(),
-          duration: parseISODuration(log.duration),
+          summary: log.summary || '',
+          script: log.script,
+          members: log.members || null,
+          presignedUrl: log.presignedUrl || null,
+          createdAt: log.createdAt,
+          startedAt: log.startedAt,
+          duration: log.duration,
           participants: log.participantList?.map(
             (participant: UserForTeam) => ({
               userTeamId: participant.userTeamId,
               userId: participant.userId,
               nickname: participant.nickname,
-              role: 'MEMBER',
             }),
           ),
         }),
@@ -57,6 +49,7 @@ export const fetchTeamMeetingLogsApi = async (
   throw new Error('Failed to fetch meeting logs');
 };
 
+// Fetch all Meeting Logs of a specific user
 export const fetchMyMeetingLogsApi = async (
   userId: number,
   page: number,
@@ -73,32 +66,24 @@ export const fetchMyMeetingLogsApi = async (
   if (response.status === 200 && response.data.success) {
     const { content, totalPages, totalElements } = response.data.data;
 
-    const parseISODuration = (isoDuration: string): number => {
-      const match = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?/.exec(
-        isoDuration,
-      );
-      if (!match) return 0;
-
-      const hours = parseFloat(match[1] || '0');
-      const minutes = parseFloat(match[2] || '0');
-      const seconds = parseFloat(match[3] || '0');
-
-      return hours * 3600 + minutes * 60 + seconds;
-    };
-
     return {
       content: content.map(
         (log: any): Log => ({
           meetingId: log.meetingId,
+          noteId: log.noteId,
           title: log.title,
-          date: new Date(log.startedAt).toLocaleString(),
-          duration: parseISODuration(log.duration),
+          summary: log.summary || '',
+          script: log.script,
+          members: log.members || null,
+          presignedUrl: log.presignedUrl || null,
+          createdAt: log.createdAt,
+          startedAt: log.startedAt,
+          duration: log.duration,
           participants: log.participantList?.map(
             (participant: UserForTeam) => ({
               userTeamId: participant.userTeamId,
               userId: participant.userId,
               nickname: participant.nickname,
-              role: 'MEMBER',
             }),
           ),
         }),
@@ -109,4 +94,35 @@ export const fetchMyMeetingLogsApi = async (
   }
 
   throw new Error('Failed to fetch meeting logs');
+};
+
+export const fetchLogDetailsApi = async (meetingId: number): Promise<Log> => {
+  const response = await axiosInstance.get('/api/v1/note', {
+    params: { meetingId },
+  });
+
+  if (response.status === 200 && response.data.success) {
+    const data = response.data.data;
+
+    return {
+      meetingId: data.meetingId,
+      noteId: data.noteId,
+      title: data.title,
+      summary: data.summary || '',
+      script: data.script || null,
+      members: data.members || null,
+      presignedUrl: data.presignedUrl || null,
+      createdAt: data.createdAt || null,
+      startedAt: data.startedAt || null,
+      duration: data.duration || null,
+      participants:
+        data.participantList?.map((participant: UserForTeam) => ({
+          userTeamId: participant.userTeamId,
+          userId: participant.userId,
+          nickname: participant.nickname,
+        })) || null,
+    };
+  }
+
+  throw new Error('Failed to fetch log details');
 };

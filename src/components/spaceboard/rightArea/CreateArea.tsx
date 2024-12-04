@@ -8,6 +8,10 @@ import { css } from '@emotion/react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import CustomBtn from '../../common/CustomBtn';
 import CreateModal from './CreateModal';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../../recoil/atoms/userAtom';
+import { createTeamApi } from '../../../api/teamApi';
+import { teamsAtom } from '../../../recoil/atoms/teamAtom';
 
 const Label = styled.label`
   color: ${(props) => props.theme.colors.textGray};
@@ -75,12 +79,59 @@ const CounterBtn = styled.button<{ disabled?: boolean }>`
 `;
 
 const CreateArea = () => {
+  const [user] = useRecoilState(userAtom);
   const [spaceName, setSpaceName] = useState('');
   const [spaceDescription, setSpaceDescription] = useState('');
   const [entryPassword, setEntryPassword] = useState('');
   const [members, setMembers] = useState(2);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [createdTeamId, setCreatedTeamId] = useState<number | null>(null);
+  const [, setTeams] = useRecoilState(teamsAtom);
+
+  const handleCreate = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      if (!user || !user.id) {
+        throw new Error('User is not logged in.');
+      }
+
+      const teamData = {
+        userId: user.id,
+        teamName: spaceName,
+        description: spaceDescription,
+        teamPassword: entryPassword,
+        maxPeople: members,
+      };
+
+      const userTeamId = await createTeamApi(teamData);
+
+      setCreatedTeamId(userTeamId);
+
+      const newTeam = {
+        userId: user.id,
+        teamId: userTeamId,
+        name: teamData.teamName,
+        description: teamData.description,
+        password: teamData.teamPassword,
+        maxPeople: teamData.maxPeople,
+      };
+
+      setTeams((prev) => [...prev, newTeam]);
+
+      alert(`Created ${teamData.teamName} successfully!`);
+
+      openModal();
+    } catch (err) {
+      console.error('Error creating team:', err);
+      setError('Failed to create the team. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -145,20 +196,20 @@ const CreateArea = () => {
             <AiOutlinePlus />
           </CounterBtn>
         </MemberControl>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <CustomBtn
-          text="Create"
+          text={loading ? 'Creating...' : 'Create'}
           padding="16px"
-          onClick={() => {
-            openModal();
-          }}
+          onClick={handleCreate}
           disabled={!spaceName || !entryPassword}
         />
       </div>
-      {isModalOpen && (
+      {isModalOpen && createdTeamId !== null && (
         <CreateModal
           onClose={closeModal}
           spaceName={spaceName}
-          entryPassword={entryPassword}
+          userTeamId={createdTeamId}
+          // entryPassword={entryPassword}
           spaceDescription={spaceDescription || `Team Space for ${spaceName}`}
           maxMembers={members}
         />
