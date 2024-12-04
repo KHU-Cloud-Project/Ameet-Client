@@ -30,13 +30,14 @@ function AppInitializer() {
   const [user, setUser] = useRecoilState(userAtom);
   const [teams] = useRecoilState(teamsAtom);
   const { fetchUser } = useFetchUser();
-  const defaultUserId = 1; // 기본 User ID 값 (예: 1)
+  const defaultUserId = 3; // 기본 User ID 값 (예: 1)
   const { fetchTeams } = useFetchTeams(user?.id || defaultUserId);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initializeApp = async () => {
       try {
+        
         console.log('Using UserId:', user?.id);
         console.log('Default User ID:', defaultUserId);
 
@@ -68,7 +69,6 @@ function AppInitializer() {
   }
 
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/dashboard/:teamId" element={<DashboardPage />} />
         <Route path="/" element={<SpaceboardPage />} />
@@ -76,7 +76,6 @@ function AppInitializer() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/meeting" element={<MeetingPage />} />
       </Routes>
-    </BrowserRouter>
   );
 }
 
@@ -85,9 +84,11 @@ function App() {
     <RecoilRoot>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <AppContainer>
-          <AppInitializer />
-        </AppContainer>
+          <BrowserRouter>
+            <AppContainer>
+              <AppInitializer />
+            </AppContainer>
+          </BrowserRouter>
       </ThemeProvider>
     </RecoilRoot>
   );

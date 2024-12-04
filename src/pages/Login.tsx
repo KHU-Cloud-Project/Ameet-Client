@@ -1,14 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
 import logo from '../assets/images/dummy logo.png';
 import backgroundImg from '../assets/images/login bg.png';
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { userAtom } from '../recoil/atoms/userAtom';
 
 //test
@@ -161,6 +159,7 @@ const Button = styled.button`
 const Login = () => {
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userAtom);
+  const user = useRecoilValue(userAtom);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -201,9 +200,9 @@ const Login = () => {
           email,
           password,
         });
-        console.log('로그인 성공:', response.data);
-
+        console.log('API Response Data:', response.data); // 확인용
         setUser(response.data);
+        console.log('User after setUser:', response.data); // 확인용
 
       if (rememberMe) {
         localStorage.setItem('email', email);
@@ -221,6 +220,10 @@ const Login = () => {
     }
   }
 };
+
+useEffect(() => {
+  console.log('Recoil user state updated:', user);
+}, [user]);
 
   const handleSignUp = () => {
     navigate('/signup');
