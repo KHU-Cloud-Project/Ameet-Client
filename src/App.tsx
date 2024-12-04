@@ -30,20 +30,23 @@ function AppInitializer() {
   const [user, setUser] = useRecoilState(userAtom);
   const [teams] = useRecoilState(teamsAtom);
   const { fetchUser } = useFetchUser();
-  const { fetchTeams } = useFetchTeams(MOCK_USER_ID);
+  const defaultUserId = 1; // 기본 User ID 값 (예: 1)
+  const { fetchTeams } = useFetchTeams(user?.id || defaultUserId);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        console.log('Using UserId:', MOCK_USER_ID);
+        console.log('Using UserId:', user?.id);
+        console.log('Default User ID:', defaultUserId);
 
-        if (!user) {
-          const userData = await fetchUser(MOCK_USER_ID);
+        if (!user || !user.id) {
+          const userData = await fetchUser(user?.id || defaultUserId);
+          console.log('Fetched User Data:', user?.id);
           setUser(userData);
         }
 
-        if (teams.length === 0) {
+        if (teams.length === 0 && user?.id) {
           await fetchTeams();
         }
       } catch (error) {
@@ -60,7 +63,7 @@ function AppInitializer() {
     return <div>Loading...</div>;
   }
 
-  if (!MOCK_USER_ID) {
+  if (!user || !user.id) {
     return <Navigate to="/login" />;
   }
 

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import logo from '../assets/images/dummy logo.png';
 import backgroundImg from '../assets/images/login bg.png';
 import { useEffect } from 'react';
