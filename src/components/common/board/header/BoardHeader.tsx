@@ -6,6 +6,7 @@ import { theme } from '../../../../styles/theme';
 import ProfileArea from './ProfileArea';
 import { User } from '../../../../recoil/atoms/userAtom';
 import CuttedLogo from '../../../meeting/meetingHeader/CuttedLogo';
+import AlarmIcon from '../../../../assets/icons/dashboard/alarm.png';
 
 type HeaderProps = {
   title: string;
@@ -59,6 +60,11 @@ const SearchInput = styled.input`
   &:focus {
     outline: none;
   }
+`;
+
+const IconImage = styled.img`
+  width: 48px; 
+  height: 48px;
 `;
 
 // const LanguageSelector = styled.div`
@@ -120,7 +126,7 @@ function BoardHeader({
         </LanguageSelector> */}
         <Spacer width={48} />
         <NotificationIcon>
-          🔔
+          <IconImage src={AlarmIcon} alt="alarm" />
           <NotificationDot />
         </NotificationIcon>
         <Spacer width={26} />

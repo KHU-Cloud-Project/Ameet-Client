@@ -12,14 +12,14 @@ type MemberBlockProps = {
 
 const BlockContainer = styled.div<{ backgroundColor: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
-  padding: 16px;
+  padding: 13px;
   border-radius: ${(props) => props.theme.borderRadius.medium};
   width: 180px;
-  height: 142px;
+  height: 150px;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 18px;
 `;
 
