@@ -1,11 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import styled from '@emotion/styled';
+import axios from 'axios';
 import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
 import logo from '../assets/images/dummy logo.png';
 import backgroundImg from '../assets/images/login bg.png';
 import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { userAtom } from '../recoil/atoms/userAtom';
 
 //test
 const BackgroundWrapper = styled.div`
@@ -156,11 +159,13 @@ const Button = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userAtom);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [apiError, setApiError] = useState('');
 
     // 컴포넌트가 마운트될 때 로컬스토리지에서 데이터를 가져옴
     useEffect(() => {
@@ -173,7 +178,7 @@ const Login = () => {
       }
     }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let valid = true;
 
     if (!email.includes('@')) {
@@ -190,6 +195,15 @@ const Login = () => {
       setPasswordError('');
     }
     if (valid) {
+      try {
+        const response = await axios.post('/api/v1/login', {
+          email,
+          password,
+        });
+        console.log('로그인 성공:', response.data);
+
+        setUser(response.data);
+
       if (rememberMe) {
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
@@ -199,8 +213,13 @@ const Login = () => {
       }
       console.log('로그인 정보', { email, password });
       navigate('/');
+    } catch (error: any) {
+      console.error('로그인 실패:', error.response?.data || error.message);
+      setApiError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+      setEmailError('이메일과 비밀번호를 확인해주세요.');
     }
-  };
+  }
+};
 
   const handleSignUp = () => {
     navigate('/signup');

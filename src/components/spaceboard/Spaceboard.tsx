@@ -46,6 +46,7 @@ const BlockColumn = styled.div<{
 
 function Spaceboard() {
   const [user] = useRecoilState(userAtom);
+  console.log('Spaceboard User State:', user);
 
   if (!user || !user.id) {
     throw new Error('User data is not present.');
