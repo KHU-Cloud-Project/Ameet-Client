@@ -2,74 +2,8 @@
 import styled from '@emotion/styled';
 import CustomMemberBlock from './CustomMemberBlock'; // MemberBlock을 import
 import { getParticipantLayout } from './LayoutUtils';
+import { UserForTeam } from '../../../recoil/atoms/userAtom';
 // import { Participant } from './types'; // Participant 타입 정의가 필요하면 여기에 추가
-
-type Participant = {
-  imageUrl: string;
-  nickname: string;
-  authority: string;
-  introduction: string;
-  isAdmin: boolean;
-  };
-
-const participants: Participant[] = [
-  {
-    imageUrl: 'https://picsum.photos/201',
-    nickname: 'Sumin',
-    authority: 'Admin',
-    introduction: 'I love cloud ☁️ 🌹💘💘',
-    isAdmin: true,
-  },
-  {
-    imageUrl: 'https://picsum.photos/202',
-    nickname: 'SaY',
-    authority: 'Member',
-    introduction: 'backend developer',
-    isAdmin: false,
-  },
-  {
-    imageUrl: 'https://picsum.photos/203',
-    nickname: 'Cherrie',
-    authority: 'Member',
-    introduction: 'Sujin so cute',
-    isAdmin: false,
-  },
-  {
-    imageUrl: 'https://picsum.photos/204',
-    nickname: 'Sujin',
-    authority: 'Member',
-    introduction: 'I AM MZ',
-    isAdmin: false,
-  },
-  {
-    imageUrl: 'https://picsum.photos/205',
-    nickname: 'Gyeongtaek',
-    authority: 'Member',
-    introduction: 'I AM ZM',
-    isAdmin: false,
-  },
-  // {
-  //   imageUrl: 'https://picsum.photos/205',
-  //   nickname: 'Gyeongtaek',
-  //   authority: 'Member',
-  //   introduction: 'I AM ZM',
-  //   isAdmin: false,
-  // },
-  // {
-  //   imageUrl: 'https://picsum.photos/205',
-  //   nickname: 'Gyeongtaek',
-  //   authority: 'Member',
-  //   introduction: 'I AM ZM',
-  //   isAdmin: false,
-  // },
-  // {
-  //   imageUrl: 'https://picsum.photos/205',
-  //   nickname: 'Gyeongtaek',
-  //   authority: 'Member',
-  //   introduction: 'I AM ZM',
-  //   isAdmin: false,
-  // },
-];
 
 const PersonContainer = styled.div`
   display: flex;
@@ -79,7 +13,7 @@ const PersonContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-;`
+`;
 
 const RecordingIndicator = styled.div`
   position: absolute;
@@ -114,7 +48,7 @@ const ParticipantGrid = styled.div<{ rows: number[] }>`
   width: 100%;
   max-width: 1200px;
   height: 100%;
-;`
+`;
 
 const GridContainer = styled.div`
   display: grid;
@@ -133,19 +67,24 @@ const FlexContainer = styled.div`
   width: 100%;
 `;
 
-function PersonBoard() {
+type PersonBoardProps = {
+  participants?: UserForTeam[];
+};
+
+function PersonBoard({ participants = [] }: PersonBoardProps) {
   const renderLayout = () => {
-    if (participants.length === 1) {
+    if (participants.length === 0) {
+      return <div>No user in meeting</div>;
+    } else if (participants.length === 1) {
       return (
         <FlexContainer>
           {participants.map((participant) => (
             <CustomMemberBlock
               key={participant.nickname}
-              imageUrl={participant.imageUrl}
+              imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
-              authority={participant.authority}
-              introduction={participant.introduction}
-              isAdmin={participant.isAdmin}
+              authority={participant.role ?? ''}
+              introduction={participant.introduction ?? ''}
             />
           ))}
         </FlexContainer>
@@ -156,11 +95,10 @@ function PersonBoard() {
           {participants.map((participant) => (
             <CustomMemberBlock
               key={participant.nickname}
-              imageUrl={participant.imageUrl}
+              imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
-              authority={participant.authority}
-              introduction={participant.introduction}
-              isAdmin={participant.isAdmin}
+              authority={participant.role ?? ''}
+              introduction={participant.introduction ?? ''}
             />
           ))}
         </FlexContainer>
@@ -168,15 +106,14 @@ function PersonBoard() {
     } else if (participants.length === 3) {
       return (
         <>
-          <GridContainer style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {participants.slice(0, 2).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -184,11 +121,10 @@ function PersonBoard() {
             {participants.slice(2).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </FlexContainer>
@@ -196,15 +132,14 @@ function PersonBoard() {
       );
     } else if (participants.length === 4) {
       return (
-        <GridContainer style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
+        <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
           {participants.map((participant) => (
             <CustomMemberBlock
               key={participant.nickname}
-              imageUrl={participant.imageUrl}
+              imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
-              authority={participant.authority}
-              introduction={participant.introduction}
-              isAdmin={participant.isAdmin}
+              authority={participant.role ?? ''}
+              introduction={participant.introduction ?? ''}
             />
           ))}
         </GridContainer>
@@ -212,15 +147,14 @@ function PersonBoard() {
     } else if (participants.length === 5) {
       return (
         <>
-          <GridContainer style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             {participants.slice(0, 3).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -228,11 +162,10 @@ function PersonBoard() {
             {participants.slice(3).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </FlexContainer>
@@ -240,15 +173,14 @@ function PersonBoard() {
       );
     } else if (participants.length === 6) {
       return (
-        <GridContainer style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+        <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
           {participants.map((participant) => (
             <CustomMemberBlock
               key={participant.nickname}
-              imageUrl={participant.imageUrl}
+              imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
-              authority={participant.authority}
-              introduction={participant.introduction}
-              isAdmin={participant.isAdmin}
+              authority={participant.role ?? ''}
+              introduction={participant.introduction ?? ''}
             />
           ))}
         </GridContainer>
@@ -256,27 +188,25 @@ function PersonBoard() {
     } else if (participants.length === 7) {
       return (
         <>
-          <GridContainer style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {participants.slice(0, 2).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
-          <GridContainer style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             {participants.slice(2, 5).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -284,11 +214,10 @@ function PersonBoard() {
             {participants.slice(5).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </FlexContainer>
@@ -297,39 +226,36 @@ function PersonBoard() {
     } else if (participants.length === 8) {
       return (
         <>
-          <GridContainer style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             {participants.slice(0, 3).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
-          <GridContainer style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {participants.slice(3, 5).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
-          <GridContainer style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+          <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             {participants.slice(5).map((participant) => (
               <CustomMemberBlock
                 key={participant.nickname}
-                imageUrl={participant.imageUrl}
+                imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
-                authority={participant.authority}
-                introduction={participant.introduction}
-                isAdmin={participant.isAdmin}
+                authority={participant.role ?? ''}
+                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -339,13 +265,15 @@ function PersonBoard() {
     return null; // 기본 값
   };
 
-  return <PersonContainer>
-    <RecordingIndicator>
+  return (
+    <PersonContainer>
+      <RecordingIndicator>
         <div className="dot"></div>
         <div className="text">recording..</div>
       </RecordingIndicator>
-      {renderLayout()
-      }</PersonContainer>;
+      {renderLayout()}
+    </PersonContainer>
+  );
 }
 
 export default PersonBoard;
@@ -375,3 +303,70 @@ export default PersonBoard;
 // }
 
 // export default PersonBoard;
+
+// type Participant = {
+//   imageUrl: string;
+//   nickname: string;
+//   authority: string;
+//   introduction: string;
+//   isAdmin: boolean;
+// };
+
+// const participants: Participant[] = [
+//   {
+//     imageUrl: 'https://picsum.photos/201',
+//     nickname: 'Sumin',
+//     authority: 'Admin',
+//     introduction: 'I love cloud ☁️ 🌹💘💘',
+//     isAdmin: true,
+//   },
+//   {
+//     imageUrl: 'https://picsum.photos/202',
+//     nickname: 'SaY',
+//     authority: 'Member',
+//     introduction: 'backend developer',
+//     isAdmin: false,
+//   },
+//   {
+//     imageUrl: 'https://picsum.photos/203',
+//     nickname: 'Cherrie',
+//     authority: 'Member',
+//     introduction: 'Sujin so cute',
+//     isAdmin: false,
+//   },
+// {
+//   imageUrl: 'https://picsum.photos/204',
+//   nickname: 'Sujin',
+//   authority: 'Member',
+//   introduction: 'I AM MZ',
+//   isAdmin: false,
+// },
+// {
+//   imageUrl: 'https://picsum.photos/205',
+//   nickname: 'Gyeongtaek',
+//   authority: 'Member',
+//   introduction: 'I AM ZM',
+//   isAdmin: false,
+// },
+// {
+//   imageUrl: 'https://picsum.photos/205',
+//   nickname: 'Gyeongtaek',
+//   authority: 'Member',
+//   introduction: 'I AM ZM',
+//   isAdmin: false,
+// },
+// {
+//   imageUrl: 'https://picsum.photos/205',
+//   nickname: 'Gyeongtaek',
+//   authority: 'Member',
+//   introduction: 'I AM ZM',
+//   isAdmin: false,
+// },
+// {
+//   imageUrl: 'https://picsum.photos/205',
+//   nickname: 'Gyeongtaek',
+//   authority: 'Member',
+//   introduction: 'I AM ZM',
+//   isAdmin: false,
+// },
+// ];
