@@ -16,7 +16,7 @@ import { teamsAtom } from '../../../recoil/atoms/teamAtom';
 const Label = styled.label`
   color: ${(props) => props.theme.colors.textGray};
   font-size: 0.95rem;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 `;
 
 const Input = styled.input`
@@ -24,7 +24,7 @@ const Input = styled.input`
   font-size: ${(props) => props.theme.typography.fontSize.small};
   border: 1px solid ${(props) => props.theme.colors.lineGray};
   border-radius: 5px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   color: ${(props) => props.theme.colors.textDarkGray};
 
   &::placeholder {
@@ -39,7 +39,6 @@ const Input = styled.input`
 const wrapperStyle = css`
   display: flex;
   justify-content: space-between;
-  margin-top: 18px;
 `;
 
 const MemberControl = styled.div`
