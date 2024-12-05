@@ -35,7 +35,13 @@ const ExpandSpacer = styled.div`
   flex-grow: 1;
 `;
 
-const MeetingSettingBoard = ({ teamId }: { teamId: number }) => {
+const MeetingSettingBoard = ({
+  teamId,
+  teamName,
+}: {
+  teamId: number;
+  teamName: string;
+}) => {
   const [, setMeeting] = useRecoilState(meetingStateAtom);
   const [isMeetingInProgress, setMeetingInProgress] = useRecoilState(
     isMeetingInProgressAtom,
@@ -48,11 +54,12 @@ const MeetingSettingBoard = ({ teamId }: { teamId: number }) => {
   };
 
   const handleCreateMeeting = async () => {
+    const dummyMeetingTitle = 'Dummy Title';
     try {
       setLoading(true);
       const meetingData = await createMeetingApi({
         teamId: teamId,
-        title: 'New Meeting',
+        title: dummyMeetingTitle,
       });
 
       setMeeting(meetingData);
@@ -60,7 +67,9 @@ const MeetingSettingBoard = ({ teamId }: { teamId: number }) => {
 
       console.log('Meeting created:', meetingData);
       console.log('Meeting ID:', meetingData.meetingId);
-      navigate(`/meeting/${meetingData.meetingId}`);
+      navigate(`/meeting/${meetingData.meetingId}`, {
+        state: { teamName },
+      });
     } catch (error) {
       console.error('[MeetingSettingBoard] Failed to create meeting:', error);
     } finally {
