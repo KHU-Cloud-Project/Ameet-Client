@@ -25,8 +25,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
+  max-width: 500px;
+  padding: 50px 50px;
+  padding-bottom: 50px;
   background-color: ${({ theme }) => theme.colors.background};
   box-sizing: border-box;
   border-radius: 12px; /* 모서리를 둥글게 설정 */
@@ -36,14 +37,14 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 20px 0 30px 0 // TRBL
+;
 `;
 
 const Icon = styled.img`
-  width: 80px;
-  height: 80px;
-  margin-right: 10px;
+  width: 60px;
+  height: 60px;
+  margin-right: 16px;
 `;
 
 const ServiceName = styled.h2`
@@ -104,7 +105,7 @@ const Checkbox = styled.input`
   background-color: ${({ theme }) => theme.colors.lightGray};
   border-radius: 4px;
   cursor: pointer;
-  
+
   &:checked {
     background-color: ${({ theme }) => theme.colors.primary};
     position: relative;
@@ -129,8 +130,8 @@ const ForgotPassword = styled.span`
 `;
 
 const SignUpButton = styled.button`
-  align-self: flex-middle; /* 오른쪽 정렬 */  
-  font-size: 0.8rem;
+  align-self: flex-middle; /* 오른쪽 정렬 */
+  font-size: 0.9rem;
   background: none;
   border: none;
   color: ${({ theme }) => theme.colors.primary};
@@ -138,16 +139,17 @@ const SignUpButton = styled.button`
   &:hover {
     text-decoration: underline;
   }
+  margin-top: 20px;
 `;
 
 const Button = styled.button`
-  width: 100%;
-  padding: 10px;
+  width: 94.5%;
+  padding: 12px;
   background-color: ${({ theme }) => theme.colors.primary};
   color: white;
   font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.colors.secondary};
@@ -162,16 +164,16 @@ const Login = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-    // 컴포넌트가 마운트될 때 로컬스토리지에서 데이터를 가져옴
-    useEffect(() => {
-      const storedEmail = localStorage.getItem('email');
-      const storedPassword = localStorage.getItem('password');
-      if (storedEmail && storedPassword) {
-        setEmail(storedEmail);
-        setPassword(storedPassword);
-        setRememberMe(true);
-      }
-    }, []);
+  // 컴포넌트가 마운트될 때 로컬스토리지에서 데이터를 가져옴
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('email');
+    const storedPassword = localStorage.getItem('password');
+    if (storedEmail && storedPassword) {
+      setEmail(storedEmail);
+      setPassword(storedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = () => {
     let valid = true;
@@ -209,42 +211,41 @@ const Login = () => {
   return (
     <BackgroundWrapper>
       <Container>
-      <Header>
-        <Icon src={logo} alt="A-Meet logo" />
-        <ServiceName>A-Meet</ServiceName>
-      </Header>
-      
-      <Input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
-      <Input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+        <Header>
+          <Icon src={logo} alt="A-Meet logo" />
+          <ServiceName>A-Meet</ServiceName>
+        </Header>
 
-      <RememberMeContainer>
-        <RememberMeLabel>
-          <Checkbox
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          Remember Me
-        </RememberMeLabel>
-        <ForgotPassword>Forgot Password?</ForgotPassword>
-      </RememberMeContainer>
+        <Input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
 
-      <Spacer height={30} />
-      <Button onClick={handleLogin}>Log In</Button>
-      <SignUpButton onClick={handleSignUp}>sign up with e-mail</SignUpButton>
-    </Container>
+        <RememberMeContainer>
+          <RememberMeLabel>
+            <Checkbox
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            Remember Me
+          </RememberMeLabel>
+          <ForgotPassword>Forgot Password?</ForgotPassword>
+        </RememberMeContainer>
+        <Spacer height={40} />
+        <Button onClick={handleLogin}>Log In</Button>
+        <SignUpButton onClick={handleSignUp}>sign up with e-mail</SignUpButton>
+      </Container>
     </BackgroundWrapper>
   );
 };
