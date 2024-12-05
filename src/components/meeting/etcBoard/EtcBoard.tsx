@@ -22,7 +22,7 @@ function EtcBoard({ meetingId }: { meetingId: number }) {
   };
 
   return (
-    <BoardContainer flex="none">
+    <BoardContainer>
       <BoardTitle>
         <TimerComponent initialTime={meetingDuration} />
         <QuitBtn onExit={handleExit} onQuitMeeting={handleQuitMeeting} />
