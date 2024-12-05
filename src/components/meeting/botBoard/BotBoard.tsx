@@ -7,6 +7,7 @@ import { theme } from '../../../styles/theme';
 
 const BoardContainer = styled.div`
   display: flex;
+  flex: 4;
   flex-direction: column;
   padding: 20px;
   background-color: ${(props) => props.theme.colors.white};

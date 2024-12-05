@@ -1,4 +1,4 @@
-import React from 'react';
+/** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import BotBlock from './BotBlock';
 import DashboardTimer from './DashboardTimer';
@@ -7,6 +7,14 @@ import { Spacer } from '../../common/Spacer';
 import { theme } from '../../../styles/theme';
 import BoardTitle from '../../common/board/BoardTitle';
 import BoardContainer from '../../common/board/BoardContainer';
+import { useRecoilState } from 'recoil';
+import {
+  isMeetingInProgressAtom,
+  meetingStateAtom,
+} from '../../../recoil/atoms/meetingAtom';
+import { useState } from 'react';
+import { createMeetingApi } from '../../../api/meetingApi';
+import { useNavigate } from 'react-router';
 
 const SectionTitle = styled.div`
   font-size: 14px;
@@ -27,9 +35,54 @@ const ExpandSpacer = styled.div`
   flex-grow: 1;
 `;
 
-const MeetingSettingBoard: React.FC = () => {
+const MeetingSettingBoard = ({
+  teamId,
+  teamName,
+}: {
+  teamId: number;
+  teamName: string;
+}) => {
+  const [, setMeeting] = useRecoilState(meetingStateAtom);
+  const [isMeetingInProgress, setMeetingInProgress] = useRecoilState(
+    isMeetingInProgressAtom,
+  );
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleToggle = (botType: string) => {
     console.log(`${botType} toggled`);
+  };
+
+  const handleCreateMeeting = async () => {
+    const dummyMeetingTitle = 'Dummy Title';
+    try {
+      setLoading(true);
+      const meetingData = await createMeetingApi({
+        teamId: teamId,
+        title: dummyMeetingTitle,
+      });
+
+      setMeeting(meetingData);
+      setMeetingInProgress(true);
+
+      console.log('Meeting created:', meetingData);
+      console.log('Meeting ID:', meetingData.meetingId);
+      navigate(`/meeting/${meetingData.meetingId}`, {
+        state: { teamName },
+      });
+    } catch (error) {
+      console.error('[MeetingSettingBoard] Failed to create meeting:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (isMeetingInProgress) {
+      console.log('Joining meeting...');
+    } else {
+      handleCreateMeeting();
+    }
   };
 
   return (
@@ -70,7 +123,7 @@ const MeetingSettingBoard: React.FC = () => {
       />
       <BotBlock
         isActive={false}
-         imageUrl="/src/assets/images/negative bot.png"
+        imageUrl="/src/assets/images/negative bot.png"
         botType="Negative Feedback"
         description="Gives Feedback"
       />
@@ -87,7 +140,9 @@ const MeetingSettingBoard: React.FC = () => {
       <Spacer height={36} />
       <SectionTitle>Set Meeting Title</SectionTitle>
       <ExpandSpacer />
-      <Button>Start Meeting</Button>
+      <Button onClick={handleButtonClick} disabled={loading}>
+        {isMeetingInProgress ? 'Join Meeting' : 'Create Meeting'}
+      </Button>
     </BoardContainer>
   );
 };

@@ -8,7 +8,6 @@ export type CustomMemberBlockProps = {
   nickname: string;
   authority: string;
   introduction: string;
-  isAdmin: boolean;
 };
 
 const CustomBlockContainer = styled.div<{ backgroundColor: string }>`
@@ -67,7 +66,6 @@ function CustomMemberBlock({
   nickname,
   authority,
   introduction,
-  isAdmin,
 }: CustomMemberBlockProps) {
   const theme = useTheme();
 

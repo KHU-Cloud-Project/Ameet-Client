@@ -67,7 +67,10 @@ function Dashboard({ team, loading, error }: DashboardProps) {
             />
             <LogBoard teamId={team?.teamId || -1} />
           </BlockColumn>
-          <MeetingSettingBoard />
+          <MeetingSettingBoard
+            teamId={team?.teamId || -1}
+            teamName={team?.name || ''}
+          />
         </BlockWrapper>
       </DashboardBody>
     </>

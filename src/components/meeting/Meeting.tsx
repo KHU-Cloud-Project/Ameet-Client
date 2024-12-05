@@ -6,6 +6,14 @@ import PersonBoard from './personBoard/PersonBoard';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '../../recoil/atoms/userAtom';
 import BoardHeader from '../common/board/header/BoardHeader';
+import { Meeting as MeetingType } from '../../models/Meeting';
+
+type MeetingProps = {
+  meeting: MeetingType | null;
+  loading: boolean;
+  error: string | null;
+  teamName: string;
+};
 
 const MeetingBody = styled.div`
   display: flex;
@@ -14,12 +22,12 @@ const MeetingBody = styled.div`
   overflow: hidden;
 `;
 
-const DummyBoard = styled.div`
-  display: flex;
-  flex: 2.2;
-  gap: 26px;
-  overflow: hidden;
-`;
+// const DummyBoard = styled.div`
+//   display: flex;
+//   flex: 2.2;
+//   gap: 26px;
+//   overflow: hidden;
+// `;
 
 const BlockWrapper = styled.div`
   display: flex;
@@ -36,75 +44,32 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-function Meeting() {
+const Meeting = ({ meeting, loading, error, teamName }: MeetingProps) => {
   const [user] = useRecoilState(userAtom);
 
   if (!user || !user.id) {
     throw new Error('User data is not present.');
   }
 
-  const dummyHasSearchbar = true;
-  const dummyIsAdmin = true;
-
   return (
     <>
       <BoardHeader
-        title={dummyTitle}
-        hasSearchbar={dummyHasSearchbar}
+        title={teamName}
+        hasSearchbar={false}
         user={user}
         hasLogo={true}
       />
       <MeetingBody>
         <BlockWrapper>
-          <PersonBoard />
+          <PersonBoard participants={meeting?.participants} />
           <BlockColumn>
-            <EtcBoard />
+            <EtcBoard meetingId={meeting?.meetingId ?? 0} />
             <BotBoard />
           </BlockColumn>
         </BlockWrapper>
       </MeetingBody>
     </>
   );
-}
-
-export default Meeting;
-
-const dummyTitle = 'Space 1';
-const dummyUser = {
-  name: 'Cherrie',
-  role: 'Member',
-  profileImage: 'https://picsum.photos/200',
 };
 
-const dummyMembers = [
-  {
-    imageUrl: 'https://picsum.photos/201',
-    nickname: 'Sumin',
-    authority: 'Admin',
-    introduction: 'I love cloud ☁️ 🌹💘💘',
-  },
-  {
-    imageUrl: 'https://picsum.photos/202',
-    nickname: 'SaY',
-    authority: 'Member',
-    introduction: 'backend developer',
-  },
-  {
-    imageUrl: 'https://picsum.photos/203',
-    nickname: 'Cherrie',
-    authority: 'Member',
-    introduction: 'Sujin so cute',
-  },
-  {
-    imageUrl: 'https://picsum.photos/204',
-    nickname: 'Sujin',
-    authority: 'Member',
-    introduction: 'I AM MZ',
-  },
-  {
-    imageUrl: 'https://picsum.photos/205',
-    nickname: 'Gyeongtaek',
-    authority: 'Member',
-    introduction: 'I AM ZM',
-  },
-];
+export default Meeting;

@@ -40,17 +40,19 @@ const ResponseBubble = styled.div<{ color: string }>`
   border-radius: 12px;
   font-size: 0.7rem;
   display: flex;
+  font-size: ${(props) => props.theme.typography.fontSize.default};
+  color: ${(props) => props.theme.colors.textDarkGray};
   align-items: center; /* 봇 아이콘과 텍스트 정렬 */
   gap: 10px;
-;`
+`;
 
-  const BotIcon = styled.img`
+const BotIcon = styled.img`
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background-position: center; /* 이미지 중앙 정렬 */
   border-radius: 12px; /* 동그란 모양 유지 */
-;`
+`;
 
 function BotResponses({ responses, bots }: BotResponsesProps) {
   return (
@@ -67,6 +69,5 @@ function BotResponses({ responses, bots }: BotResponsesProps) {
     </ResponsesContainer>
   );
 }
-
 
 export default BotResponses;
