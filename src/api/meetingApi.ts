@@ -25,3 +25,15 @@ export const fetchMeetingDetailApi = async (meetingId: number) => {
 
   throw new Error('Failed to fetch team details');
 };
+
+export const endMeetingApi = async (meetingId: number) => {
+  const response = await axiosInstance.get(`/api/v1/meeting/end`, {
+    params: { meetingId },
+  });
+
+  if (response.data?.success && response.status === 200) {
+    return response.data.data;
+  }
+
+  throw new Error('[MeetingApi] Failed to end meeting');
+};

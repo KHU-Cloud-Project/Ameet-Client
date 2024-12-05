@@ -63,7 +63,7 @@ const Meeting = ({ meeting, loading, error, teamName }: MeetingProps) => {
         <BlockWrapper>
           <PersonBoard participants={meeting?.participants} />
           <BlockColumn>
-            <EtcBoard />
+            <EtcBoard meetingId={meeting?.meetingId ?? 0} />
             <BotBoard />
           </BlockColumn>
         </BlockWrapper>
