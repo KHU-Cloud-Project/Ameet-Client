@@ -11,7 +11,6 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  overflow-y: auto;
   width: 100%;
   flex: 1;
 `;
