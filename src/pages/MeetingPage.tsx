@@ -1,7 +1,7 @@
 import MeetingPageLayout from '../components/meeting/meetingPageLayout/MeetingPageLayout';
 import Meeting from '../components/meeting/Meeting';
 import { useLocation, useParams } from 'react-router';
-import { useFetchMeetingDetail } from '../hooks/useFEtchMeetings';
+import { useFetchMeetingDetail } from '../hooks/useFetchMeetings';
 import { useEffect } from 'react';
 
 function MeetingPage() {
