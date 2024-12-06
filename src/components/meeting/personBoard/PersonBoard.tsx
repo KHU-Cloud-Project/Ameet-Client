@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import CustomMemberBlock from './CustomMemberBlock'; // MemberBlock을 import
+import CustomMemberBlock from './CustomMemberBlock';
+import ButtonModule from './ButtonModule'; // MemberBlock을 import
 import { getParticipantLayout } from './LayoutUtils';
 import { UserForTeam } from '../../../recoil/atoms/userAtom';
 // import { Participant } from './types'; // Participant 타입 정의가 필요하면 여기에 추가
 
 const PersonContainer = styled.div`
+  position: relative; /* 아이콘 모듈을 위한 포지션 설정*/
   display: flex;
   flex: 2.2;
   height: 100%;
@@ -84,7 +86,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
               imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
               authority={participant.role ?? ''}
-              introduction={participant.introduction ?? ''}
             />
           ))}
         </FlexContainer>
@@ -98,7 +99,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
               imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
               authority={participant.role ?? ''}
-              introduction={participant.introduction ?? ''}
             />
           ))}
         </FlexContainer>
@@ -113,7 +113,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -124,7 +123,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </FlexContainer>
@@ -139,7 +137,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
               imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
               authority={participant.role ?? ''}
-              introduction={participant.introduction ?? ''}
             />
           ))}
         </GridContainer>
@@ -154,7 +151,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -165,7 +161,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </FlexContainer>
@@ -180,7 +175,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
               imageUrl={participant.profile ?? ''}
               nickname={participant.nickname}
               authority={participant.role ?? ''}
-              introduction={participant.introduction ?? ''}
             />
           ))}
         </GridContainer>
@@ -195,7 +189,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -206,7 +199,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -217,7 +209,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </FlexContainer>
@@ -233,7 +224,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -244,7 +234,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -255,7 +244,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
                 imageUrl={participant.profile ?? ''}
                 nickname={participant.nickname}
                 authority={participant.role ?? ''}
-                introduction={participant.introduction ?? ''}
               />
             ))}
           </GridContainer>
@@ -272,6 +260,7 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
         <div className="text">recording..</div>
       </RecordingIndicator>
       {renderLayout()}
+      <ButtonModule />
     </PersonContainer>
   );
 }
