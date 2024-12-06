@@ -26,9 +26,11 @@ const Input = styled.input`
   border-radius: 5px;
   margin-bottom: 16px;
   color: ${(props) => props.theme.colors.textDarkGray};
+  background-color: ${(props) => props.theme.colors.white};
 
   &::placeholder {
     color: ${(props) => props.theme.colors.textLightGray};
+    background-color: ${(props) => props.theme.colors.white};
   }
 
   &:focus {
