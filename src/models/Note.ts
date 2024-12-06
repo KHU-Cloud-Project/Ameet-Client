@@ -19,7 +19,13 @@ export type NoteUploadRequest = {
     createdDate: string;
   };
   
-  export type NoteUploadResponse = {
-    noteId: number;
-    presignedUrl: string;
-  };
+  export interface NoteUploadResponse {
+    success: boolean;
+    status: number;
+    data: {
+      presignedUrl: string;
+      noteId: number;
+    };
+    timestamp: string;
+  }
+  
