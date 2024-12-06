@@ -36,9 +36,8 @@ const ResponseBubble = styled.div<{ color: string }>`
   max-width: 100%;
   background-color: white;
   border: 0.5px solid ${({ color }) => color}; /* 테두리 색상 */
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 12px;
-  font-size: 0.7rem;
   display: flex;
   font-size: ${(props) => props.theme.typography.fontSize.default};
   color: ${(props) => props.theme.colors.textDarkGray};
@@ -47,11 +46,9 @@ const ResponseBubble = styled.div<{ color: string }>`
 `;
 
 const BotIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-position: center; /* 이미지 중앙 정렬 */
-  border-radius: 12px; /* 동그란 모양 유지 */
+  max-width: 30px;
+  max-height: 30px;
+  background-position: center; 
 `;
 
 function BotResponses({ responses, bots }: BotResponsesProps) {

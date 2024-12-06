@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import logo from '/logo.png';
 
 const BigContainer = styled.div`
   width: clamp(220px, 18vw, 260px);
@@ -35,6 +36,12 @@ const LogoIcon = styled.div`
   justify-content: center;
 `;
 
+const LogoImage = styled.img`
+  width: 40px; 
+  height: 40px; 
+`;
+
+
 function CuttedLogo() {
   const navigate = useNavigate();
 
@@ -45,9 +52,11 @@ function CuttedLogo() {
   return (
     <BigContainer>
       <LogoContainer onClick={handleClick}>
-      <LogoIcon>✈️</LogoIcon>
+      <LogoIcon>
+        <LogoImage src={logo} alt="logo" />
+      </LogoIcon>
       A-meet
-      </LogoContainer>
+    </LogoContainer>
     </BigContainer>
   );
 }
