@@ -105,12 +105,12 @@ const RightColumn = styled.div`
   flex-direction: column;
 `;
 
-const UploadModal = ({ onClose }: { onClose: () => void }) => {
+const UploadModal = ({ onClose, onUploadComplete }: { onClose: () => void; onUploadComplete: () => void }) => {
   const [title, setTitle] = useState('');
   const [members, setMembers] = useState('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const { uploadNote, uploadResponse, loading, error } = useFetchNote();
+  const { uploadNote } = useFetchNote();
 
   const handleUpload = async () => {
     if (!title || !members || !selectedDate || !uploadedFile) {
@@ -125,8 +125,7 @@ const UploadModal = ({ onClose }: { onClose: () => void }) => {
     ).padStart(2, '0')}:${String(selectedDate.getMinutes()).padStart(2, '0')}:${String(
       selectedDate.getSeconds()
     ).padStart(2, '0')}`;
-  
-    console.log('formattedDate:', formattedDate);
+
   
     const requestData: NoteUploadRequest = {
       title,
@@ -136,6 +135,8 @@ const UploadModal = ({ onClose }: { onClose: () => void }) => {
   
     try {
       console.log('Uploading data:', requestData);
+      onClose();
+      onUploadComplete();
       const response = await uploadNote(requestData);
       console.log('Upload response:', response);
   
@@ -144,28 +145,22 @@ const UploadModal = ({ onClose }: { onClose: () => void }) => {
     
       if (!presignedUrl || noteId === undefined) {
         console.error('Presigned URL or Note ID is undefined. Cannot proceed.');
-        alert('Failed to upload note. Missing presigned URL or note ID.');
         return;
       }
       
       const baseUrl = getBaseUrl(presignedUrl)
-      await uploadFileToPresignedUrl(baseUrl, uploadedFile);
   
       console.log('Uploading file to S3...');
-      await FileUpload(baseUrl, uploadedFile); 
-      alert('Upload successful!');
-
-
+      await FileUpload(baseUrl, uploadedFile);
+  
       const createdNote = await createNoteApi(noteId);
       console.log('Created Note:', createdNote);
-  
-      alert('Upload successful!');
-      //onClose();
+
     } catch (err) {
       console.error('Error uploading note or file:', err);
-      alert('Failed to upload note or file. Please try again.');
     }
   };
+
 
   const getBaseUrl = (url: string): string => {
     const parsedUrl = new URL(url);
@@ -176,10 +171,8 @@ const UploadModal = ({ onClose }: { onClose: () => void }) => {
     try {
       console.log('Uploading file to S3...');
       await uploadFileToPresignedUrl(presignedUrl, file); 
-      alert('File uploaded successfully!');
     } catch (error) {
       console.error('Failed to upload file:', error);
-      alert('File upload failed.');
     }
   };
 
@@ -277,6 +270,7 @@ const UploadModal = ({ onClose }: { onClose: () => void }) => {
         />
       </ModalContainer>
     </ModalOverlay>
+    
   );
 };
 
