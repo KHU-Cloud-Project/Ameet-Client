@@ -36,7 +36,7 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-function Dashboard({ team, loading, error }: DashboardProps) {
+function Dashboard({ team, loading }: DashboardProps) {
   const dummyHasSearchbar = true;
   const [user] = useRecoilState(userAtom);
 
@@ -69,7 +69,8 @@ function Dashboard({ team, loading, error }: DashboardProps) {
           </BlockColumn>
           <MeetingSettingBoard
             teamId={team?.teamId || -1}
-            teamName={team?.name || ''}
+            teamName={team?.name}
+            meetingId={team?.meetingId}
           />
         </BlockWrapper>
       </DashboardBody>

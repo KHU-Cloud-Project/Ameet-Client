@@ -7,11 +7,6 @@ import { Spacer } from '../../common/Spacer';
 import { theme } from '../../../styles/theme';
 import BoardTitle from '../../common/board/BoardTitle';
 import BoardContainer from '../../common/board/BoardContainer';
-import { useRecoilState } from 'recoil';
-import {
-  isMeetingInProgressAtom,
-  meetingStateAtom,
-} from '../../../recoil/atoms/meetingAtom';
 import { useState } from 'react';
 import { createMeetingApi } from '../../../api/meetingApi';
 import { useNavigate } from 'react-router';
@@ -51,9 +46,11 @@ const InputField = styled.input`
 const MeetingSettingBoard = ({
   teamId,
   teamName,
+  meetingId,
 }: {
   teamId: number;
-  teamName: string;
+  teamName?: string;
+  meetingId?: number;
 }) => {
   type BotType =
     | 'Smart Summarize'
@@ -61,10 +58,6 @@ const MeetingSettingBoard = ({
     | 'Attendance Checker'
     | 'Negative Feedback';
 
-  const [, setMeeting] = useRecoilState(meetingStateAtom);
-  const [isMeetingInProgress, setMeetingInProgress] = useRecoilState(
-    isMeetingInProgressAtom,
-  );
   const [loading, setLoading] = useState(false);
   const [meetingTitle, setMeetingTitle] = useState('');
   const [botStates, setBotStates] = useState({
@@ -75,6 +68,8 @@ const MeetingSettingBoard = ({
   });
 
   const navigate = useNavigate();
+
+  const isMeetingInProgress = meetingId !== null && meetingId !== undefined;
 
   const handleToggle = (botType: BotType) => {
     setBotStates((prevStates) => ({
@@ -92,9 +87,6 @@ const MeetingSettingBoard = ({
         teamId: teamId,
         title,
       });
-
-      setMeeting(meetingData);
-      setMeetingInProgress(true);
 
       console.log('Meeting created:', meetingData);
       console.log('Meeting ID:', meetingData.meetingId);
