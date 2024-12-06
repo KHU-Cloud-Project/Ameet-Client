@@ -2,6 +2,12 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import JoinModal from './JoinModal';
+import { Team } from '../../../models/Team';
+import { useNavigate } from 'react-router';
+
+type teamProps = {
+  team: Team;
+};
 
 type SpaceBlockProps = {
   role: string;
@@ -70,12 +76,18 @@ const TxtBtn = styled.div<TxtBtnProps>`
   }
 `;
 
-function SpaceBlock({ name, role }: SpaceBlockProps) {
+function SpaceBlock({ team }: teamProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/dashboard/${team.teamId}`);
+  };
+
   return (
-    <BlockContainer isJoin={false}>
-      <SpaceName>{name}</SpaceName>
+    <BlockContainer isJoin={false} onClick={handleClick}>
+      <SpaceName>{team.name}</SpaceName>
       <Description isRole={true}>
-        {role == 'ADMIN' ? 'Admin' : 'Member'}
+        {team.role == 'OWNER' ? 'Owner' : 'Member'}
       </Description>
       <Description isRole={false}>
         <TxtBtn onClick={() => console.log('Edit clicked')}>Edit</TxtBtn>

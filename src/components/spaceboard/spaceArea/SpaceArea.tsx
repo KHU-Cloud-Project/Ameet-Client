@@ -4,15 +4,11 @@ import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import BoardTitle from '../../common/board/BoardTitle';
 import BoardContainer from '../../common/board/BoardContainer';
 import SpaceBlock, { JoinSpaceBlock } from './SpaceBlock';
+import { Team } from '../../../models/Team';
 // import { LeftArrow, RightArrow } from './ScrollArrows';
 
-type Space = {
-  name: string;
-  role: string;
-};
-
 type MemberBoardProps = {
-  spaces: Space[];
+  spaces: Team[];
 };
 
 const ScrollableSpaceList = styled.div`
@@ -45,11 +41,8 @@ const SpaceArea = ({ spaces }: MemberBoardProps) => {
           <SpaceListContainer>
             <JoinSpaceBlock />
             {spaces.map((space) => (
-              <SpaceBlock
-                key={space.name}
-                name={space.name}
-                role={space.role}
-              />
+              // <SpaceBlock key={space.teamId} name={name} role={space.role ?? ''} />
+              <SpaceBlock key={space.teamId} team={space} />
             ))}
           </SpaceListContainer>
         </ScrollMenu>
