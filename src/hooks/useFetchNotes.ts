@@ -8,23 +8,23 @@ export const useFetchNote = () => {
   const [error, setError] = useState<string | null>(null); 
   const [uploadResponse, setUploadResponse] = useState<NoteUploadResponse | null>(null); 
 
-  // Note 가져오기
-  const createNote = useCallback(async (noteId: number) => {
+  const fetchNote = useCallback(async (noteId: number): Promise<Note | void> => {
     if (loading) return;
     try {
       setLoading(true);
       setError(null);
-
-      const response = await createNoteApi(noteId); // Note 가져오기 API 호출
-      setNote(response); // Note 상태 업데이트
+  
+      const response = await createNoteApi(noteId); 
+      setNote(response); 
+      return response; 
     } catch (err: any) {
       setError(err.message || 'Failed to fetch note');
     } finally {
       setLoading(false);
     }
   }, [loading]);
+  
 
-  // Note 업로드
   const uploadNote = useCallback(async (data: NoteUploadRequest) => {
     if (loading) return;
     try {
