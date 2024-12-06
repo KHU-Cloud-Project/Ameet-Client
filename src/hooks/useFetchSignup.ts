@@ -1,4 +1,4 @@
-import { signupUserApi } from '../api/userAPI';
+import { signupUserApi } from '../api/userApi';
 
 export const useFetchSignup = () => {
   const signupUser = async (data: {
