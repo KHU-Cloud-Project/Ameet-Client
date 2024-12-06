@@ -39,6 +39,20 @@ export const createTeamApi = async (teamData: {
   throw new Error('Failed to create team');
 };
 
+// Join Team
+export const joinTeamApi = async (teamData: {
+  userId: number;
+  teamName: string;
+  description?: string;
+  teamPassword: string;
+}): Promise<number> => {
+  const response = await axiosInstance.post('/api/v1/team/join', teamData);
+  if (response.data?.success && response.status === 201) {
+    return response.data.data;
+  }
+  throw new Error('Failed to create team');
+};
+
 // Update user introduction
 export const updateUserIntroductionApi = async (data: {
   userTeamId: number;
