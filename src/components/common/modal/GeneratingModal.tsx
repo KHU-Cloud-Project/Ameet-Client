@@ -14,7 +14,7 @@ const LoadingMessage = styled.div`
 const GeneratingModal = ({ onClose }: { onClose: () => void }) => {
   return (
     <ModalOverlay onClose={onClose}>
-      <ModalContainer onClose={onClose} width="30%" minWidth="300px">
+      <ModalContainer onClose={onClose} width="30%" height='30%' minWidth="300px">
          <ClipLoader color="#6c63ff" size={50} />  
         <LoadingMessage>Generating your note, please wait...</LoadingMessage>
       </ModalContainer>

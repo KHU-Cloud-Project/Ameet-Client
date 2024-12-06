@@ -40,7 +40,8 @@ function UploadBtn() {
     setTimeout(() => setIsGeneratingModalOpen(true), 300);
     setTimeout(() => {
       setIsGeneratingModalOpen(false);
-    }, 30000);
+      alert('Upload complete');
+    }, 7000);
   };
 
   return (
