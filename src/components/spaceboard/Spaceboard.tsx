@@ -5,8 +5,9 @@ import SpaceArea from './spaceArea/SpaceArea';
 import LogBoard from '../common/logBoard/LogBoard';
 import CreateArea from './rightArea/CreateArea';
 import UseAdvancedArea from './rightArea/UseAdvancedArea';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userAtom } from '../../recoil/atoms/userAtom';
+import { teamsAtom, teamsLoadingAtom } from '../../recoil/atoms/teamAtom';
 
 const SpaceboardBody = styled.div`
   display: flex;
@@ -46,6 +47,8 @@ const BlockColumn = styled.div<{
 
 function Spaceboard() {
   const [user] = useRecoilState(userAtom);
+  const teams = useRecoilValue(teamsAtom);
+  // const teamsLoading = useRecoilValue(teamsLoadingAtom);
 
   if (!user || !user.id) {
     throw new Error('User data is not present.');
@@ -61,7 +64,7 @@ function Spaceboard() {
       <SpaceboardBody>
         <BlockWrapper>
           <BlockColumn firstChildFlex="content" lastChildFlex="80">
-            <SpaceArea spaces={dummySpaces} />
+            <SpaceArea spaces={teams} />
             <LogBoard
               userId={user.id}
               itemsPerPage={4}
@@ -90,41 +93,41 @@ export default Spaceboard;
 
 const dummyHasSearchbar = false;
 
-const dummySpaces = [
-  {
-    name: 'Sumin',
-    role: 'OWNER',
-  },
-  {
-    name: '영통먹짱들우하핫하하최고',
-    role: 'MEMBER',
-  },
-  {
-    name: 'Capstone',
-    role: 'MEMBER',
-  },
-  {
-    name: '수진팬클럽',
-    role: 'OWNER',
-  },
-  {
-    name: 'Cloud Project',
-    role: 'OWNER',
-  },
-  {
-    name: 'AUSG',
-    role: 'MEMBER',
-  },
-  {
-    name: '학생회',
-    role: 'MEMBER',
-  },
-  {
-    name: 'Startup Project',
-    role: 'OWNER',
-  },
-  {
-    name: '디닷임원진',
-    role: 'OWNER',
-  },
-];
+// const dummySpaces = [
+//   {
+//     name: 'Sumin',
+//     role: 'OWNER',
+//   },
+//   {
+//     name: '영통먹짱들우하핫하하최고',
+//     role: 'MEMBER',
+//   },
+//   {
+//     name: 'Capstone',
+//     role: 'MEMBER',
+//   },
+//   {
+//     name: '수진팬클럽',
+//     role: 'OWNER',
+//   },
+//   {
+//     name: 'Cloud Project',
+//     role: 'OWNER',
+//   },
+//   {
+//     name: 'AUSG',
+//     role: 'MEMBER',
+//   },
+//   {
+//     name: '학생회',
+//     role: 'MEMBER',
+//   },
+//   {
+//     name: 'Startup Project',
+//     role: 'OWNER',
+//   },
+//   {
+//     name: '디닷임원진',
+//     role: 'OWNER',
+//   },
+// ];
