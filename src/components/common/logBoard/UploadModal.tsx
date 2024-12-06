@@ -9,6 +9,9 @@ import { AiOutlineClose } from 'react-icons/ai';
 import uploadIcon from '/src/assets/icons/meetingLogs/upload_file.png';
 import DatePicker from './DatePicker';
 import CustomBtn from '../CustomBtn';
+import { useFetchNote } from '../../../hooks/useFetchNotes';
+import { NoteUploadRequest } from '../../../models/Note';
+import { uploadFileToPresignedUrl, createNoteApi } from '../../../api/noteApi';
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -102,11 +105,77 @@ const RightColumn = styled.div`
   flex-direction: column;
 `;
 
-const UploadModal = ({ onClose }: { onClose: () => void }) => {
+const UploadModal = ({ onClose, onUploadComplete }: { onClose: () => void; onUploadComplete: () => void }) => {
   const [title, setTitle] = useState('');
   const [members, setMembers] = useState('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { uploadNote } = useFetchNote();
+
+  const handleUpload = async () => {
+    if (!title || !members || !selectedDate || !uploadedFile) {
+      alert('Please fill in all required fields and upload a file.');
+      return;
+    }
+  
+    const formattedDate = `${selectedDate.getFullYear()}-${String(
+      selectedDate.getMonth() + 1
+    ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')} ${String(
+      selectedDate.getHours()
+    ).padStart(2, '0')}:${String(selectedDate.getMinutes()).padStart(2, '0')}:${String(
+      selectedDate.getSeconds()
+    ).padStart(2, '0')}`;
+
+  
+    const requestData: NoteUploadRequest = {
+      title,
+      members,
+      createdDate: formattedDate,
+    };
+  
+    try {
+      console.log('Uploading data:', requestData);
+      onClose();
+      onUploadComplete();
+      const response = await uploadNote(requestData);
+      console.log('Upload response:', response);
+  
+      const presignedUrl = response?.data?.presignedUrl; 
+      const noteId = response?.data?.noteId;
+    
+      if (!presignedUrl || noteId === undefined) {
+        console.error('Presigned URL or Note ID is undefined. Cannot proceed.');
+        return;
+      }
+      
+      const baseUrl = getBaseUrl(presignedUrl)
+  
+      console.log('Uploading file to S3...');
+      await FileUpload(baseUrl, uploadedFile);
+  
+      const createdNote = await createNoteApi(noteId);
+      console.log('Created Note:', createdNote);
+
+    } catch (err) {
+      console.error('Error uploading note or file:', err);
+    }
+  };
+
+
+  const getBaseUrl = (url: string): string => {
+    const parsedUrl = new URL(url);
+    return `${parsedUrl.origin}${parsedUrl.pathname}`;
+  };
+
+  const FileUpload = async (presignedUrl: string, file: File) => {
+    try {
+      console.log('Uploading file to S3...');
+      await uploadFileToPresignedUrl(presignedUrl, file); 
+    } catch (error) {
+      console.error('Failed to upload file:', error);
+    }
+  };
+
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 1) {
@@ -195,12 +264,13 @@ const UploadModal = ({ onClose }: { onClose: () => void }) => {
           text="Upload"
           padding="14px 28px"
           onClick={() => {
-            console.log('upload meeting audio');
+            handleUpload();
           }}
           disabled={!title || !members || !selectedDate}
         />
       </ModalContainer>
     </ModalOverlay>
+    
   );
 };
 
