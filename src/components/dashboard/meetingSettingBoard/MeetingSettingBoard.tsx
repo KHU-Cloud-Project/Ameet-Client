@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import BotBlock from './BotBlock';
 import DashboardTimer from './DashboardTimer';
 import Divider from '../../common/Divider';
 import { Spacer } from '../../common/Spacer';
@@ -10,6 +9,9 @@ import BoardContainer from '../../common/board/BoardContainer';
 import { useState } from 'react';
 import { createMeetingApi } from '../../../api/meetingApi';
 import { useNavigate } from 'react-router';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../../recoil/atoms/userAtom';
+import BotSettings, { BotType } from './BotSetting';
 
 const SectionTitle = styled.div`
   font-size: 14px;
@@ -52,12 +54,7 @@ const MeetingSettingBoard = ({
   teamName?: string;
   meetingId?: number;
 }) => {
-  type BotType =
-    | 'Smart Summarize'
-    | 'Positive Feedback'
-    | 'Attendance Checker'
-    | 'Negative Feedback';
-
+  const [user] = useRecoilState(userAtom);
   const [loading, setLoading] = useState(false);
   const [meetingTitle, setMeetingTitle] = useState('');
   const [botStates, setBotStates] = useState({
@@ -71,7 +68,7 @@ const MeetingSettingBoard = ({
 
   const isMeetingInProgress = meetingId !== null && meetingId !== undefined;
 
-  const handleToggle = (botType: BotType) => {
+  const handleToggleBot = (botType: BotType) => {
     setBotStates((prevStates) => ({
       ...prevStates,
       [botType]: !prevStates[botType],
@@ -87,9 +84,11 @@ const MeetingSettingBoard = ({
         teamId: teamId,
         title,
       });
-
       console.log('Meeting created:', meetingData);
       console.log('Meeting ID:', meetingData.meetingId);
+
+      handleJoinMeeting(meetingData.meetingId);
+
       navigate(`/meeting/${meetingData.meetingId}`, {
         state: { teamName },
       });
@@ -100,9 +99,14 @@ const MeetingSettingBoard = ({
     }
   };
 
+  const handleJoinMeeting = async (meetingId: number) => {
+    try {
+    } catch (error) {}
+  };
+
   const handleButtonClick = () => {
     if (isMeetingInProgress) {
-      console.log('Joining meeting...');
+      handleJoinMeeting(meetingId);
     } else {
       handleCreateMeeting();
     }
@@ -117,16 +121,7 @@ const MeetingSettingBoard = ({
       />
       <SectionTitle>Bots</SectionTitle>
       <Divider marginTop="4px" marginBottom="4px" />
-      {Object.keys(botStates).map((botType) => (
-        <BotBlock
-          key={botType}
-          isActive={botStates[botType as BotType]}
-          imageUrl={`/src/assets/images/${botType.toLowerCase().replace(' ', '-')}.png`}
-          botType={botType}
-          description={`Gives ${botType.split(' ')[0]} Feedback`}
-          onToggle={() => handleToggle(botType as BotType)}
-        />
-      ))}
+      <BotSettings botStates={botStates} onToggle={handleToggleBot} />
       <Spacer height={36} />
       <SectionTitle>Set Timer</SectionTitle>
       <Divider marginTop="4px" marginBottom="8px" />
