@@ -19,6 +19,8 @@ const InputLabelWrapper = styled.label<{ minWidth?: string }>`
     font-size: ${(props) => props.theme.typography.fontSize.small};
     border-radius: ${(props) => props.theme.borderRadius.small};
     min-width: ${(props) => props.minWidth || '260px'};
+    color: ${(props) => props.theme.colors.textGray};
+    background-color: ${(props) => props.theme.colors.white};
 
     &::placeholder {
       color: ${(props) => props.theme.colors.textGray};
