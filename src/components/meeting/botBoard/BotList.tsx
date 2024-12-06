@@ -19,7 +19,7 @@ const BotContainer = styled.div`
 `;
 
 const BotImage = styled.img`
-  width: 70px;
+  width: 50px;
   height: 60px;
   object-fit: cover;
   border-radius: 8px;
@@ -29,10 +29,8 @@ const BotImage = styled.img`
 const BotCircle = styled.div<{ isSelected: boolean }>`
   width: 90px;
   height: 80px;
-  background-color: ${({ isSelected, color }) =>
-    isSelected ? color : 'transparent'};
   border: 1px solid ${({ color }) => color};
-  border-radius: 12px; /* 둥근 정사각형 */
+  border-radius: 12px; 
   cursor: pointer;
   display: flex;
   align-items: center;

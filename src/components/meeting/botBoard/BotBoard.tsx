@@ -12,6 +12,7 @@ const BoardContainer = styled.div`
   padding: 20px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
+  max-height:85%;
 `;
 
 const BoardTitleContainer = styled.div`
@@ -29,19 +30,19 @@ const BotContainer = styled.div`
 `;
 const bots = [
   {
-    imageUrl: '/src/assets/images/positive bot.png',
+    imageUrl: '/src/assets/images/positive_colored.png',
     botType: 'Positive Feedback',
-    color: '#4CAF93', // 청록색
+    color: '#B585F6', // 청록색
   },
   {
-    imageUrl: '/src/assets/images/attendance checker.png',
+    imageUrl: '/src/assets/images/attendacne_checker_colored.png',
     botType: 'Attendance Checker',
-    color: '#8C4CBF', // 보라색
+    color: '#90D4AB', // 보라색
   },
   {
-    imageUrl: '/src/assets/images/negative bot.png',
-    botType: 'Negative Feedback',
-    color: '#FFC107', // 노란색
+    imageUrl: '/src/assets/images/summary_colored.png',
+    botType: 'Summary',
+    color: '#F096A7', // 노란색
   },
 ];
 
@@ -50,7 +51,7 @@ const responsesMap: { [botType: string]: string } = {
     'Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!',
   'Attendance Checker':
     'll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!',
-  'Negative Feedback':
+  'Summary':
     'Let’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttest',
 };
 
