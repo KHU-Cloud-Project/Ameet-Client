@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { userAtom } from '../recoil/atoms/userAtom';
-import { fetchUserApi } from '../api/userAPI';
+import { fetchUserApi } from '../api/userApi';
 
 export const useFetchUser = () => {
   const [user, setUser] = useRecoilState(userAtom);

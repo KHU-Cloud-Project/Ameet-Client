@@ -18,3 +18,12 @@ export const signupUserApi = async (data: {
   const response = await axiosInstance.post('/api/v1/signup', data);
   return response.data;
 };
+
+//Login User
+export const loginUserApi = async (data: {
+  email: string;
+  password: string;
+}) => {
+  const response = await axiosInstance.post('/api/v1/login', data);
+  return response.data;
+};

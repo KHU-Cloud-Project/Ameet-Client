@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
 export type User = {
-  id: number | null;
   email: string;
+  id: number | null;
   nickname: string;
   profile: string | null;
 };
