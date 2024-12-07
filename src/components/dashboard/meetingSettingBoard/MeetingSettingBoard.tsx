@@ -64,9 +64,13 @@ const MeetingSettingBoard = ({
     'Negative Feedback': false,
   });
 
-  const navigate = useNavigate();
+  if (!user || !user.id) {
+    throw new Error('User data is not present.');
+  }
 
+  const navigate = useNavigate();
   const isMeetingInProgress = meetingId !== null && meetingId !== undefined;
+  console.log(`Team ${teamId}, Meeting in progress? - ${isMeetingInProgress}`);
 
   const handleToggleBot = (botType: BotType) => {
     setBotStates((prevStates) => ({
@@ -77,21 +81,20 @@ const MeetingSettingBoard = ({
   };
 
   const handleCreateMeeting = async () => {
-    const title = meetingTitle;
     try {
       setLoading(true);
       const meetingData = await createMeetingApi({
         teamId: teamId,
-        title,
+        title: meetingTitle,
       });
-      console.log('Meeting created:', meetingData);
-      console.log('Meeting ID:', meetingData.meetingId);
+      console.log(
+        'Meeting created:',
+        meetingData,
+        'ID: ',
+        meetingData.meetingId,
+      );
 
-      handleJoinMeeting(meetingData.meetingId);
-
-      navigate(`/meeting/${meetingData.meetingId}`, {
-        state: { teamName },
-      });
+      await handleJoinMeeting(meetingData.meetingId, teamId);
     } catch (error) {
       console.error('[MeetingSettingBoard] Failed to create meeting:', error);
     } finally {
@@ -99,14 +102,21 @@ const MeetingSettingBoard = ({
     }
   };
 
-  const handleJoinMeeting = async (meetingId: number) => {
-    try {
-    } catch (error) {}
+  const handleJoinMeeting = async (meetingId: number, teamId: number) => {
+    if (meetingId && teamId) {
+      try {
+        navigate(`/meeting/${meetingId}`, {
+          state: { teamName, teamId },
+        });
+      } catch (error) {
+        console.error('[MeetingSettingBoard] Failed to join meeting:', error);
+      }
+    }
   };
 
   const handleButtonClick = () => {
     if (isMeetingInProgress) {
-      handleJoinMeeting(meetingId);
+      handleJoinMeeting(meetingId!, teamId);
     } else {
       handleCreateMeeting();
     }
