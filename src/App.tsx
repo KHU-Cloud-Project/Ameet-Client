@@ -10,7 +10,7 @@ import { GlobalStyles } from './styles/globalStyles';
 import SpaceboardPage from './pages/SpaceboardPage';
 import MeetingPage from './pages/MeetingPage';
 
-import { RecoilRoot, useRecoilState } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import { userAtom } from './recoil/atoms/userAtom';
 import { useFetchUser } from './hooks/useFetchUser';
 import { useFetchTeams } from './hooks/useFetchTeams';
@@ -27,6 +27,7 @@ const AppContainer = styled.div`
 `;
 
 function AppInitializer() {
+  // const user = useRecoilValue(userAtom);
   const [user, setUser] = useRecoilState(userAtom);
   const [teams] = useRecoilState(teamsAtom);
   const { fetchUser } = useFetchUser();
@@ -36,7 +37,7 @@ function AppInitializer() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        console.log('Using UserId:', MOCK_USER_ID);
+        console.log('Using UserId:', user?.id);
 
         if (!user) {
           const userData = await fetchUser(MOCK_USER_ID);

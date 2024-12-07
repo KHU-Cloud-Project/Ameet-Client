@@ -5,7 +5,11 @@ import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
 import logo from '../assets/images/dummy logo.png';
 import backgroundImg from '../assets/images/login bg.png';
+import { useSetRecoilState } from 'recoil';
+import { userAtom } from '../recoil/atoms/userAtom';
 import { useEffect } from 'react';
+import { loginUserApi } from '../api/userApi';
+import { useFetchUser } from '../hooks/useFetchUser';
 
 //test
 const BackgroundWrapper = styled.div`
@@ -37,8 +41,7 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0 30px 0 // TRBL
-;
+  margin: 20px 0 30px 0; // TRBL
 `;
 
 const Icon = styled.img`
@@ -158,11 +161,14 @@ const Button = styled.button`
 
 const Login = () => {
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userAtom);
+  // const { fetchUser } = useFetchUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [apiError, setApiError] = useState('');
 
   // 컴포넌트가 마운트될 때 로컬스토리지에서 데이터를 가져옴
   useEffect(() => {
@@ -175,7 +181,7 @@ const Login = () => {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let valid = true;
 
     if (!email.includes('@')) {
@@ -191,16 +197,32 @@ const Login = () => {
     } else {
       setPasswordError('');
     }
+
     if (valid) {
-      if (rememberMe) {
-        localStorage.setItem('email', email);
-        localStorage.setItem('password', password);
-      } else {
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
+      try {
+        const response = await loginUserApi({ email, password });
+        console.log('로그인 성공:', response);
+
+        // 1. 유저 데이터를 userAtom에 저장
+        setUser(response.data);
+
+        if (rememberMe) {
+          localStorage.setItem('email', email);
+          localStorage.setItem('password', password);
+        } else {
+          localStorage.removeItem('email');
+          localStorage.removeItem('password');
+        }
+        console.log('로그인 정보', { email, password });
+        // navigate(`/${user.userId}`);
+        navigate('/');
+      } catch (error: any) {
+        console.error('로그인 실패:', error.response?.data || error.message);
+        setApiError(
+          'API ERROR: 로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.',
+        );
+        setEmailError('이메일과 비밀번호를 확인해주세요.');
       }
-      console.log('로그인 정보', { email, password });
-      navigate('/');
     }
   };
 
