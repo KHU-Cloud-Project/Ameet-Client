@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './styles/theme';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes, useNavigate } from 'react-router';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import DashboardPage from './pages/DashboardPage';
@@ -9,13 +9,11 @@ import styled from '@emotion/styled';
 import { GlobalStyles } from './styles/globalStyles';
 import SpaceboardPage from './pages/SpaceboardPage';
 import MeetingPage from './pages/MeetingPage';
-
 import { RecoilRoot, useRecoilState } from 'recoil';
 import { userAtom } from './recoil/atoms/userAtom';
 import { useFetchUser } from './hooks/useFetchUser';
 import { useFetchTeams } from './hooks/useFetchTeams';
 import { useEffect, useState } from 'react';
-import { MOCK_USER_ID } from './constants/mockUser';
 import { teamsAtom } from './recoil/atoms/teamAtom';
 
 const AppContainer = styled.div`
@@ -27,23 +25,33 @@ const AppContainer = styled.div`
 `;
 
 function AppInitializer() {
-  const [user, setUser] = useRecoilState(userAtom);
+  // const user = useRecoilValue(userAtom);
+  const [user] = useRecoilState(userAtom);
   const [teams] = useRecoilState(teamsAtom);
   const { fetchUser } = useFetchUser();
-  const { fetchTeams } = useFetchTeams(MOCK_USER_ID);
+  const { fetchTeams } = useFetchTeams(user?.id || 0);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initializeApp = async () => {
-      try {
-        console.log('Using UserId:', MOCK_USER_ID);
+      console.log('Initializing App...');
+      console.log('Current User:', user);
 
-        if (!user) {
-          const userData = await fetchUser(MOCK_USER_ID);
-          setUser(userData);
-        }
+      if (!user?.id) {
+        console.warn('User ID is missing. Redirecting to login.');
+        setLoading(false);
+        navigate('/login');
+        return;
+      }
+
+      try {
+        console.log('Using UserId:', user.id);
+
+        await fetchUser(user.id);
 
         if (teams.length === 0) {
+          console.log('Fetching teams...');
           await fetchTeams();
         }
       } catch (error) {
@@ -54,26 +62,20 @@ function AppInitializer() {
     };
 
     initializeApp();
-  }, [fetchUser, fetchTeams]);
+  }, [fetchUser, fetchTeams, user?.id, navigate]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!MOCK_USER_ID) {
-    return <Navigate to="/login" />;
-  }
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/dashboard/:teamId" element={<DashboardPage />} />
-        <Route path="/" element={<SpaceboardPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/meeting/:meetingId" element={<MeetingPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/dashboard/:teamId" element={<DashboardPage />} />
+      <Route path="/" element={<SpaceboardPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/meeting/:meetingId" element={<MeetingPage />} />
+    </Routes>
   );
 }
 
@@ -83,7 +85,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <AppContainer>
-          <AppInitializer />
+          <BrowserRouter>
+            <AppInitializer />
+          </BrowserRouter>
         </AppContainer>
       </ThemeProvider>
     </RecoilRoot>

@@ -6,6 +6,9 @@ import BoardTitle from '../../common/board/BoardTitle';
 import CustomBtn from '../../common/CustomBtn';
 import { useState } from 'react';
 import InputLabel from '../../common/InputLabel';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../../recoil/atoms/userAtom';
+import { joinTeamApi } from '../../../api/teamApi';
 
 const Content = styled.div`
   display: flex;
@@ -19,8 +22,37 @@ const Content = styled.div`
 
 const JoinModal = ({ onClose }: { onClose: () => void }) => {
   const [spaceName, setSpaceName] = useState('');
-  const [entryPassword, setEntryPassword] = useState('');
-  const [selfIntro, setSelfIntro] = useState('');
+  const [teamPassword, setTeamPassword] = useState('');
+  const [description, setDescription] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [user] = useRecoilState(userAtom);
+
+  const handleJoin = async () => {
+    try {
+      setLoading(true);
+
+      if (!user || !user.id) {
+        throw new Error('User is not logged in.');
+      }
+
+      const teamData = {
+        userId: user.id,
+        teamName: spaceName,
+        description: description,
+        teamPassword: teamPassword,
+      };
+
+      await joinTeamApi(teamData);
+
+      alert(`Joined ${teamData.teamName} successfully!`);
+      onClose();
+    } catch (err) {
+      console.error('Error joining team:', err);
+      alert('Failed to join the team. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ModalOverlay onClose={onClose}>
@@ -36,30 +68,26 @@ const JoinModal = ({ onClose }: { onClose: () => void }) => {
 
           <InputLabel
             label="Entry Password"
-            value={entryPassword}
+            value={teamPassword}
             placeholder="enter entry password"
             type="password"
-            onChange={(e) => setEntryPassword(e.target.value)}
+            onChange={(e) => setTeamPassword(e.target.value)}
           />
           <InputLabel
             label="Self Introduction"
-            value={selfIntro}
+            value={description}
             placeholder="write a short introduction of yourself"
-            onChange={(e) => setSelfIntro(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Content>
         <div style={{ height: '12px' }}></div>
         <CustomBtn
-          text="Join"
+          text={loading ? 'Joining...' : 'Join'}
           padding="14px 28px"
           onClick={() => {
-            console.log('Joining with:', {
-              spaceName,
-              entryPassword,
-              selfIntro,
-            });
+            handleJoin();
           }}
-          disabled={!spaceName || !entryPassword || !selfIntro}
+          disabled={!spaceName || !teamPassword}
         />
       </ModalContainer>
     </ModalOverlay>

@@ -2,6 +2,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import UploadModal from './UploadModal';
+import GeneratingModal from '../modal/GeneratingModal';
 
 const StyledButton = styled.button`
   display: flex;
@@ -28,18 +29,37 @@ const Icon = styled.img`
 `;
 
 function UploadBtn() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [isGeneratingModalOpen, setIsGeneratingModalOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openUploadModal = () => setIsUploadModalOpen(true);
+  const closeUploadModal = () => setIsUploadModalOpen(false);
+
+  const handleUploadComplete = () => {
+    closeUploadModal();
+    setTimeout(() => setIsGeneratingModalOpen(true), 300);
+    setTimeout(() => {
+      setIsGeneratingModalOpen(false);
+      alert('Upload complete');
+    }, 7000);
+  };
 
   return (
     <>
-      <StyledButton onClick={openModal}>
+      <StyledButton onClick={openUploadModal}>
         <Icon src="/src/assets/icons/dashboard/upload.png" alt="Upload" />
         Upload
       </StyledButton>
-      {isModalOpen && <UploadModal onClose={closeModal} />}
+
+      {isUploadModalOpen && (
+        <UploadModal
+          onClose={closeUploadModal}
+          onUploadComplete={handleUploadComplete} 
+        />
+      )}
+
+      {isGeneratingModalOpen && <GeneratingModal onClose={() => setIsGeneratingModalOpen(false)} />}
+
     </>
   );
 }

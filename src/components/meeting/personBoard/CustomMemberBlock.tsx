@@ -7,7 +7,6 @@ export type CustomMemberBlockProps = {
   imageUrl: string;
   nickname: string;
   authority: string;
-  introduction: string;
 };
 
 const CustomBlockContainer = styled.div<{ backgroundColor: string }>`
@@ -53,19 +52,18 @@ const HeadContainer = styled.div`
   margin-top: 12px;
 `;
 
-const Introduction = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.small};
-  color: ${(props) => props.theme.colors.textBlue};
-  bottom: 10px; /* 아래에서 10px */
-  margin-right: auto; /* 왼쪽에서 10px */
-  text-align: left; /* 텍스트 왼쪽 정렬 */
-`;
+// const Introduction = styled.div`
+//   font-size: ${(props) => props.theme.typography.fontSize.small};
+//   color: ${(props) => props.theme.colors.textBlue};
+//   bottom: 10px; /* 아래에서 10px */
+//   margin-right: auto; /* 왼쪽에서 10px */
+//   text-align: left; /* 텍스트 왼쪽 정렬 */
+// `;
 
 function CustomMemberBlock({
   imageUrl,
   nickname,
   authority,
-  introduction,
 }: CustomMemberBlockProps) {
   const theme = useTheme();
 
@@ -87,7 +85,6 @@ function CustomMemberBlock({
         <Authority>{authority}</Authority>
       </HeadContainer>
       <ProfileImage src={imageUrl} alt={nickname} />
-      <Introduction>{introduction}</Introduction>
     </CustomBlockContainer>
   );
 }
