@@ -137,7 +137,7 @@ const SearchResultItem = styled.div`
     cursor: pointer;
   }
   font-size: ${(props) => props.theme.typography.fontSize.small};
-  line-height: 1.5; /* 줄 간격 조정 */
+  line-height: 1.5; 
 `;
 
 const MeetingTitle = styled.div`
@@ -176,33 +176,39 @@ function BoardHeader({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-  const handleSearch = async () => {
-    if (!teamId) {
-      console.error('No team selected');
-      return;
-    }
+ const handleSearch = async () => {
+  if (!teamId) {
+    console.error('No team selected');
+    return;
+  }
 
-    if (keyword.trim()) {
-      try {
-        const results = await searchMeetings(teamId, keyword);
-        const formattedResults = results.map((meeting) => ({
-          ...meeting,
-          duration: meeting.duration || { 
-            seconds: 0,
-            zero: true,
-            nano: 0,
-            negative: false,
-            units: [],
-          },
-        }));
-        setSearchResults(formattedResults);
-      } catch (e) {
-        console.error('Search failed:', e);
-        setSearchResults([]); 
-      }
-    }
-  };
+  if (keyword.trim()) {
+    try {
+      const results = await searchMeetings(teamId, keyword);
 
+      // 결과를 SearchMeetingResponse와 일치하도록 포맷팅
+      const formattedResults = results.map((meeting) => ({
+        meetingId: meeting.meetingId,
+        title: meeting.title,
+        startedAt: meeting.startedAt,
+        duration: meeting.duration || { 
+          seconds: 0,
+          zero: true,
+          nano: 0,
+          negative: false,
+          units: [],
+        },
+        participants: meeting.participants ?? [], 
+        presignedUrl: meeting.presignedUrl || '',
+      }));
+
+      setSearchResults(formattedResults); 
+    } catch (e) {
+      console.error('Search failed:', e);
+      setSearchResults([]); 
+    }
+  }
+};
   const handleBlur = () => {
     setTimeout(() => {
       setIsFocused(false); 

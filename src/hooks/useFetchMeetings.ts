@@ -41,13 +41,13 @@ export const useSearchMeetings = () => {
 
         const data = { teamId, keyword };
         const meetingsData = await searchMeetingsApi(data);
-        setMeetings(meetingsData); // 상태 업데이트
-        return meetingsData; // 결과 반환
+        setMeetings(meetingsData); 
+        return meetingsData; 
       } catch (err: any) {
         console.error('[useSearchMeetings] Failed to search meetings:', err);
         setError(err.message || 'Failed to search meetings');
-        setMeetings([]); // 에러 시 빈 배열로 초기화
-        throw err; // 에러 전달
+        setMeetings([]);
+        throw err; 
       } finally {
         setLoading(false);
       }
