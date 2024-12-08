@@ -7,12 +7,21 @@ import ProfileArea from './ProfileArea';
 import { User } from '../../../../recoil/atoms/userAtom';
 import CuttedLogo from '../../../meeting/meetingHeader/CuttedLogo';
 import AlarmIcon from '../../../../assets/icons/dashboard/alarm.png';
+import SearchIconImage from '../../../../assets/icons/dashboard/searchIcon.png';
+import { useState } from 'react';
+import { useSearchMeetings } from '../../../../hooks/useFetchMeetings';
+import {SearchMeetingResponse } from '../../../../models/Meeting';
+import { Log } from '../../../../models/Log';
+import LogModal  from '../../logBoard/LogModal';
+import {useFetchLogs} from '../../../../hooks/useFetchLogs';
+import {fetchLogDetailsApi} from '../../../../api/logApi';
 
 type HeaderProps = {
   title: string;
   hasSearchbar: boolean;
   description?: string | null | '';
   user: User;
+  teamId: number
   hasLogo?: boolean;
 };
 
@@ -38,11 +47,17 @@ const SearchBar = styled.div`
   background-color: ${(props) => props.theme.colors.darkWhite};
   padding: 12px 22px;
   border-radius: ${(props) => props.theme.borderRadius.medium};
+  margin-left: auto;
 `;
 
 const SearchIcon = styled.span`
   margin-right: 8px;
   color: ${(props) => props.theme.colors.secondary};
+`;
+
+const SearchIconImg = styled.img`
+  width: 24px;
+  height: 24px;
 `;
 
 const SpaceDescText = styled.span`
@@ -95,13 +110,129 @@ const NotificationDot = styled.span`
   border-radius: 50%;
 `;
 
+const SearchResults = styled.div`
+  position: absolute;
+  top: calc(100% + 8px); 
+  left: 0;
+  right: 0;
+  background-color: ${(props) => props.theme.colors.white};
+  border-radius: ${(props) => props.theme.borderRadius.medium};
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  padding: 12px;
+  z-index: 10; 
+  max-height: 200px; 
+  overflow-y: auto;
+  max-width: 458px;
+  margin-left : auto;
+`;
+
+const SearchResultItem = styled.div`
+  padding: 10px 12px;
+  border-bottom: 1px solid ${(props) => props.theme.colors.lightGray};
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover {
+    background-color: ${(props) => props.theme.colors.darkWhite};
+    cursor: pointer;
+  }
+  font-size: ${(props) => props.theme.typography.fontSize.small};
+  line-height: 1.5; /* 줄 간격 조정 */
+`;
+
+const MeetingTitle = styled.div`
+  font-weight: ${(props) => props.theme.typography.fontWeight.semibold}; 
+  margin-bottom: 4px;
+`;
+
+const MeetingDate = styled.div`
+  color: ${(props) => props.theme.colors.textGray}; 
+  font-size: ${(props) => props.theme.typography.fontSize.medium};
+  margin-bottom: 4px;
+`;
+
+const MeetingParticipants = styled.div`
+  color: ${(props) => props.theme.colors.secondary};
+  font-size: ${(props) => props.theme.typography.fontSize.small};
+`;
+
+
+
+
 function BoardHeader({
   title,
   hasSearchbar,
   description,
   user,
+  teamId,
   hasLogo,
 }: HeaderProps) {
+  const { meetings, searchMeetings, loading, error } = useSearchMeetings();
+  const [keyword, setKeyword] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchMeetingResponse>([]);
+  const [isFocused, setIsFocused] = useState(false); 
+  const [selectedLog, setSelectedLog] = useState<Log | null>(null);
+  const [selectedMeetingId, setSelectedMeetingId] = useState<number | null>(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const handleSearch = async () => {
+    if (!teamId) {
+      console.error('No team selected');
+      return;
+    }
+
+    if (keyword.trim()) {
+      try {
+        const results = await searchMeetings(teamId, keyword);
+        const formattedResults = results.map((meeting) => ({
+          ...meeting,
+          duration: meeting.duration || { 
+            seconds: 0,
+            zero: true,
+            nano: 0,
+            negative: false,
+            units: [],
+          },
+        }));
+        setSearchResults(formattedResults);
+      } catch (e) {
+        console.error('Search failed:', e);
+        setSearchResults([]); 
+      }
+    }
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsFocused(false); 
+      setSearchResults([]); 
+    }, 100);
+  };
+
+  const handleLogClick = async (meetingId: number) => {
+    setSelectedMeetingId(meetingId); 
+    const log = await fetchLogDetailsApi( meetingId); 
+    setSelectedLog(log);
+    setIsModalOpen(true); 
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false); 
+    setSelectedMeetingId(null); 
+  };
+  
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
+  
+
   return (
     <HeaderContainer>
       {hasLogo && <CuttedLogo />}
@@ -114,10 +245,35 @@ function BoardHeader({
         {description && <SpaceDescText>{description}</SpaceDescText>}
       </div>
       {hasSearchbar && (
-        <SearchBar>
-          <SearchIcon>🔍</SearchIcon>
-          <SearchInput type="text" placeholder="Search for meeting logs" />
-        </SearchBar>
+        <div style={{ position: 'relative', width: '100%' }}>
+          <SearchBar>
+            <SearchIcon>
+              <SearchIconImg src={SearchIconImage} />
+            </SearchIcon>
+            <SearchInput
+              type="text"
+              placeholder="Search for meeting logs"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              onFocus={() => setIsFocused(true)} 
+              onBlur={handleBlur} 
+            />
+          </SearchBar>
+          {isFocused && searchResults.length > 0 && (
+            <SearchResults>
+              {searchResults.map((result) => (
+                <SearchResultItem  onClick={() => handleLogClick(result.meetingId)} key={result.meetingId}>
+                 <MeetingTitle>Meeting Name: {result.title}</MeetingTitle>
+                 <MeetingDate>Date: {formatDate(result.startedAt)}</MeetingDate>
+                  <MeetingParticipants>
+                    Participants: {result.participants?.join(', ') || 'None'}
+                  </MeetingParticipants>
+                </SearchResultItem>
+              ))}
+            </SearchResults>
+          )}
+        </div>
       )}
       <HeaderRightSideWrapper>
         {/* <LanguageSelector>
@@ -136,6 +292,10 @@ function BoardHeader({
           profileImage={user.profile}
         />
       </HeaderRightSideWrapper>
+      {isModalOpen && selectedLog && (
+        <LogModal log={selectedLog} onClose={handleModalClose} />
+      )}
+  
     </HeaderContainer>
   );
 }

@@ -164,7 +164,7 @@ function LogModal({ log, onClose }: LogModalProps) {
             </Participants>
           </div>
           <HeaderInfo>
-            <span>{log.createdAt}</span>
+            <span>{log.startedAt}</span>
             <span>{formatISODuration(log.duration)}</span>
             <ActionButtons>
               <button>

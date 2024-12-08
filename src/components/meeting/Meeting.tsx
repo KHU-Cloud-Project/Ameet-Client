@@ -58,6 +58,7 @@ const Meeting = ({ meeting, loading, error, teamName }: MeetingProps) => {
         hasSearchbar={false}
         user={user}
         hasLogo={true}
+        teamId={1}
       />
       <MeetingBody>
         <BlockWrapper>
