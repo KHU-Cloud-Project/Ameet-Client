@@ -8,8 +8,8 @@ import BoardHeader from '../common/board/header/BoardHeader';
 import { Meeting as MeetingType } from '../../models/Meeting';
 import { useRef } from 'react';
 import { useWebRTC } from '../../hooks/useWebRTC';
-import PersonBoard from './personBoard/PersonBoard';
 import { useStomp } from '../../hooks/useStomp';
+import PersonBoard from './personBoard/PersonBoard';
 
 type MeetingProps = {
   meeting: MeetingType | null;

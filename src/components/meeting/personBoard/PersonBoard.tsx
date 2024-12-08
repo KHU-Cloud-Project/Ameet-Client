@@ -5,9 +5,11 @@ import ButtonModule from './ButtonModule'; // MemberBlock을 import
 import { UserForTeam } from '../../../recoil/atoms/userAtom';
 import React, { useEffect, useRef } from 'react';
 // import { getParticipantLayout } from './LayoutUtils';
+// import { getParticipantLayout } from './LayoutUtils';
 // import { Participant } from './types'; // Participant 타입 정의가 필요하면 여기에 추가
 
 const PersonContainer = styled.div`
+  position: relative;
   position: relative;
   display: flex;
   flex: 2.2;
@@ -22,14 +24,18 @@ const RecordingIndicator = styled.div`
   position: absolute;
   top: 130px;
   left: 20px;
+  top: 130px;
+  left: 20px;
   display: flex;
   align-items: center;
+  gap: 8px;
   gap: 8px;
 
   .dot {
     width: 10px;
     height: 10px;
     background-color: red;
+    border-radius: 50%;
     border-radius: 50%;
   }
 
@@ -98,7 +104,6 @@ type PersonBoardProps = {
 };
 
 function PersonBoard({ participants = [] }: PersonBoardProps) {
-  // function PersonBoard({ participants = dummy_participants }) {]
   const videoRefs = useRef<Record<string, React.RefObject<HTMLVideoElement>>>(
     {},
   );
@@ -125,12 +130,6 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
               React.createRef<HTMLVideoElement>()
             }
           />
-          // <CustomMemberBlock
-          //   key={participant.nickname}
-          //   imageUrl={participant.profile ?? ''}
-          //   nickname={participant.nickname}
-          //   authority={participant.role ?? ''}
-          // />
         ))}
       </DynamicGridContainer>
     );
@@ -151,7 +150,198 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
     </PersonContainer>
   );
 }
+
 export default PersonBoard;
+
+// const renderLayout = () => {
+//   if (participants.length === 0) {
+//     return <div>No user in meeting</div>;
+//   } else if (participants.length === 1) {
+//     return (
+//       <FlexContainer>
+//         {participants.map((participant) => (
+//           <CustomMemberBlock
+//             key={participant.nickname}
+//             imageUrl={participant.profile ?? ''}
+//             nickname={participant.nickname}
+//             authority={participant.role ?? ''}
+//           />
+//         ))}
+//       </FlexContainer>
+//     );
+//   } else if (participants.length === 2) {
+//     return (
+//       <FlexContainer>
+//         {participants.map((participant) => (
+//           <CustomMemberBlock
+//             key={participant.nickname}
+//             imageUrl={participant.profile ?? ''}
+//             nickname={participant.nickname}
+//             authority={participant.role ?? ''}
+//           />
+//         ))}
+//       </FlexContainer>
+//     );
+//   } else if (participants.length === 3) {
+//     return (
+//       <>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+//           {participants.slice(0, 2).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//         <FlexContainer>
+//           {participants.slice(2).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </FlexContainer>
+//       </>
+//     );
+//   } else if (participants.length === 4) {
+//     return (
+//       <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+//         {participants.map((participant) => (
+//           <CustomMemberBlock
+//             key={participant.nickname}
+//             imageUrl={participant.profile ?? ''}
+//             nickname={participant.nickname}
+//             authority={participant.role ?? ''}
+//           />
+//         ))}
+//       </GridContainer>
+//     );
+//   } else if (participants.length === 5) {
+//     return (
+//       <>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+//           {participants.slice(0, 3).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//         <FlexContainer>
+//           {participants.slice(3).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </FlexContainer>
+//       </>
+//     );
+//   } else if (participants.length === 6) {
+//     return (
+//       <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+//         {participants.map((participant) => (
+//           <CustomMemberBlock
+//             key={participant.nickname}
+//             imageUrl={participant.profile ?? ''}
+//             nickname={participant.nickname}
+//             authority={participant.role ?? ''}
+//           />
+//         ))}
+//       </GridContainer>
+//     );
+//   } else if (participants.length === 7) {
+//     return (
+//       <>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+//           {participants.slice(0, 2).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+//           {participants.slice(2, 5).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//         <FlexContainer>
+//           {participants.slice(5).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </FlexContainer>
+//       </>
+//     );
+//   } else if (participants.length === 8) {
+//     return (
+//       <>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+//           {participants.slice(0, 3).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+//           {participants.slice(3, 5).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//         <GridContainer style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+//           {participants.slice(5).map((participant) => (
+//             <CustomMemberBlock
+//               key={participant.nickname}
+//               imageUrl={participant.profile ?? ''}
+//               nickname={participant.nickname}
+//               authority={participant.role ?? ''}
+//             />
+//           ))}
+//         </GridContainer>
+//       </>
+//     );
+//   }
+//   return null; // 기본 값
+// };
+
+// return (
+//   <PersonContainer>
+//     <RecordingIndicator>
+//       <div className="dot"></div>
+//       <div className="text">recording..</div>
+//     </RecordingIndicator>
+//     {renderLayout()}
+//     <ButtonModule />
+//   </PersonContainer>
+// );
 
 // const renderLayout = () => {
 //   if (participants.length === 0) {
@@ -468,4 +658,4 @@ export default PersonBoard;
 //   role: 'MEMBER',
 //   introduction: 'AI and ML geek 🤖✨.',
 // },
-// ];
+// ];}
