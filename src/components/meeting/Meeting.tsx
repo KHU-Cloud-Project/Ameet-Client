@@ -8,6 +8,8 @@ import BoardHeader from '../common/board/header/BoardHeader';
 import { Meeting as MeetingType } from '../../models/Meeting';
 import { useRef } from 'react';
 import { useWebRTC } from '../../hooks/useWebRTC';
+import PersonBoard from './personBoard/PersonBoard';
+import { useStomp } from '../../hooks/useStomp';
 
 type MeetingProps = {
   meeting: MeetingType | null;
@@ -48,13 +50,24 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
     throw new Error('User data is not present.');
   }
 
-  const participantsList = meeting?.participants?.join(', ') || '-';
+  // const participantsList = meeting?.participants?.join(', ') || '-';
 
-  // Initialize WebRTC connection
-  const webrtcEndpoint = import.meta.env.VITE_WEBRTC_ENDPOINT;
+  const { sendMessage, subscribe } = useStomp({
+    onConnect: () => {
+      console.log(
+        'STOMP connected, subscribing to /topic/meeting/participants',
+      );
+
+      subscribe('/topic/meeting/participants', (participants) => {
+        console.log('Participants:', participants);
+      });
+
+      console.log('Sending join message to /api/v1/meeting/enter');
+      sendMessage('/api/v1/meeting/enter', user.id);
+    },
+  });
 
   useWebRTC(
-    webrtcEndpoint,
     localVideoRef,
     remoteVideoRef,
     user.id,
@@ -66,14 +79,14 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
     <>
       <BoardHeader
         title={teamName}
-        description={participantsList}
+        description={meeting?.participants?.join(', ') || '-'}
         hasSearchbar={false}
         user={user}
         hasLogo={true}
       />
       <MeetingBody>
         <BlockWrapper>
-          {/* <PersonBoard participants={meeting?.participants} /> */}
+          <PersonBoard participants={meeting?.participants} />
           <div>
             <video
               ref={localVideoRef}
