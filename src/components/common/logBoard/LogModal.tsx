@@ -13,7 +13,7 @@ import BoardTitle from '../board/BoardTitle';
 import { theme } from '../../../styles/theme';
 import { FiUsers } from 'react-icons/fi';
 import Divider from '../Divider';
-import { formatISODuration } from '../../../utils/dateUtils';
+import {formatDateTime, formatISODuration } from '../../../utils/dateUtils';
 // import { BiGroup } from 'react-icons/bi';
 
 const Header = styled.div`
@@ -139,6 +139,8 @@ function LogModal({ log, onClose }: LogModalProps) {
     return null;
   }
 
+  console.log(log);
+
   return (
     <ModalOverlay onClose={onClose}>
       <ModalContainer
@@ -158,13 +160,13 @@ function LogModal({ log, onClose }: LogModalProps) {
             </BoardTitle>
             <Participants>
               <FiUsers />
-              {log.participants
-                ? log.participants.map((p) => p.nickname).join(', ')
-                : '-'}
+              {log.participants && log.participants.length > 0
+                ? log.participants.join(', ') 
+                : 'No participants'}
             </Participants>
           </div>
           <HeaderInfo>
-            <span>{log.startedAt}</span>
+          <span>{formatDateTime(log.startedAt ?? '')}</span>
             <span>{formatISODuration(log.duration)}</span>
             <ActionButtons>
               <button>

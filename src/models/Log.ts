@@ -10,6 +10,6 @@ export type Log = {
   createdAt?: string | null;
   startedAt?: string | null;
   duration: string | null;
-  participants?: UserForTeam[] | null;
+  participants?: string[] | null;
   members?: string | null;
 };

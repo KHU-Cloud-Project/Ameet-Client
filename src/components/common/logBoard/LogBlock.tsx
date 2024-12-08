@@ -80,10 +80,9 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
   if (!log) return null;
 
   const participantsDisplay =
-    log.participants && log.participants.length > 2
-      ? `${log.participants[0].nickname}, ${log.participants[1].nickname}... (${log.participants.length})`
-      : log.participants?.map((p) => p.nickname).join(', ') || '-';
-
+  log.participants && log.participants.length > 2
+    ? `${log.participants[0]}, ${log.participants[1]}... (${log.participants.length})`
+    : log.participants?.join(', ') || '-';
   return (
     <LogRow type="data" onClick={onClick}>
       <div
