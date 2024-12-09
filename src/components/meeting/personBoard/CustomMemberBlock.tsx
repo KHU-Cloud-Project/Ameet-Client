@@ -11,45 +11,39 @@ export type CustomMemberBlockProps = {
 
 const CustomBlockContainer = styled.div<{ backgroundColor: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
-  padding: 10px; /* Padding 조정 */
+  padding: 14px;
   border-radius: ${(props) => props.theme.borderRadius.medium};
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0; /* 그리드 간격에 맞게 간격 제거 */
-  width: 100%; /* 부모 그리드에 맞게 */
-  aspect-ratio: 1.5; /* 가로와 세로 길이를 동일하게 설정 */
-`;
-
-const ProfileImage = styled.img`
-  width: 50%; /* 크기 조정 */
-  height: auto; /* 크기 조정 */
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: auto;
-  margin-top: auto;
-`;
-
-const Nickname = styled.h3`
-  font-size: ${(props) => props.theme.typography.fontSize.medium};
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
-  color: ${(props) => props.theme.colors.textBlack};
-  margin: 0;
-`;
-
-const Authority = styled.div`
-  font-size: ${(props) => props.theme.typography.fontSize.small};
-  color: ${(props) => props.theme.colors.textGray};
 `;
 
 const HeadContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%; /* 부모의 전체 너비 사용 */
-  padding: 0 10px; /* 좌우 여백 추가 */
+  align-items: end;
   margin-bottom: 8px;
-  margin-top: 12px;
+  gap: 8px;
+`;
+
+const Nickname = styled.span`
+  font-size: ${(props) => props.theme.typography.fontSize.mediumLarge};
+  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
+  color: ${(props) => props.theme.colors.textDarkGray};
+`;
+
+const Authority = styled.span`
+  font-size: ${(props) => props.theme.typography.fontSize.default};
+  color: ${(props) => props.theme.colors.textGray};
+  margin-bottom: 2px;
+`;
+
+const ProfileImage = styled.img`
+  width: 50%;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  object-fit: cover;
+  margin: 10px;
 `;
 
 // const Introduction = styled.div`
