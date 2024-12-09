@@ -13,7 +13,7 @@ const BotContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* 좌우로 공간을 균등하게 분배 */
-  padding: 0 12px; /* 좌우 여백 추가 */
+  padding: 0 4px; /* 좌우 여백 추가 */
   margin-bottom: 12px;
   //   gap: 15px;
   //   justify-content: center;
@@ -29,7 +29,7 @@ const BotImage = styled.img`
 
 //
 const BotCircle = styled.div<{ isSelected: boolean }>`
-  width: 108px;
+  width: 100px;
   height: 82px;
   border: 1.8px solid ${({ color }) => color};
   border-radius: 12px;

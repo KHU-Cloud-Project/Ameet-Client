@@ -53,13 +53,13 @@ function MeetingPage() {
         teamName={teamName}
         teamId={teamId}
       />
-      <p>
+      <div>
         {loading
           ? 'Loading meeting details...'
           : error
             ? 'Error loading meeting.'
             : ''}
-      </p>
+      </div>
     </MeetingPageLayout>
   );
 }

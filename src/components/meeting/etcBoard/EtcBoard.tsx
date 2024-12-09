@@ -31,8 +31,8 @@ function EtcBoard({
   const handleQuitMeeting = async () => {
     try {
       leaveMeeting();
-      const meetingData = await endMeetingApi(meetingId);
-      console.log('Meeting ended successfully:', meetingData);
+      // const meetingData = await endMeetingApi(meetingId);
+      // console.log('Meeting ended successfully:', meetingData);
       navigate(-1);
     } catch (error) {
       console.error('Failed to end the meeting:', error);

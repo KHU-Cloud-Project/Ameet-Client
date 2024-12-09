@@ -50,6 +50,12 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
   }>({});
   const stompClientRef = useRef<Client | null>(null);
   const rtcSocketRef = useRef<WebSocket | null>(null);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+    null,
+  );
+  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+  const combinedStreamRef = useRef<MediaStream>(new MediaStream());
+  const recordedChunksRef = useRef<Blob[]>([]);
 
   const handleNonJSONMessage = (message: string) => {
     console.warn('Non-JSON WebSocket message received:', message);
@@ -87,7 +93,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
               ) as UserForTeam[];
               console.log('Participants received:', participantsList);
 
-              // Deduplicate participants by `userId`
+              // 중복 제거
               const uniqueParticipants = Array.from(
                 new Map(
                   participantsList.map((participant) => [
@@ -111,6 +117,11 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
 
         initializeWebRTC();
       };
+
+      console.log(
+        'MediaRecorder is supported:',
+        typeof MediaRecorder !== 'undefined',
+      );
 
       stompClient.onStompError = (frame) => {
         console.error('STOMP Error:', frame.headers['message']);
@@ -151,6 +162,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
           const stream = await navigator.mediaDevices.getUserMedia({
             audio: true,
           });
+          console.log('Local stream tracks:', stream.getTracks());
           setLocalStream(stream);
 
           const connection = new RTCPeerConnection({
@@ -171,18 +183,27 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
           connection.ontrack = (event) => {
             console.log('Remote track received:', event.streams[0]);
 
-            // Play remote stream only
             const remoteStream = event.streams[0];
-            const audioElement = document.createElement('audio');
-            audioElement.srcObject = remoteStream;
-            audioElement.autoplay = true;
-            document.body.appendChild(audioElement);
+            remoteStream.getTracks().forEach((track) => {
+              console.log('Adding remote track to combinedStreamRef:', track);
+              combinedStreamRef.current.addTrack(track);
+            });
           };
 
-          // Send your local audio tracks to the peer but don't play them locally
-          stream
-            .getTracks()
-            .forEach((track) => connection.addTrack(track, stream));
+          console.log('Adding local tracks to combined stream...');
+          stream.getTracks().forEach((track) => {
+            console.log('Adding local track to combinedStreamRef:', track);
+            connection.addTrack(track, stream);
+            combinedStreamRef.current.addTrack(track);
+          });
+
+          connection.ontrack = (event) => {
+            const remoteStream = event.streams[0];
+            remoteStream.getTracks().forEach((track) => {
+              combinedStreamRef.current.addTrack(track);
+            });
+          };
+
           setConnections((prev) => ({
             ...prev,
             [meeting?.meetingId || 'unknown']: connection,
@@ -197,6 +218,13 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
               offer,
             }),
           );
+
+          console.log(
+            'Tracks in combined stream before recording:',
+            combinedStreamRef.current.getTracks(),
+          );
+
+          startRecording(combinedStreamRef.current);
         } catch (error) {
           console.error('Error initializing WebRTC:', error);
         }
@@ -232,6 +260,95 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
     }
   };
 
+  const startRecording = (stream: MediaStream) => {
+    if (stream.getTracks().length === 0) {
+      console.error('The combined stream has no tracks to record.');
+      return;
+    }
+
+    console.log('Starting MediaRecorder with stream:', stream);
+
+    try {
+      const mimeType = 'audio/webm';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        console.warn(`${mimeType} is not supported`);
+        return;
+      }
+
+      const recorder = new MediaRecorder(stream, { mimeType });
+      setMediaRecorder(recorder);
+
+      // const chunks: Blob[] = [];
+
+      recorder.ondataavailable = (event) => {
+        console.log('ondataavailable event:', event);
+        if (event.data.size > 0) {
+          console.log('Adding chunk to recordedChunksRef:', event.data);
+          recordedChunksRef.current.push(event.data);
+        } else {
+          console.warn('Received an empty chunk.');
+        }
+      };
+
+      recorder.onstop = () => {
+        console.log(
+          'Recording stopped. Total chunks in ref:',
+          recordedChunksRef.current.length,
+        );
+      };
+
+      recorder.onerror = (error) => {
+        console.error('MediaRecorder error:', error);
+      };
+
+      setMediaRecorder(recorder);
+
+      recorder.start();
+      console.log('MediaRecorder started.');
+    } catch (error) {
+      console.error('Error initializing MediaRecorder:', error);
+    }
+  };
+
+  const stopRecording = (): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      if (!mediaRecorder) {
+        console.warn('MediaRecorder is not initialized.');
+        resolve(new Blob());
+        return;
+      }
+
+      console.log('Stopping MediaRecorder...');
+      mediaRecorder.onstop = () => {
+        console.log('MediaRecorder has stopped.');
+        const finalBlob = new Blob(recordedChunksRef.current, {
+          type: 'audio/webm',
+        });
+        console.log('Final recording blob size:', finalBlob.size);
+        resolve(finalBlob);
+      };
+
+      mediaRecorder.onerror = (error) => {
+        console.error('MediaRecorder error:', error);
+        reject(error);
+      };
+
+      mediaRecorder.stop();
+    });
+  };
+
+  const getRecordingFile = (): Blob => {
+    console.log('Retrieving recording...');
+    console.log('Recorded chunks in ref:', recordedChunksRef.current);
+    if (recordedChunksRef.current.length === 0) {
+      console.error('No recorded chunks available.');
+      return new Blob();
+    }
+    const blob = new Blob(recordedChunksRef.current, { type: 'audio/webm' });
+    console.log('Recording file created:', blob.size);
+    return blob;
+  };
+
   const disconnectWebRTC = () => {
     if (rtcSocketRef.current) {
       console.log('Disconnecting WebRTC...');
@@ -246,14 +363,15 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
   };
 
   const leaveMeeting = () => {
-    if (stompClientRef.current) {
-      stompClientRef.current.publish({
-        destination: '/api/v1/meeting/leave',
-        body: JSON.stringify(user.id),
-      });
-    }
+    stopRecording();
     disconnectWebRTC();
   };
+
+  useEffect(() => {
+    if (meeting?.meetingId && user?.id && teamId) {
+      initializeWebRTC();
+    }
+  }, [meeting?.meetingId, teamId, user]);
 
   if (!meeting) {
     return <div></div>;
@@ -276,7 +394,12 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
               meetingId={meeting?.meetingId ?? 0}
               leaveMeeting={leaveMeeting}
             />
-            <BotBoard presignedUrl={meeting.presignedUrl} />
+            <BotBoard
+              meetingId={meeting?.meetingId}
+              presignedUrl={meeting.presignedUrl}
+              getRecordingFile={getRecordingFile}
+              stopRecording={stopRecording}
+            />
           </BlockColumn>
         </BlockWrapper>
       </MeetingBody>
