@@ -5,7 +5,6 @@ import { useFetchMeetingDetail } from '../hooks/useFetchMeetings';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '../recoil/atoms/userAtom';
-// import { useStomp } from '../hooks/useStomp';
 
 function MeetingPage() {
   // const { meetingId } = useParams();
@@ -30,40 +29,6 @@ function MeetingPage() {
   if (!meetingId) {
     return <div>Meeting ID is missing.</div>;
   }
-  // STOMP connection
-  // const { sendMessage, subscribe, connected } = useStomp({
-  //   onConnect: () => {
-  //     if (meetingId) {
-  //       // 구독 설정
-  //       // subscribe(`/topic/meeting/participants`, (participants: any) => {
-  //       subscribe(`/topic/meeting/participants`, (participants: any) => {
-  //         console.log('Parsed Participants:', participants); // 전체 데이터 로깅
-
-  //         // 참가자 데이터를 렌더링
-  //         const participantsList = document.getElementById('participantsList');
-  //         if (participantsList) {
-  //           participantsList.innerHTML = ''; // 기존 목록 초기화
-
-  //           participants.forEach((participant: any) => {
-  //             const li = document.createElement('li');
-  //             li.innerHTML = `
-  //             <div>
-  //               <strong>Nickname:</strong> ${participant.nickname} <br>
-  //               <strong>Role:</strong> ${participant.role} <br>
-  //               <strong>Profile:</strong>
-  //               <img src="${participant.profile}" alt="${participant.nickname}'s profile" width="50" />
-  //             </div>
-  //           `;
-  //             participantsList.appendChild(li);
-  //           });
-  //         }
-  //       });
-
-  //       // 참가자 입장 메시지 전송
-  //       sendMessage(`/api/v1/meeting/enter`, { userId: user!.id });
-  //     }
-  //   },
-  // });
 
   useEffect(() => {
     if (meetingId) {

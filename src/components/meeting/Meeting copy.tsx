@@ -3,13 +3,13 @@ import styled from '@emotion/styled';
 import EtcBoard from './etcBoard/EtcBoard';
 import BotBoard from './botBoard/BotBoard';
 import { useRecoilState } from 'recoil';
-import { userAtom, UserForTeam } from '../../recoil/atoms/userAtom';
+import { userAtom } from '../../recoil/atoms/userAtom';
 import BoardHeader from '../common/board/header/BoardHeader';
 import { Meeting as MeetingType } from '../../models/Meeting';
+import { useRef } from 'react';
+import { useWebRTC } from '../../hooks/useWebRTC';
+import { useStomp } from '../../hooks/useStomp';
 import PersonBoard from './personBoard/PersonBoard';
-import { useEffect, useRef, useState } from 'react';
-import { Client, Message } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
 
 type MeetingProps = {
   meeting: MeetingType | null;
@@ -43,10 +43,37 @@ const BlockColumn = styled.div`
 
 const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
   const [user] = useRecoilState(userAtom);
+  const localVideoRef = useRef<HTMLVideoElement>(null);
+  const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
   if (!user || !user.id) {
     throw new Error('User data is not present.');
   }
+
+  // const participantsList = meeting?.participants?.join(', ') || '-';
+
+  const { sendMessage, subscribe } = useStomp({
+    onConnect: () => {
+      console.log(
+        'STOMP connected, subscribing to /topic/meeting/participants',
+      );
+
+      subscribe('/topic/meeting/participants', (participants) => {
+        console.log('Participants:', participants);
+      });
+
+      console.log('Sending join message to /api/v1/meeting/enter');
+      sendMessage('/api/v1/meeting/enter', user.id);
+    },
+  });
+
+  useWebRTC(
+    localVideoRef,
+    remoteVideoRef,
+    user.id,
+    meeting?.meetingId ?? 0,
+    teamId ?? 0,
+  );
 
   return (
     <>
@@ -60,6 +87,16 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
       <MeetingBody>
         <BlockWrapper>
           <PersonBoard participants={meeting?.participants} />
+          {/* <PersonBoard /> */}
+          {/* <div>
+            <video
+              ref={localVideoRef}
+              autoPlay
+              muted
+              style={{ width: '30%' }}
+            />
+            <video ref={remoteVideoRef} autoPlay style={{ width: '30%' }} />
+          </div> */}
           <BlockColumn>
             <EtcBoard meetingId={meeting?.meetingId ?? 0} />
             <BotBoard />
