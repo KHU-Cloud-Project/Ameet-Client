@@ -20,6 +20,7 @@ export const mapTeamDetailResponse = (response: any): Team => {
     password: response.password,
     maxPeople: response.maxPeople,
     memberNum: response.memberNum,
+    meetingId: response.meetingId,
     createdAt: response.createdAt,
     memberList: response.memberList.map(
       (user: UserForTeam): UserForTeam => ({

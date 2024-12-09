@@ -26,7 +26,7 @@ const AppContainer = styled.div`
 
 function AppInitializer() {
   // const user = useRecoilValue(userAtom);
-  const [user] = useRecoilState(userAtom);
+  const [user, setUser] = useRecoilState(userAtom);
   const [teams] = useRecoilState(teamsAtom);
   const { fetchUser } = useFetchUser();
   const { fetchTeams } = useFetchTeams(user?.id || 0);
@@ -36,6 +36,16 @@ function AppInitializer() {
   useEffect(() => {
     const initializeApp = async () => {
       console.log('Initializing App...');
+
+      if (!user) {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          console.log('Loading user from localStorage...');
+          setUser(JSON.parse(storedUser));
+          return;
+        }
+      }
+
       console.log('Current User:', user);
 
       if (!user?.id) {
@@ -63,6 +73,12 @@ function AppInitializer() {
 
     initializeApp();
   }, [fetchUser, fetchTeams, user?.id, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }, [user]);
 
   if (loading) {
     return <div>Loading...</div>;

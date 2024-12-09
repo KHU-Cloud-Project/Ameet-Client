@@ -1,20 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import BotBlock from './BotBlock';
 import DashboardTimer from './DashboardTimer';
 import Divider from '../../common/Divider';
 import { Spacer } from '../../common/Spacer';
 import { theme } from '../../../styles/theme';
 import BoardTitle from '../../common/board/BoardTitle';
 import BoardContainer from '../../common/board/BoardContainer';
-import { useRecoilState } from 'recoil';
-import {
-  isMeetingInProgressAtom,
-  meetingStateAtom,
-} from '../../../recoil/atoms/meetingAtom';
 import { useState } from 'react';
 import { createMeetingApi } from '../../../api/meetingApi';
 import { useNavigate } from 'react-router';
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../../recoil/atoms/userAtom';
+import BotSettings, { BotType } from './BotSetting';
 
 const SectionTitle = styled.div`
   font-size: 14px;
@@ -31,45 +28,73 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const ExpandSpacer = styled.div`
-  flex-grow: 1;
+const InputField = styled.input`
+  padding: 8px 12px;
+  border: 1px solid ${(props) => props.theme.colors.lineGray};
+  font-size: ${(props) => props.theme.typography.fontSize.small};
+  border-radius: ${(props) => props.theme.borderRadius.small};
+  margin-bottom: 10px;
+  width: 100%;
+
+  &::placeholder {
+    color: ${(props) => props.theme.colors.textGray};
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const MeetingSettingBoard = ({
   teamId,
   teamName,
+  meetingId,
 }: {
   teamId: number;
-  teamName: string;
+  teamName?: string;
+  meetingId?: number;
 }) => {
-  const [, setMeeting] = useRecoilState(meetingStateAtom);
-  const [isMeetingInProgress, setMeetingInProgress] = useRecoilState(
-    isMeetingInProgressAtom,
-  );
+  const [user] = useRecoilState(userAtom);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [meetingTitle, setMeetingTitle] = useState('');
+  const [botStates, setBotStates] = useState({
+    'Smart Summarize': true,
+    'Positive Feedback': true,
+    'Attendance Checker': true,
+    'Negative Feedback': false,
+  });
 
-  const handleToggle = (botType: string) => {
-    console.log(`${botType} toggled`);
+  if (!user || !user.id) {
+    throw new Error('User data is not present.');
+  }
+
+  const navigate = useNavigate();
+  const isMeetingInProgress = meetingId !== null && meetingId !== undefined;
+  console.log(`Team ${teamId}, Meeting in progress? - ${isMeetingInProgress}`);
+
+  const handleToggleBot = (botType: BotType) => {
+    setBotStates((prevStates) => ({
+      ...prevStates,
+      [botType]: !prevStates[botType],
+    }));
+    console.log(`${botType} toggled: ${!botStates[botType]}`);
   };
 
   const handleCreateMeeting = async () => {
-    const dummyMeetingTitle = 'Dummy Title';
     try {
       setLoading(true);
       const meetingData = await createMeetingApi({
         teamId: teamId,
-        title: dummyMeetingTitle,
+        title: meetingTitle,
       });
+      console.log(
+        'Meeting created:',
+        meetingData,
+        'ID: ',
+        meetingData.meetingId,
+      );
 
-      setMeeting(meetingData);
-      setMeetingInProgress(true);
-
-      console.log('Meeting created:', meetingData);
-      console.log('Meeting ID:', meetingData.meetingId);
-      navigate(`/meeting/${meetingData.meetingId}`, {
-        state: { teamName },
-      });
+      await handleJoinMeeting(meetingData.meetingId, teamId);
     } catch (error) {
       console.error('[MeetingSettingBoard] Failed to create meeting:', error);
     } finally {
@@ -77,9 +102,21 @@ const MeetingSettingBoard = ({
     }
   };
 
+  const handleJoinMeeting = async (meetingId: number, teamId: number) => {
+    if (meetingId && teamId) {
+      try {
+        navigate(`/meeting/${meetingId}`, {
+          state: { teamName, teamId },
+        });
+      } catch (error) {
+        console.error('[MeetingSettingBoard] Failed to join meeting:', error);
+      }
+    }
+  };
+
   const handleButtonClick = () => {
     if (isMeetingInProgress) {
-      console.log('Joining meeting...');
+      handleJoinMeeting(meetingId!, teamId);
     } else {
       handleCreateMeeting();
     }
@@ -94,52 +131,21 @@ const MeetingSettingBoard = ({
       />
       <SectionTitle>Bots</SectionTitle>
       <Divider marginTop="4px" marginBottom="4px" />
-      <BotBlock
-        isActive={true}
-        imageUrl="/src/assets/images/summary bot.png"
-        botType="Smart Summarize"
-        description="Gives summary"
-        onToggle={() => handleToggle('Smart Summarize')}
-      />
-      <BotBlock
-        isActive={true}
-        imageUrl="/src/assets/images/positive bot.png"
-        botType="Positive Feedback"
-        description="Gives Feedback"
-        onToggle={() => handleToggle('Positive Feedback')}
-      />
-      <BotBlock
-        isActive={true}
-        imageUrl="/src/assets/images/attendance checker.png"
-        botType="Attendance Checker"
-        description="Gives Feedback"
-        onToggle={() => handleToggle('Attendance Checker')}
-      />
-      <BotBlock
-        isActive={false}
-        imageUrl="/src/assets/images/negative bot.png"
-        botType="Negative Feedback"
-        description="Gives Feedback"
-      />
-      <BotBlock
-        isActive={false}
-        imageUrl="/src/assets/images/negative bot.png"
-        botType="Negative Feedback"
-        description="Gives Feedback"
-      />
-      <BotBlock
-        isActive={false}
-        imageUrl="/src/assets/images/negative bot.png"
-        botType="Negative Feedback"
-        description="Gives Feedback"
-      />
+      <BotSettings botStates={botStates} onToggle={handleToggleBot} />
       <Spacer height={36} />
       <SectionTitle>Set Timer</SectionTitle>
       <Divider marginTop="4px" marginBottom="8px" />
       <DashboardTimer />
       <Spacer height={36} />
-      <SectionTitle>Set Meeting Title</SectionTitle>
-      <ExpandSpacer />
+      <SectionTitle>Meeting Title</SectionTitle>
+      <Divider marginTop="4px" marginBottom="8px" />
+      <InputField
+        type="text"
+        value={meetingTitle}
+        onChange={(e) => setMeetingTitle(e.target.value)}
+        placeholder="Enter meeting title (optional)"
+      />
+      <div style={{ flex: 1 }} />
       <Button onClick={handleButtonClick} disabled={loading}>
         {isMeetingInProgress ? 'Join Meeting' : 'Create Meeting'}
       </Button>

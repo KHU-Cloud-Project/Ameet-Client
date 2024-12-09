@@ -8,12 +8,13 @@ type BotResponsesProps = {
 const ResponsesContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   margin-top: 20px;
 
   /* 스크롤 가능 설정 */
-  max-height: 400px; /* 스크롤 영역의 최대 높이 설정 */
-  overflow-y: auto;
+  // max-height: 100%;
+  max-height: 65%;
+  overflow-y: scroll;
   padding-right: 10px;
 
   /* 스크롤바 스타일 (웹 브라우저마다 다를 수 있음) */
@@ -34,21 +35,22 @@ const ResponsesContainer = styled.div`
 
 const ResponseBubble = styled.div<{ color: string }>`
   max-width: 100%;
-  background-color: white;
-  border: 0.5px solid ${({ color }) => color}; /* 테두리 색상 */
+  border: 1px solid ${({ color }) => color};
   padding: 12px 15px;
   border-radius: 12px;
   display: flex;
-  font-size: ${(props) => props.theme.typography.fontSize.default};
+  // font-size: ${(props) => props.theme.typography.fontSize.medium};
+  font-size: 1.2rem;
   color: ${(props) => props.theme.colors.textDarkGray};
-  align-items: center; /* 봇 아이콘과 텍스트 정렬 */
-  gap: 10px;
+  align-items: center;
+  gap: 16px;
+  line-height: 1.2;
 `;
 
 const BotIcon = styled.img`
   max-width: 30px;
   max-height: 30px;
-  background-position: center; 
+  background-position: center;
 `;
 
 function BotResponses({ responses, bots }: BotResponsesProps) {

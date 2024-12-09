@@ -2,6 +2,7 @@ import { UserForTeam } from '../recoil/atoms/userAtom';
 
 export type Team = {
   teamId: number;
+  meetingId?: number;
   userTeamId?: number;
   name: string;
   createdAt?: string;

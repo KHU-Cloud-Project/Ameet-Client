@@ -14,7 +14,6 @@ type DashboardProps = {
   error: string | null;
 };
 
-
 const DashboardBody = styled.div`
   display: flex;
   flex: 1;
@@ -37,7 +36,7 @@ const BlockColumn = styled.div`
   overflow: hidden;
 `;
 
-function Dashboard({ team, loading, error }: DashboardProps) {
+function Dashboard({ team, loading }: DashboardProps) {
   const dummyHasSearchbar = true;
   const [user] = useRecoilState(userAtom);
 
@@ -53,7 +52,7 @@ function Dashboard({ team, loading, error }: DashboardProps) {
     <>
       <BoardHeader
         title={team ? team.name : ''}
-        teamId = {team?.teamId || -1}
+        teamId={team?.teamId || -1}
         hasSearchbar
         description={team?.description || null}
         user={user}
@@ -70,9 +69,9 @@ function Dashboard({ team, loading, error }: DashboardProps) {
             <LogBoard teamId={team?.teamId || -1} />
           </BlockColumn>
           <MeetingSettingBoard
-              // teamId={team?.teamId | null}
-              // teamName={team?.name || ''}
-          
+            teamId={team?.teamId || -1}
+            teamName={team?.name}
+            meetingId={team?.meetingId}
           />
         </BlockWrapper>
       </DashboardBody>
