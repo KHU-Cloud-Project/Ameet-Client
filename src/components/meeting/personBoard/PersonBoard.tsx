@@ -49,6 +49,41 @@ const DynamicGridContainer = styled.div<{ columns: number }>`
   max-width: 800px;
 `;
 
+const AudioUI = styled.audio`
+  margin-left: 18px;
+  color: ${(props) => props.theme.colors.textDarkGray};
+  border: none;
+  outline: none;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+
+  &:hover {
+    outline: none;
+    border: none;
+  }
+
+  &::-webkit-media-controls {
+    background-color: transparent;
+    color: ${(props) => props.theme.colors.textGray};
+  }
+
+  &::-webkit-media-controls-panel {
+    background-color: transparent;
+  }
+
+  &::-webkit-media-controls-play-button,
+  &::-webkit-media-controls-pause-button,
+  &::-webkit-media-controls-timeline,
+  &::-webkit-media-controls-current-time-display,
+  &::-webkit-media-controls-time-remaining-display {
+    // 시간 표시 색
+    color: ${(props) => props.theme.colors.textGray};
+  }
+`;
+
 const calculateGrid = (
   numParticipants: number,
 ): { columns: number; rows: number } => {
@@ -64,9 +99,10 @@ const calculateGrid = (
 
 type PersonBoardProps = {
   participants?: UserForTeam[];
+  localStream: MediaStream | null;
 };
 
-function PersonBoard({ participants = [] }: PersonBoardProps) {
+function PersonBoard({ participants = [], localStream }: PersonBoardProps) {
   // function PersonBoard({ participants = dummy_participants }) {
   const renderParticipants = () => {
     const { columns } = calculateGrid(participants.length);
@@ -75,7 +111,7 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
       <DynamicGridContainer columns={columns}>
         {participants.map((participant) => (
           <CustomMemberBlock
-            key={participant.nickname}
+            key={participant.userId}
             imageUrl={participant.profile ?? ''}
             nickname={participant.nickname}
             authority={participant.role ?? ''}
@@ -90,6 +126,16 @@ function PersonBoard({ participants = [] }: PersonBoardProps) {
       <RecordingIndicator>
         <div className="dot"></div>
         <div className="text">recording..</div>
+        {localStream && (
+          <AudioUI
+            autoPlay
+            controls
+            muted
+            ref={(audio) => {
+              if (audio) audio.srcObject = localStream;
+            }}
+          />
+        )}
       </RecordingIndicator>
       {participants.length === 0 ? (
         <div>No user in meeting</div>
