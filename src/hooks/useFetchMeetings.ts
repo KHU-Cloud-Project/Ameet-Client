@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Meeting } from '../models/Meeting';
-import { fetchMeetingDetailApi } from '../api/meetingApi';
+import { fetchMeetingDetailApi, searchMeetingsApi} from '../api/meetingApi';
 
 export const useFetchMeetingDetail = () => {
   const [meetingDetail, setMeetingDetail] = useState<Meeting | null>(null);
@@ -26,4 +26,34 @@ export const useFetchMeetingDetail = () => {
   }, []);
 
   return { meetingDetail, fetchMeetingDetail, loading, error };
+};
+
+export const useSearchMeetings = () => {
+  const [meetings, setMeetings] = useState<Meeting[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const searchMeetings = useCallback(
+    async (teamId: number, keyword: string): Promise<Meeting[]> => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = { teamId, keyword };
+        const meetingsData = await searchMeetingsApi(data);
+        setMeetings(meetingsData); 
+        return meetingsData; 
+      } catch (err: any) {
+        console.error('[useSearchMeetings] Failed to search meetings:', err);
+        setError(err.message || 'Failed to search meetings');
+        setMeetings([]);
+        throw err; 
+      } finally {
+        setLoading(false);
+      }
+    },
+    [],
+  );
+
+  return { meetings, searchMeetings, loading, error };
 };

@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { CreateMeetingRequest, Meeting } from '../models/Meeting';
+import {
+  CreateMeetingRequest,
+  Meeting,
+  SearchMeetingRequest,
+} from '../models/Meeting';
 import axiosInstance from './axiosInstance';
 
 export const createMeetingApi = async (
@@ -36,6 +40,18 @@ export const endMeetingApi = async (meetingId: number) => {
   }
 
   throw new Error('[MeetingApi] Failed to end meeting');
+};
+
+export const searchMeetingsApi = async (
+  data: SearchMeetingRequest,
+): Promise<Meeting[]> => {
+  const response = await axiosInstance.post('/api/v1/meeting/search', data);
+
+  if (response.data?.success && response.status === 200) {
+    return response.data.data;
+  }
+
+  throw new Error('[MeetingApi] Failed to search meetings');
 };
 
 export const uploadFileToMeetingPresignedUrl = async (

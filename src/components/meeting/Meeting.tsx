@@ -386,6 +386,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
         hasSearchbar={false}
         user={user}
         hasLogo={true}
+        teamId={1}
       />
       <MeetingBody>
         <BlockWrapper>

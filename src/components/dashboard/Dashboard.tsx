@@ -52,6 +52,7 @@ function Dashboard({ team, loading }: DashboardProps) {
     <>
       <BoardHeader
         title={team ? team.name : ''}
+        teamId={team?.teamId || -1}
         hasSearchbar
         description={team?.description || null}
         user={user}
