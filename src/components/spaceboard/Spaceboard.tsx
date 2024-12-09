@@ -57,6 +57,7 @@ function Spaceboard() {
   return (
     <>
       <BoardHeader
+        teamId={1}
         title="Manage Space"
         hasSearchbar={dummyHasSearchbar}
         user={user}

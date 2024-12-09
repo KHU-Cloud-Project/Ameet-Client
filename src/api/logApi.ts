@@ -115,14 +115,9 @@ export const fetchLogDetailsApi = async (meetingId: number): Promise<Log> => {
       createdAt: data.createdAt || null,
       startedAt: data.startedAt || null,
       duration: data.duration || null,
-      participants:
-        data.participantList?.map((participant: UserForTeam) => ({
-          userTeamId: participant.userTeamId,
-          userId: participant.userId,
-          nickname: participant.nickname,
-        })) || null,
-    };
-  }
+      participants: Array.isArray(data.participants) ? data.participants : [],
+  };
+}
 
   throw new Error('Failed to fetch log details');
-};
+}
