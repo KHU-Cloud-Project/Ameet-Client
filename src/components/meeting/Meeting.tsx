@@ -11,6 +11,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Client, Message } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
+const STOMP_ENDPOINT = import.meta.env.VITE_STOMP_ENDPOINT;
+const WEBRTC_ENDPOINT = import.meta.env.VITE_WEBRTC_ENDPOINT;
+
 type MeetingProps = {
   meeting: MeetingType | null;
   loading: boolean;
@@ -74,7 +77,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
     if (!stompClientRef.current) {
       console.log('Initializing STOMP client...');
       const stompClient = new Client({
-        webSocketFactory: () => new SockJS('https://localhost:8443/ws'),
+        webSocketFactory: () => new SockJS(STOMP_ENDPOINT),
         debug: (str) => console.log(str),
         reconnectDelay: 5000,
         heartbeatIncoming: 10000,
@@ -143,9 +146,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
   const initializeWebRTC = async () => {
     if (!rtcSocketRef.current && meeting?.meetingId && user?.id && teamId) {
       console.log('Initializing WebRTC...');
-      const rtcSocket = new WebSocket(
-        'wss://localhost:8443/api/v1/meeting/join',
-      );
+      const rtcSocket = new WebSocket(WEBRTC_ENDPOINT);
       rtcSocketRef.current = rtcSocket;
 
       rtcSocket.onopen = async () => {
