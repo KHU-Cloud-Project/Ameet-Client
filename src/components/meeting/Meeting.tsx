@@ -106,7 +106,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
 
         stompClient.publish({
           destination: '/api/v1/meeting/enter',
-          body: JSON.stringify(user.id), // Send only userId
+          body: JSON.stringify(user.id),
         });
 
         initializeWebRTC();
@@ -170,8 +170,16 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
 
           connection.ontrack = (event) => {
             console.log('Remote track received:', event.streams[0]);
+
+            // Play remote stream only
+            const remoteStream = event.streams[0];
+            const audioElement = document.createElement('audio');
+            audioElement.srcObject = remoteStream;
+            audioElement.autoplay = true;
+            document.body.appendChild(audioElement);
           };
 
+          // Send your local audio tracks to the peer but don't play them locally
           stream
             .getTracks()
             .forEach((track) => connection.addTrack(track, stream));
@@ -268,7 +276,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
               meetingId={meeting?.meetingId ?? 0}
               leaveMeeting={leaveMeeting}
             />
-            <BotBoard />
+            <BotBoard presignedUrl={meeting.presignedUrl} />
           </BlockColumn>
         </BlockWrapper>
       </MeetingBody>

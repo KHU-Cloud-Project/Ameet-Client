@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BotList from './BotList';
 import BotResponses from './BotResponses';
 import Divider from '../../common/Divider';
@@ -12,7 +12,7 @@ const BoardContainer = styled.div`
   padding: 20px;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 8px;
-  max-height:85%;
+  max-height: 85%;
 `;
 
 const BoardTitleContainer = styled.div`
@@ -30,16 +30,19 @@ const BotContainer = styled.div`
 `;
 const bots = [
   {
+    name: 'Summarize',
     imageUrl: '/src/assets/images/positive_colored.png',
     botType: 'Positive Feedback',
     color: '#B585F6', // 청록색
   },
   {
+    name: 'Positive',
     imageUrl: '/src/assets/images/attendacne_checker_colored.png',
     botType: 'Attendance Checker',
     color: '#90D4AB', // 보라색
   },
   {
+    name: 'Negative',
     imageUrl: '/src/assets/images/summary_colored.png',
     botType: 'Summary',
     color: '#F096A7', // 노란색
@@ -51,15 +54,26 @@ const responsesMap: { [botType: string]: string } = {
     'Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!Stay hydrated during your meeting!',
   'Attendance Checker':
     'll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!ll keep track of your tasks!',
-  'Summary':
+  Summary:
     'Let’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttestLet’s boost the productivity!testtesttesttesttest',
 };
 
-function BotBoard() {
+type BotBoardProps = {
+  presignedUrl: string | undefined | null;
+};
+
+function BotBoard({ presignedUrl }: BotBoardProps) {
   const [selectedBot, setSelectedBot] = useState<string | null>(null);
   const [responses, setResponses] = useState<
     { botType: string; text: string }[]
   >([]);
+
+  useEffect(() => {
+    if (!presignedUrl) {
+      console.warn('Missing presignedUrl.');
+      return;
+    }
+  });
 
   const handleSelectBot = (botType: string) => {
     const newResponse = { botType, text: responsesMap[botType] };
@@ -87,10 +101,11 @@ function BotBoard() {
               color={bot.color}
               selectedBot={selectedBot}
               onSelectBot={handleSelectBot}
+              botName={bot.name}
             />
           ))}
         </BotContainer>
-        <Divider color={theme.colors.textBlack} />
+        <Divider color={theme.colors.lineGray} />
         <BotResponses responses={responses} bots={botColorsAndImages} />
       </BoardTitleContainer>
     </BoardContainer>
