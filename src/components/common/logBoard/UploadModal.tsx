@@ -12,6 +12,7 @@ import CustomBtn from '../CustomBtn';
 import { useFetchNote } from '../../../hooks/useFetchNotes';
 import { NoteUploadRequest } from '../../../models/Note';
 import { uploadFileToPresignedUrl, createNoteApi } from '../../../api/noteApi';
+import { fetchLogDetailsApi } from '../../../api/logApi';
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -104,14 +105,17 @@ const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
 `;
+interface UploadModalProps {
+  onClose: () => void;
+  onUploadComplete: (note: any) => void;
+  onUploadStart: () => void;
+}
 
 const UploadModal = ({
   onClose,
   onUploadComplete,
-}: {
-  onClose: () => void;
-  onUploadComplete: () => void;
-}) => {
+  onUploadStart,
+}: UploadModalProps) => {
   const [title, setTitle] = useState('');
   const [members, setMembers] = useState('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -146,8 +150,7 @@ const UploadModal = ({
 
     try {
       console.log('Uploading data:', requestData);
-      onClose();
-      onUploadComplete();
+
       const response = await uploadNote(requestData);
       console.log('Upload response:', response);
 

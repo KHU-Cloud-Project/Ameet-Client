@@ -1,13 +1,11 @@
-export type Log = {
-  meetingId: number;
-  noteId?: number;
+export interface Log {
+  meetingId: number | null;
+  noteId: number;
   title: string;
-  summary?: string | null;
-  script?: string | null;
-  presignedUrl?: string | null;
-  createdAt?: string | null;
-  startedAt?: string | null;
+  summary: string;
+  script: string;
+  participants: string[];
+  presignedUrl: string;
+  startedAt: string;
   duration: string | null;
-  participants?: string[] | null;
-  members?: string | null;
-};
+}

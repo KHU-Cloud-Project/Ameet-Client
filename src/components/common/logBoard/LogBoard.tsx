@@ -97,6 +97,11 @@ function LogBoard({ teamId, userId, itemsPerPage = 7, title }: LogBoardProps) {
   };
 
   const handleLogClick = async (log: Log) => {
+    if (log.meetingId === null) {
+      alert('This log has no meetingId.');
+      return;
+    }
+  
     try {
       const logDetails = await fetchLogDetailsApi(log.meetingId);
       setSelectedLog(logDetails);
