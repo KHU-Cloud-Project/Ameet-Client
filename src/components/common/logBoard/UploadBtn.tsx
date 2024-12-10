@@ -55,7 +55,7 @@ function UploadBtn() {
   return (
     <>
       <StyledButton onClick={openUploadModal}>
-        <Icon src="/src/assets/icons/dashboard/upload.png" alt="Upload" />
+        <Icon src="/assets/icons/dashboard/upload.png" alt="Upload" />
         Upload
       </StyledButton>
       {isUploadModalOpen && (

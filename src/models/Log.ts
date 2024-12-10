@@ -8,4 +8,6 @@ export interface Log {
   presignedUrl: string;
   startedAt: string;
   duration: string | null;
+  createdAt: string | null;
+  members: string | null;
 }

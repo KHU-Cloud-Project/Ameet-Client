@@ -6,7 +6,7 @@ import ModalOverlay from '../../common/modal/ModalOverlay';
 import ModalContainer from '../../common/modal/ModalContainer';
 import InputLabel from '../InputLabel';
 import { AiOutlineClose } from 'react-icons/ai';
-import uploadIcon from '/src/assets/icons/meetingLogs/upload_file.png';
+import uploadIcon from '/assets/icons/meetingLogs/upload_file.png';
 import DatePicker from './DatePicker';
 import CustomBtn from '../CustomBtn';
 import { useFetchNote } from '../../../hooks/useFetchNotes';
