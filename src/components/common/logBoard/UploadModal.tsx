@@ -12,7 +12,6 @@ import CustomBtn from '../CustomBtn';
 import { useFetchNote } from '../../../hooks/useFetchNotes';
 import { NoteUploadRequest } from '../../../models/Note';
 import { uploadFileToPresignedUrl, createNoteApi } from '../../../api/noteApi';
-import { fetchLogDetailsApi } from '../../../api/logApi';
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -127,7 +126,7 @@ const UploadModal = ({
       alert('Please fill in all required fields and upload a file.');
       return;
     }
-
+    onUploadStart();
     const formattedDate = `${selectedDate.getFullYear()}-${String(
       selectedDate.getMonth() + 1,
     ).padStart(
@@ -169,6 +168,9 @@ const UploadModal = ({
 
       const createdNote = await createNoteApi(noteId);
       console.log('Created Note:', createdNote);
+
+      onUploadComplete(createdNote);
+      onClose();
     } catch (err) {
       console.error('Error uploading note or file:', err);
     }

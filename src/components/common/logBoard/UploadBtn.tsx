@@ -65,9 +65,12 @@ function UploadBtn() {
           onUploadComplete={handleUploadComplete}
         />
       )}
-
       {isGeneratingModalOpen && (
         <GeneratingModal onClose={() => setIsGeneratingModalOpen(false)} />
+      )}
+
+      {isLogModalOpen && createdNote && (
+        <LogModal log={createdNote.data} onClose={closeLogModal} />
       )}
     </>
   );
