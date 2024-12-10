@@ -41,6 +41,7 @@ const BlockColumn = styled.div`
   flex-direction: column;
   gap: 18px;
   overflow: hidden;
+  width: 460px;
 `;
 
 const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
@@ -55,7 +56,7 @@ const Meeting = ({ meeting, teamName, teamId }: MeetingProps) => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
     null,
   );
-  const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+  // const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const combinedStreamRef = useRef<MediaStream>(new MediaStream());
   const recordedChunksRef = useRef<Blob[]>([]);
 

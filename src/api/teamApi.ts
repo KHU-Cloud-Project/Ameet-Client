@@ -1,5 +1,5 @@
 import { Team } from '../models/Team';
-import { mapTeamDetailResponse, mapTeamListResponse } from '../utils/teamUtils';
+import { mapTeamListResponse } from '../utils/teamUtils';
 import axiosInstance from './axiosInstance';
 
 // Fetch Teams

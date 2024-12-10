@@ -4,5 +4,10 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "@emotion/react" }
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  }
 }

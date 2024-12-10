@@ -84,13 +84,13 @@ const Input = styled.input`
   }
 `;
 
-const ProfileImage = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 20px;
-`;
+// const ProfileImage = styled.img`
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+//   object-fit: cover;
+//   margin-bottom: 20px;
+// `;
 
 const Button = styled.button`
   width: 100%;
@@ -155,7 +155,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
-  const [profilepic, setProfilePic] = useState<File | null>(null);
+  const [, setProfilePic] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [showmodal, setShowModal] = useState(false);
 

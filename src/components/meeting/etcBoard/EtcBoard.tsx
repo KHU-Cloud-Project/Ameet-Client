@@ -4,7 +4,6 @@ import TimerComponent from './TimeLeft';
 import QuitBtn from './QuitBtn';
 import BoardContainer from '../../common/board/BoardContainer';
 import BoardTitle from '../../common/board/BoardTitle';
-import { endMeetingApi } from '../../../api/meetingApi';
 import { useNavigate } from 'react-router';
 
 const FixedHeightContainer = styled(BoardContainer)`
@@ -13,7 +12,6 @@ const FixedHeightContainer = styled(BoardContainer)`
 `;
 
 function EtcBoard({
-  meetingId,
   leaveMeeting,
 }: {
   meetingId: number;

@@ -1,5 +1,3 @@
-import { UserForTeam } from '../recoil/atoms/userAtom';
-
 export type Log = {
   meetingId: number;
   noteId?: number;
