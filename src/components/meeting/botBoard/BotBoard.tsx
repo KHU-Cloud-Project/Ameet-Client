@@ -39,19 +39,19 @@ const BotContainer = styled.div`
 const bots = [
   {
     name: 'Summarize',
-    imageUrl: '/src/assets/images/positive_colored.png',
+    imageUrl: '/assets/images/positive_colored.png',
     botType: 'Summary',
     color: '#B585F6', // 청록색
   },
   {
     name: 'Positive',
-    imageUrl: '/src/assets/images/attendacne_checker_colored.png',
+    imageUrl: '/assets/images/attendacne_checker_colored.png',
     botType: 'Positive Feedback',
     color: '#90D4AB', // 보라색
   },
   {
     name: 'Negative',
-    imageUrl: '/src/assets/images/summary_colored.png',
+    imageUrl: '/assets/images/summary_colored.png',
     botType: 'Attendance Checker',
     color: '#F096A7', // 노란색
   },

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import settingIcon from '../../../assets/icons/dashboard/setting.png';
-import signOutIcon from '../../../assets/icons/dashboard/signOut.png';
+import settingIcon from '/assets/icons/dashboard/setting.png';
+import signOutIcon from '/assets/icons/dashboard/signOut.png';
 import { useResetRecoilState } from 'recoil';
 import { userAtom } from '../../../recoil/atoms/userAtom';
 import { useNavigate } from 'react-router';

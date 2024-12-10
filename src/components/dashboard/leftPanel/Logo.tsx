@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import logoImg from '../../../assets/images/dummy logo.png';
+import logoImg from '/assets/images/dummy logo.png';
 const LogoContainer = styled.div`
   font-size: ${(props) => props.theme.typography.fontSize.large};
   font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
@@ -23,10 +23,9 @@ const LogoIcon = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 40px; 
-  height: 40px; 
+  width: 40px;
+  height: 40px;
 `;
-
 
 function Logo() {
   const navigate = useNavigate();

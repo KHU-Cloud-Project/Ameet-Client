@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import BoardTitle from '../../common/board/BoardTitle';
 import { theme } from '../../../styles/theme';
 import { HiCheck } from 'react-icons/hi';
-import buttonBg from '/src/assets/images/button_bg.png';
-import logo from '/src/assets/images/dummy logo.png';
+import buttonBg from '/assets/images/button_bg.png';
+import logo from '/assets/images/dummy logo.png';
 
 const FeatureStyle = styled.div`
   display: flex;

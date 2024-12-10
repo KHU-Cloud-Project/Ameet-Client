@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   CreateMeetingRequest,
   Meeting,
@@ -9,7 +8,7 @@ import axiosInstance from './axiosInstance';
 export const createMeetingApi = async (
   data: CreateMeetingRequest,
 ): Promise<Meeting> => {
-  const response = await axios.post('/api/v1/meeting', data);
+  const response = await axiosInstance.post('/api/v1/meeting', data);
 
   if (response.data?.success && response.status === 201) {
     return response.data.data;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import lockIcon from '/src/assets/icons/dashboard/lock.png';
+import lockIcon from '/assets/icons/dashboard/lock.png';
 
 type BotBlockProps = {
   isActive: boolean;

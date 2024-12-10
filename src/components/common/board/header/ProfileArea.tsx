@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
-import defaultProfileImage from '/src/assets/images/profile.png';
+import defaultProfileImage from '/assets/images/profile.png';
 
 type ProfileProps = {
   nickname: string;

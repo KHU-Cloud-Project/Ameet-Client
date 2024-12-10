@@ -8,8 +8,7 @@ export const GlobalStyles = () => (
 
       @font-face {
         font-family: 'DigitalNumbers';
-        src: url('/src/assets/fonts/DigitalNumbers-Regular.ttf')
-          format('truetype');
+        src: url('/assets/fonts/DigitalNumbers-Regular.ttf') format('truetype');
         font-weight: normal;
         font-style: normal;
       }

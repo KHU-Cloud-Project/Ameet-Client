@@ -81,10 +81,10 @@ function MemberBlock({ member, onRemove }: MemberBlockProps) {
         </CloseButton>
       )}
       <ProfileImage
-        src={member.profile || '/src/assets/images/profile.png'}
+        src={member.profile || '/assets/images/profile.png'}
         alt={member.nickname}
         onError={(e) => {
-          e.currentTarget.src = '/src/assets/images/profile.png';
+          e.currentTarget.src = '/assets/images/profile.png';
         }}
       />
       <Nickname>{member.nickname}</Nickname>

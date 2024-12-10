@@ -8,6 +8,10 @@ const axiosInstance = axios.create({
   },
 });
 
+function getFullUrl(config: any) {
+  return `${config.baseURL || ''}${config.url}`;
+}
+
 // 요청 인터셉터
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -30,6 +34,7 @@ axiosInstance.interceptors.request.use(
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response) => {
+    console.log('Full URL:', getFullUrl(response.config));
     console.log('URL:', response.config.url, '\nData:', response.data);
     return response;
   },

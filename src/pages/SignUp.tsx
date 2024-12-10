@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';
 import { Spacer } from '../components/common/Spacer';
 import { useNavigate } from 'react-router';
-import backgroundImg from '../assets/images/login bg.png';
+import backgroundImg from '/assets/images/login bg.png';
 // import logo from '../assets/dummy logo.png';
 
 const ProfilePicContainer = styled.div`
