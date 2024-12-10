@@ -1,5 +1,5 @@
 import { Log } from '../models/Log';
-import { UserForTeam } from '../recoil/atoms/userAtom';
+// import { UserForTeam } from '../recoil/atoms/userAtom';
 import axiosInstance from './axiosInstance';
 
 // Fetch Meeting Logs of a specific team
@@ -32,13 +32,14 @@ export const fetchTeamMeetingLogsApi = async (
           createdAt: log.createdAt,
           startedAt: log.startedAt,
           duration: log.duration,
-          participants: log.participantList?.map(
-            (participant: UserForTeam) => ({
-              userTeamId: participant.userTeamId,
-              userId: participant.userId,
-              nickname: participant.nickname,
-            }),
-          ),
+          // participants: log.participantList?.map(
+          //   (participant: UserForTeam) => ({
+          //     userTeamId: participant.userTeamId,
+          //     userId: participant.userId,
+          //     nickname: participant.nickname,
+          //   }),
+          // ),
+          participants: log.participants || null,
         }),
       ),
       totalPages,
@@ -79,13 +80,14 @@ export const fetchMyMeetingLogsApi = async (
           createdAt: log.createdAt,
           startedAt: log.startedAt,
           duration: log.duration,
-          participants: log.participantList?.map(
-            (participant: UserForTeam) => ({
-              userTeamId: participant.userTeamId,
-              userId: participant.userId,
-              nickname: participant.nickname,
-            }),
-          ),
+          // participants: log.participantList?.map(
+          //   (participant: UserForTeam) => ({
+          //     userTeamId: participant.userTeamId,
+          //     userId: participant.userId,
+          //     nickname: participant.nickname,
+          //   }),
+          // ),
+          participants: log.participants || null,
         }),
       ),
       totalPages,
@@ -115,7 +117,8 @@ export const fetchLogDetailsApi = async (meetingId: number): Promise<Log> => {
       createdAt: data.createdAt || null,
       startedAt: data.startedAt || null,
       duration: data.duration || null,
-      participants: Array.isArray(data.participants) ? data.participants : [],
+      // participants: Array.isArray(data.participants) ? data.participants : [],
+      participants: data.participants || null,
     };
   }
 

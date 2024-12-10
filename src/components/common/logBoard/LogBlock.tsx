@@ -83,6 +83,7 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
     log.participants && log.participants.length > 2
       ? `${log.participants[0]}, ${log.participants[1]}... (${log.participants.length})`
       : log.participants?.join(', ') || '-';
+
   return (
     <LogRow type="data" onClick={onClick}>
       <div

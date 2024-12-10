@@ -70,7 +70,7 @@ function UploadBtn() {
       )}
 
       {isLogModalOpen && createdNote && (
-        <LogModal log={createdNote} onClose={closeLogModal} />
+        <LogModal log={createdNote.data} onClose={closeLogModal} />
       )}
     </>
   );
