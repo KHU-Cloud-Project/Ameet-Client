@@ -21,7 +21,7 @@ export const BotSettings = ({ botStates, onToggle }: BotSettingsProps) => {
           isActive={botStates[botType as BotType]}
           imageUrl={`/src/assets/images/${botType
             .toLowerCase()
-            .replace(' ', '-')}.png`}
+            .replace(' ', '_')}.png`}
           botType={botType as BotType}
           description={`Gives ${botType.split(' ')[0]} Feedback`}
           onToggle={() => onToggle(botType as BotType)}
