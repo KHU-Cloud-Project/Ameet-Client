@@ -12,6 +12,7 @@ import CustomBtn from '../CustomBtn';
 import { useFetchNote } from '../../../hooks/useFetchNotes';
 import { NoteUploadRequest } from '../../../models/Note';
 import { uploadFileToPresignedUrl, createNoteApi } from '../../../api/noteApi';
+import { fetchLogDetailsApi } from '../../../api/logApi';
 
 const TitleArea = styled.div`
   display: inline-block;
@@ -104,8 +105,13 @@ const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
 `;
+interface UploadModalProps {
+  onClose: () => void;
+  onUploadComplete: (note: any) => void;
+  onUploadStart: () => void; 
+}
 
-const UploadModal = ({ onClose, onUploadComplete }: { onClose: () => void; onUploadComplete: () => void }) => {
+const UploadModal = ({ onClose, onUploadComplete, onUploadStart }: UploadModalProps) => {
   const [title, setTitle] = useState('');
   const [members, setMembers] = useState('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -117,7 +123,7 @@ const UploadModal = ({ onClose, onUploadComplete }: { onClose: () => void; onUpl
       alert('Please fill in all required fields and upload a file.');
       return;
     }
-  
+    onUploadStart();
     const formattedDate = `${selectedDate.getFullYear()}-${String(
       selectedDate.getMonth() + 1
     ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')} ${String(
@@ -135,8 +141,8 @@ const UploadModal = ({ onClose, onUploadComplete }: { onClose: () => void; onUpl
   
     try {
       console.log('Uploading data:', requestData);
-      onClose();
-      onUploadComplete();
+  
+      
       const response = await uploadNote(requestData);
       console.log('Upload response:', response);
   
@@ -155,6 +161,9 @@ const UploadModal = ({ onClose, onUploadComplete }: { onClose: () => void; onUpl
   
       const createdNote = await createNoteApi(noteId);
       console.log('Created Note:', createdNote);
+      
+      onUploadComplete(createdNote); 
+      onClose();
 
     } catch (err) {
       console.error('Error uploading note or file:', err);
