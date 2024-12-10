@@ -9,9 +9,9 @@ import { UserForTeam } from '../../../recoil/atoms/userAtom';
 const PersonContainer = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   flex: 2.2;
   height: 100%;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -19,8 +19,8 @@ const PersonContainer = styled.div`
 
 const RecordingIndicator = styled.div`
   position: absolute;
-  top: 130px;
-  left: 20px;
+  top: 5px;
+  left: 40px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -28,13 +28,13 @@ const RecordingIndicator = styled.div`
   .dot {
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: ${(props) => props.theme.colors.red};
     border-radius: 50%;
   }
 
   .text {
     font-size: 0.8rem;
-    color: red;
+    color: ${(props) => props.theme.colors.red};
     font-weight: 400;
   }
 `;

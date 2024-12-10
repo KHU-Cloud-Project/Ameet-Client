@@ -23,15 +23,15 @@ type MeetingProps = {
 };
 
 const MeetingBody = styled.div`
+  width: 100%;
   display: flex;
   flex: 1;
   padding: 28px 15px 28px 15px; // TRBL
-  overflow: hidden;
 `;
 
 const BlockWrapper = styled.div`
+  width: 100%;
   display: flex;
-  flex: 1;
   gap: 26px;
   overflow: hidden;
 `;
@@ -39,7 +39,6 @@ const BlockWrapper = styled.div`
 const BlockColumn = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
   gap: 18px;
   overflow: hidden;
 `;
