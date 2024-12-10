@@ -127,7 +127,7 @@ const ContentBody = styled.div`
 `;
 
 type LogModalProps = {
-  log: Log; 
+  log: Log;
   onClose: () => void;
 };
 
@@ -139,8 +139,7 @@ function LogModal({ log, onClose }: LogModalProps) {
   if (!log) {
     return null;
   }
-  console.log("logs",log);
-  
+  console.log('logs', log);
 
   return (
     <ModalOverlay onClose={onClose}>
@@ -156,8 +155,8 @@ function LogModal({ log, onClose }: LogModalProps) {
             <BoardTitle
               marginBottom={5}
               fontSize={theme.typography.fontSize.mediumLarge}
-            >d
-            {log.title} 
+            >
+              {log.title}
             </BoardTitle>
             <Participants>
               <FiUsers />

@@ -27,9 +27,7 @@ export const fetchTeamMeetingLogsApi = async (
           title: log.title,
           summary: log.summary || '',
           script: log.script,
-          members: log.members || null,
           presignedUrl: log.presignedUrl || null,
-          createdAt: log.createdAt,
           startedAt: log.startedAt,
           duration: log.duration,
           participants: log.participantList?.map(
@@ -74,9 +72,7 @@ export const fetchMyMeetingLogsApi = async (
           title: log.title,
           summary: log.summary || '',
           script: log.script,
-          members: log.members || null,
           presignedUrl: log.presignedUrl || null,
-          createdAt: log.createdAt,
           startedAt: log.startedAt,
           duration: log.duration,
           participants: log.participantList?.map(
@@ -110,14 +106,12 @@ export const fetchLogDetailsApi = async (meetingId: number): Promise<Log> => {
       title: data.title,
       summary: data.summary || '',
       script: data.script || null,
-      members: data.members || null,
       presignedUrl: data.presignedUrl || null,
-      createdAt: data.createdAt || null,
       startedAt: data.startedAt || null,
       duration: data.duration || null,
       participants: Array.isArray(data.participants) ? data.participants : [],
-  };
-}
+    };
+  }
 
   throw new Error('Failed to fetch log details');
-}
+};

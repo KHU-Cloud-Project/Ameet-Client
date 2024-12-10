@@ -55,7 +55,7 @@ function UploadBtn() {
   return (
     <>
       <StyledButton onClick={openUploadModal}>
-        <Icon src="/assets/icons/dashboard/upload.png" alt="Upload" />
+        <Icon src="/src/assets/icons/dashboard/upload.png" alt="Upload" />
         Upload
       </StyledButton>
       {isUploadModalOpen && (
@@ -65,9 +65,12 @@ function UploadBtn() {
           onUploadComplete={handleUploadComplete}
         />
       )}
-
       {isGeneratingModalOpen && (
         <GeneratingModal onClose={() => setIsGeneratingModalOpen(false)} />
+      )}
+
+      {isLogModalOpen && createdNote && (
+        <LogModal log={createdNote} onClose={closeLogModal} />
       )}
     </>
   );
