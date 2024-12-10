@@ -10,18 +10,18 @@ import AlarmIcon from '../../../../assets/icons/dashboard/alarm.png';
 import SearchIconImage from '../../../../assets/icons/dashboard/searchIcon.png';
 import { useState } from 'react';
 import { useSearchMeetings } from '../../../../hooks/useFetchMeetings';
-import {SearchMeetingResponse } from '../../../../models/Meeting';
+import { SearchMeetingResponse } from '../../../../models/Meeting';
 import { Log } from '../../../../models/Log';
-import LogModal  from '../../logBoard/LogModal';
-import {useFetchLogs} from '../../../../hooks/useFetchLogs';
-import {fetchLogDetailsApi} from '../../../../api/logApi';
+import LogModal from '../../logBoard/LogModal';
+import { useFetchLogs } from '../../../../hooks/useFetchLogs';
+import { fetchLogDetailsApi } from '../../../../api/logApi';
 
 type HeaderProps = {
   title: string;
   hasSearchbar: boolean;
   description?: string | null | '';
   user: User;
-  teamId: number
+  teamId: number;
   hasLogo?: boolean;
 };
 
@@ -40,7 +40,7 @@ const HeaderRightSideWrapper = styled.div`
 `;
 
 const SearchBar = styled.div`
-  max-width: 458px;
+  max-width: 480px;
   flex: 1;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@ const SearchInput = styled.input`
 `;
 
 const IconImage = styled.img`
-  width: 48px; 
+  width: 48px;
   height: 48px;
 `;
 
@@ -112,18 +112,18 @@ const NotificationDot = styled.span`
 
 const SearchResults = styled.div`
   position: absolute;
-  top: calc(100% + 8px); 
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
   background-color: ${(props) => props.theme.colors.white};
   border-radius: ${(props) => props.theme.borderRadius.medium};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 12px;
-  z-index: 10; 
-  max-height: 200px; 
+  z-index: 10;
+  max-height: 200px;
   overflow-y: auto;
   max-width: 458px;
-  margin-left : auto;
+  margin-left: auto;
 `;
 
 const SearchResultItem = styled.div`
@@ -137,16 +137,16 @@ const SearchResultItem = styled.div`
     cursor: pointer;
   }
   font-size: ${(props) => props.theme.typography.fontSize.small};
-  line-height: 1.5; 
+  line-height: 1.5;
 `;
 
 const MeetingTitle = styled.div`
-  font-weight: ${(props) => props.theme.typography.fontWeight.semibold}; 
+  font-weight: ${(props) => props.theme.typography.fontWeight.semibold};
   margin-bottom: 4px;
 `;
 
 const MeetingDate = styled.div`
-  color: ${(props) => props.theme.colors.textGray}; 
+  color: ${(props) => props.theme.colors.textGray};
   font-size: ${(props) => props.theme.typography.fontSize.medium};
   margin-bottom: 4px;
 `;
@@ -155,9 +155,6 @@ const MeetingParticipants = styled.div`
   color: ${(props) => props.theme.colors.secondary};
   font-size: ${(props) => props.theme.typography.fontSize.small};
 `;
-
-
-
 
 function BoardHeader({
   title,
@@ -170,79 +167,85 @@ function BoardHeader({
   const { meetings, searchMeetings, loading, error } = useSearchMeetings();
   const [keyword, setKeyword] = useState('');
   const [searchResults, setSearchResults] = useState<SearchMeetingResponse>([]);
-  const [isFocused, setIsFocused] = useState(false); 
+  const [isFocused, setIsFocused] = useState(false);
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
-  const [selectedMeetingId, setSelectedMeetingId] = useState<number | null>(null); 
+  const [selectedMeetingId, setSelectedMeetingId] = useState<number | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
- const handleSearch = async () => {
-  if (!teamId) {
-    console.error('No team selected');
-    return;
-  }
-
-  if (keyword.trim()) {
-    try {
-      const results = await searchMeetings(teamId, keyword);
-
-      // 결과를 SearchMeetingResponse와 일치하도록 포맷팅
-      const formattedResults = results.map((meeting) => ({
-        meetingId: meeting.meetingId,
-        title: meeting.title,
-        startedAt: meeting.startedAt,
-        duration: meeting.duration || { 
-          seconds: 0,
-          zero: true,
-          nano: 0,
-          negative: false,
-          units: [],
-        },
-        participants: meeting.participants ?? [], 
-        presignedUrl: meeting.presignedUrl || '',
-      }));
-
-      setSearchResults(formattedResults); 
-    } catch (e) {
-      console.error('Search failed:', e);
-      setSearchResults([]); 
+  const handleSearch = async () => {
+    if (!teamId) {
+      console.error('No team selected');
+      return;
     }
-  }
-};
+
+    if (keyword.trim()) {
+      try {
+        const results = await searchMeetings(teamId, keyword);
+
+        // 결과를 SearchMeetingResponse와 일치하도록 포맷팅
+        const formattedResults = results.map((meeting) => ({
+          meetingId: meeting.meetingId,
+          title: meeting.title,
+          startedAt: meeting.startedAt,
+          duration: meeting.duration || {
+            seconds: 0,
+            zero: true,
+            nano: 0,
+            negative: false,
+            units: [],
+          },
+          participants: meeting.participants ?? [],
+          presignedUrl: meeting.presignedUrl || '',
+        }));
+
+        setSearchResults(formattedResults);
+      } catch (e) {
+        console.error('Search failed:', e);
+        setSearchResults([]);
+      }
+    }
+  };
   const handleBlur = () => {
     setTimeout(() => {
-      setIsFocused(false); 
-      setSearchResults([]); 
+      setIsFocused(false);
+      setSearchResults([]);
     }, 100);
   };
 
   const handleLogClick = async (meetingId: number) => {
-    setSelectedMeetingId(meetingId); 
-    const log = await fetchLogDetailsApi( meetingId); 
+    setSelectedMeetingId(meetingId);
+    const log = await fetchLogDetailsApi(meetingId);
     setSelectedLog(log);
-    setIsModalOpen(true); 
+    setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false); 
-    setSelectedMeetingId(null); 
+    setIsModalOpen(false);
+    setSelectedMeetingId(null);
   };
-  
+
   const formatDate = (isoDate: string): string => {
     const date = new Date(isoDate);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
-  
 
   return (
     <HeaderContainer>
       {hasLogo && <CuttedLogo />}
-      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+        }}
+      >
         <BoardTitle
           children={title}
           fontSize={theme.typography.fontSize.xLarge}
@@ -262,16 +265,21 @@ function BoardHeader({
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              onFocus={() => setIsFocused(true)} 
-              onBlur={handleBlur} 
+              onFocus={() => setIsFocused(true)}
+              onBlur={handleBlur}
             />
           </SearchBar>
           {isFocused && searchResults.length > 0 && (
             <SearchResults>
               {searchResults.map((result) => (
-                <SearchResultItem  onClick={() => handleLogClick(result.meetingId)} key={result.meetingId}>
-                 <MeetingTitle>Meeting Name: {result.title}</MeetingTitle>
-                 <MeetingDate>Date: {formatDate(result.startedAt)}</MeetingDate>
+                <SearchResultItem
+                  onClick={() => handleLogClick(result.meetingId)}
+                  key={result.meetingId}
+                >
+                  <MeetingTitle>Meeting Name: {result.title}</MeetingTitle>
+                  <MeetingDate>
+                    Date: {formatDate(result.startedAt)}
+                  </MeetingDate>
                   <MeetingParticipants>
                     Participants: {result.participants?.join(', ') || 'None'}
                   </MeetingParticipants>
@@ -301,7 +309,6 @@ function BoardHeader({
       {isModalOpen && selectedLog && (
         <LogModal log={selectedLog} onClose={handleModalClose} />
       )}
-  
     </HeaderContainer>
   );
 }
