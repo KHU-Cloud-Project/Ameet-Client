@@ -27,6 +27,9 @@ export default defineConfig(({ mode }) => {
           secure: false,
         },
       },
+      build: {
+        assetsDir: 'assets',
+      },
     },
   };
 });
