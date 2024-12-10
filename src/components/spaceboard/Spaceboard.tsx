@@ -7,7 +7,7 @@ import CreateArea from './rightArea/CreateArea';
 import UseAdvancedArea from './rightArea/UseAdvancedArea';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userAtom } from '../../recoil/atoms/userAtom';
-import { teamsAtom, teamsLoadingAtom } from '../../recoil/atoms/teamAtom';
+import { teamsAtom } from '../../recoil/atoms/teamAtom';
 
 const SpaceboardBody = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ function Spaceboard() {
       <BoardHeader
         teamId={1}
         title="Manage Space"
-        hasSearchbar={dummyHasSearchbar}
+        hasSearchbar={false}
         user={user}
       />
       <SpaceboardBody>
@@ -89,46 +89,3 @@ function Spaceboard() {
 }
 
 export default Spaceboard;
-
-// 더미데이터
-
-const dummyHasSearchbar = false;
-
-// const dummySpaces = [
-//   {
-//     name: 'Sumin',
-//     role: 'OWNER',
-//   },
-//   {
-//     name: '영통먹짱들우하핫하하최고',
-//     role: 'MEMBER',
-//   },
-//   {
-//     name: 'Capstone',
-//     role: 'MEMBER',
-//   },
-//   {
-//     name: '수진팬클럽',
-//     role: 'OWNER',
-//   },
-//   {
-//     name: 'Cloud Project',
-//     role: 'OWNER',
-//   },
-//   {
-//     name: 'AUSG',
-//     role: 'MEMBER',
-//   },
-//   {
-//     name: '학생회',
-//     role: 'MEMBER',
-//   },
-//   {
-//     name: 'Startup Project',
-//     role: 'OWNER',
-//   },
-//   {
-//     name: '디닷임원진',
-//     role: 'OWNER',
-//   },
-// ];

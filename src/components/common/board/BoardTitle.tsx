@@ -12,6 +12,7 @@ const Container = styled.div<{ marginBottom?: number }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  white-space: nowrap;
   margin-bottom: ${(props) =>
     props.marginBottom !== undefined ? `${props.marginBottom}px` : '24px'};
 `;

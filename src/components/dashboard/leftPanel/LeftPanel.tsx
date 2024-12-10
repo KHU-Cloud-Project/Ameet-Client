@@ -6,7 +6,6 @@ import BottomOptions from './BottomOptions';
 import ManageBtn from './ManageBtn';
 import { Spacer } from '../../common/Spacer';
 import Divider from '../../common/Divider';
-import DummySignupButton from '../DummySignupBtn';
 import { Team } from '../../../models/Team';
 
 type LeftPanelProps = {
@@ -29,7 +28,6 @@ const Panel = styled.div`
 function LeftPanel({ teams, teamsLoading }: LeftPanelProps) {
   return (
     <Panel>
-      <DummySignupButton />
       <div style={{ padding: '30px 12px' }}>
         <Logo />
         <Spacer height={66} />

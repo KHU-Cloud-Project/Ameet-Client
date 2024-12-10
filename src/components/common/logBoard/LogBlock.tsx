@@ -12,7 +12,7 @@ type LogBlockProps = {
 const LogRow = styled.div<{ type: 'header' | 'data' }>`
   font-size: ${(props) =>
     props.type === 'header'
-      ? props.theme.typography.fontSize.xSmall
+      ? props.theme.typography.fontSize.small
       : props.theme.typography.fontSize.small};
   font-weight: ${(props) => props.theme.typography.fontWeight.regular};
   color: ${(props) =>
@@ -21,7 +21,7 @@ const LogRow = styled.div<{ type: 'header' | 'data' }>`
       : props.theme.colors.textDarkGray};
   display: flex;
   align-items: center;
-  padding: 4px 8px;
+  padding: 8.2px 8px;
   border-bottom: 0.4px solid ${(props) => props.theme.colors.lineGray};
   cursor: ${(props) => (props.type === 'data' ? 'pointer' : 'default')};
   &:hover {
@@ -80,9 +80,9 @@ function LogBlock({ type, log, index, onClick }: LogBlockProps) {
   if (!log) return null;
 
   const participantsDisplay =
-  log.participants && log.participants.length > 2
-    ? `${log.participants[0]}, ${log.participants[1]}... (${log.participants.length})`
-    : log.participants?.join(', ') || '-';
+    log.participants && log.participants.length > 2
+      ? `${log.participants[0]}, ${log.participants[1]}... (${log.participants.length})`
+      : log.participants?.join(', ') || '-';
   return (
     <LogRow type="data" onClick={onClick}>
       <div
