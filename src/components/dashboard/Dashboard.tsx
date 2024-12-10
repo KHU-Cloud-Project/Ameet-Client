@@ -37,7 +37,6 @@ const BlockColumn = styled.div`
 `;
 
 function Dashboard({ team, loading }: DashboardProps) {
-  const dummyHasSearchbar = true;
   const [user] = useRecoilState(userAtom);
 
   if (!user || !user.id) {

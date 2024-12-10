@@ -107,7 +107,7 @@ function BotBoard({
     }
 
     try {
-      const recording = await stopRecording(); // Now returns a Blob directly
+      const recording = await stopRecording();
       console.log('Recording received from stopRecording:', recording);
 
       if (recording.size === 0) {

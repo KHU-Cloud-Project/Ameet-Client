@@ -9,7 +9,6 @@ import { useSetRecoilState } from 'recoil';
 import { userAtom } from '../recoil/atoms/userAtom';
 import { useEffect } from 'react';
 import { loginUserApi } from '../api/userApi';
-import { useFetchUser } from '../hooks/useFetchUser';
 
 //test
 const BackgroundWrapper = styled.div`
@@ -168,7 +167,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [apiError, setApiError] = useState('');
+  const [, setApiError] = useState('');
 
   // 컴포넌트가 마운트될 때 로컬스토리지에서 데이터를 가져옴
   useEffect(() => {
