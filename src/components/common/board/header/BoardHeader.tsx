@@ -13,7 +13,6 @@ import { useSearchMeetings } from '../../../../hooks/useFetchMeetings';
 import { SearchMeetingResponse } from '../../../../models/Meeting';
 import { Log } from '../../../../models/Log';
 import LogModal from '../../logBoard/LogModal';
-import { useFetchLogs } from '../../../../hooks/useFetchLogs';
 import { fetchLogDetailsApi } from '../../../../api/logApi';
 
 type HeaderProps = {
@@ -164,14 +163,12 @@ function BoardHeader({
   teamId,
   hasLogo,
 }: HeaderProps) {
-  const { meetings, searchMeetings, loading, error } = useSearchMeetings();
+  const { searchMeetings } = useSearchMeetings();
   const [keyword, setKeyword] = useState('');
   const [searchResults, setSearchResults] = useState<SearchMeetingResponse>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedLog, setSelectedLog] = useState<Log | null>(null);
-  const [selectedMeetingId, setSelectedMeetingId] = useState<number | null>(
-    null,
-  );
+  const [, setSelectedMeetingId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = async () => {

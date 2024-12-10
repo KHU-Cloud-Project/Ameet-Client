@@ -73,12 +73,7 @@ type BotBoardProps = {
   stopRecording: () => Promise<Blob>;
 };
 
-function BotBoard({
-  meetingId,
-  presignedUrl,
-  getRecordingFile,
-  stopRecording,
-}: BotBoardProps) {
+function BotBoard({ meetingId, presignedUrl, stopRecording }: BotBoardProps) {
   const [selectedBot, setSelectedBot] = useState<string | null>(null);
   const [responses, setResponses] = useState<
     { botType: string; text: string }[]

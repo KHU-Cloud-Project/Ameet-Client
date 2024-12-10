@@ -9,10 +9,10 @@ type teamProps = {
   team: Team;
 };
 
-type SpaceBlockProps = {
-  role: string;
-  name: string;
-};
+// type SpaceBlockProps = {
+//   role: string;
+//   name: string;
+// };
 
 type TxtBtnProps = {
   onClick?: () => void;

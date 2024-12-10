@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
 import styled from '@emotion/styled'; /** @jsxImportSource @emotion/react */
 
 type QuitBtnProps = {

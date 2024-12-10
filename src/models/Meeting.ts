@@ -1,11 +1,9 @@
-import { UserForTeam } from '../recoil/atoms/userAtom';
-
 export type Meeting = {
   meetingId: number;
   title: string;
   startedAt: string;
   endedAt?: string;
-  participants?: string [];
+  participants?: string[];
   duration?: {
     seconds: number;
     zero: boolean;
@@ -45,5 +43,5 @@ export type SearchMeetingResponse = {
       dateBased: boolean;
     }[];
   };
-  participants: string [];
+  participants: string[];
 }[];
